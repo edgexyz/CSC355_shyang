@@ -1,0 +1,3 @@
+pixmap aho(x = 100, y = 200, filename = "aho.bmp");
+
+textbox title(x = 10, y = 10, text = "Al Aho (the author of the book)");

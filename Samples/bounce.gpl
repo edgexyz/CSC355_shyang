@@ -1,0 +1,30 @@
+// set up the size of the window
+int window_width = 500;
+int window_height = 500;
+
+int ball_x_increment = 4;
+int ball_y_increment = 5;
+int ball_size = 10;
+
+// declare the animation handler function
+forward animation ball_animate(circle cur_ball);
+
+// create a ball to bounce around the screen
+circle ball(radius = ball_size, animation_block = ball_animate);
+
+// animation handler for the ball 
+// this block is called at regular intervals for the ball object
+animation ball_animate(circle cur_ball)
+{
+    // if ball has reached either the left or right, reverse its direction
+    if (cur_ball.x < 0 || cur_ball.x > window_width - ball_size)
+        ball_x_increment = -ball_x_increment;
+
+    // if ball has reached either the top or bottom, reverse its direction
+    if (cur_ball.y < 0 || cur_ball.y > window_height - ball_size)
+        ball_y_increment = -ball_y_increment;
+
+    // on each step of the animation, move the ball
+    cur_ball.x += ball_x_increment;
+    cur_ball.y += ball_y_increment;
+}

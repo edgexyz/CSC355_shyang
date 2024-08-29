@@ -1,0 +1,17 @@
+forward animation foo(rectangle cur_rectangle);
+
+rectangle my_rectangle(x = 10, y = 10, animation_block = foo);
+
+animation foo (rectangle cur_rectangle) {
+    
+    if (cur_rectangle.x == 10) {    
+        cur_rectangle.x = 100;
+        cur_rectangle.red = 0;
+        cur_rectangle.green = 0.5;
+    }
+    else if (cur_rectangle.x == 100) {
+        cur_rectangle.x = 10;
+        cur_rectangle.red = 1;
+        cur_rectangle.green = 0;
+    }
+}

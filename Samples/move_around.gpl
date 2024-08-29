@@ -1,0 +1,39 @@
+
+// create some simple objects
+rectangle r(x = 10, y = 10, w = 20, h = 40);
+circle c(x = 100, y = 100, radius = 40);
+textbox txt(x = 200, y = 100, text = "hello world");
+triangle tri(x = 300, y = 200, size = 50);
+
+
+on leftarrow
+{
+    r.x -= 10;
+    c.x -= 10;
+    txt.x -= 10;
+    tri.x -= 10;
+}
+
+on rightarrow
+{
+    r.x += 10;
+    c.x += 10;
+    txt.x += 10;
+    tri.x += 10;
+}
+
+on uparrow
+{
+    r.y += 10;
+    c.y += 10;
+    txt.y += 10;
+    tri.y += 10;
+}
+
+on downarrow
+{
+    r.y -= 10;
+    c.y -= 10;
+    txt.y -= 10;
+    tri.y -= 10;
+}

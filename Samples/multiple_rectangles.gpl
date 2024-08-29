@@ -1,0 +1,14 @@
+rectangle my_rectangles[3];
+
+initialization {
+    
+    my_rectangles[0].x = 10;
+
+    my_rectangles[1].x = 30;
+    my_rectangles[1].red = 0;
+    my_rectangles[1].green = 1;
+
+    my_rectangles[2].x = 50;
+    my_rectangles[2].red = 0;
+    my_rectangles[2].blue = 1;
+}

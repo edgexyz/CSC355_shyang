@@ -1,0 +1,46 @@
+int window_width = 1000;
+int window_height = 500;
+
+string window_title = "A Moving Rectangle";
+
+rectangle rect();
+
+initialization {
+    rect.x = 10;
+    rect.y = 10;
+    rect.h = 15;
+    rect.w = 15;
+    rect.red = 1.0;
+}
+
+on leftarrow
+{
+    if (rect.x > 10)
+    {
+        rect.x -= 10;
+    }
+}
+
+on rightarrow
+{
+    if (rect.x+40 < window_width)
+    {
+        rect.x += 10;
+    }
+}
+
+on uparrow
+{
+    if (rect.y+40 < window_height)
+    {
+        rect.y += 10;
+    }
+}
+
+on downarrow
+{
+    if (rect.y > 10)
+    {
+        rect.y -= 10;
+    }
+}

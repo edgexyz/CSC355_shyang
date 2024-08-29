@@ -1,0 +1,5 @@
+rectangle r1(x = 75, y = 100, w = 75, h = 100);
+
+circle c1(x = 220, y = 100, radius = 40);
+
+triangle t1(x = 375, y = 100, size = 70);

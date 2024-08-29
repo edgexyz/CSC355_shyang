@@ -1,0 +1,44 @@
+// this program demonstrates the use of arrays
+
+// set up the size of window
+int window_width = 500;
+int window_height = 500;
+int animation_speed = 100; // 1 is slowest, 100 is fastest
+
+forward animation bounce(rectangle cur);
+
+int num = 500;
+rectangle r[num];
+int x_inc[num];
+int y_inc[num];
+int i;
+
+// the initialization block is executed once after the input is parsed
+initialization
+{
+    // randomly place and color the rectangles
+    for (i = 0; i < num; i += 1)
+    {
+        r[i].x = random(window_width);
+        r[i].y = random(window_height);
+        r[i].h = 10;
+        r[i].w = 10;
+        r[i].red = random(255)/255.0;
+        r[i].green = random(255)/255.0;
+        r[i].blue = random(255)/255.0;
+        r[i].animation_block = bounce;
+        r[i].user_int = i;
+        x_inc[i] = random(30) - 15;
+        y_inc[i] = random(30) - 15;
+    }
+} 
+
+animation bounce(rectangle cur)
+{
+    if (cur.x > window_width || cur.x < 0)
+        x_inc[cur.user_int] = - x_inc[cur.user_int];
+    if (cur.y > window_height || cur.y < 0)
+        y_inc[cur.user_int] = - y_inc[cur.user_int];
+    cur.x += x_inc[cur.user_int];
+    cur.y += y_inc[cur.user_int];
+}

@@ -1,0 +1,151 @@
+// Set up system variables
+int window_width = 500;
+int window_height = 500;
+int window_x = 300;
+int window_y = 200;
+string window_title = "gpl Invaders";
+int animation_speed = 80; // 1 is slowest, 100 is fastest
+
+// Set up some global variables
+int alien_increment = 6;
+int alien_y_increment = 0;
+int bullet_increment = 17;
+int counter = 0;
+int i;
+
+// declare the animation handlers
+forward animation lead_alien_animate(circle lead_alien);
+forward animation alien_animate(circle alien);
+forward animation bullet_animate(rectangle cur_bullet);
+
+// create the circle objects that represent the aliens
+circle aliens[10];
+
+// create the rectangles that represent the bullets
+rectangle bullets[5];
+
+// create the triangle that represents the gun
+triangle gun(x = 250, y = 50, size = 25);
+
+initialization
+{
+    for (i = 0; i < 5; i += 1)
+    {
+        bullets[i].w = 2;
+        bullets[i].h = 20;
+        bullets[i].visible = false;
+        bullets[i].animation_block = bullet_animate;
+    }
+
+    for (i = 0; i < 10; i += 1)
+    {
+        aliens[i].radius = 4;
+        aliens[i].animation_block = alien_animate;
+    }
+    aliens[0].animation_block = lead_alien_animate;
+
+    // replace these with equations that depend on window size
+    aliens[0].x = 250;
+    aliens[0].y = 300;
+    aliens[1].x = 230;
+    aliens[1].y = 320;
+    aliens[2].x = 270;
+    aliens[2].y = 320;
+    aliens[3].x = 210;
+    aliens[3].y = 340;
+    aliens[4].x = 250;
+    aliens[4].y = 340;
+    aliens[5].x = 290;
+    aliens[5].y = 340;
+    aliens[6].x = 190;
+    aliens[6].y = 360;
+    aliens[7].x = 230;
+    aliens[7].y = 360;
+    aliens[8].x = 270;
+    aliens[8].y = 360;
+    aliens[9].x = 310;
+    aliens[9].y = 360;
+}
+
+
+
+// the animation handler for the lead alien (all the others follow the lead)
+animation lead_alien_animate(circle lead_alien)
+{
+    if (lead_alien.x + alien_increment > window_width - 100 
+        || lead_alien.x + alien_increment < 100
+       )
+    {
+        alien_increment = -alien_increment;
+    }
+
+    if (counter >= 2)
+    {
+        alien_y_increment = -1;
+        counter = 0;
+    }
+    else
+    {
+        counter += 1;
+        alien_y_increment = 0;
+    }
+
+    lead_alien.x += alien_increment;
+    lead_alien.y += alien_y_increment;
+}
+
+// animation handler for all but the lead alien
+animation alien_animate(circle alien)
+{
+    alien.x += alien_increment;
+    alien.y += alien_y_increment;
+}
+
+// animation handler for the bullets
+// we assume that bullets are always active (very inefficient)
+animation bullet_animate(rectangle cur_bullet)
+{
+    if (cur_bullet.visible)
+    {
+        for (i = 0; i < 10; i += 1)
+        {
+            if (aliens[i].visible == true && cur_bullet touches aliens[i])
+            {
+                aliens[i].visible = false;
+                cur_bullet.visible = false;
+            }
+        }
+
+        cur_bullet.y += bullet_increment;
+        if (cur_bullet.y > window_height)
+        cur_bullet.visible = false;
+    }
+}
+
+// input handlers for moving the gun
+on leftarrow
+{
+    if (gun.x > 50)
+        gun.x -= 5;
+}
+on rightarrow
+{
+    if (gun.x < window_width - 50)
+        gun.x += 5;
+}
+
+// input handler for space which fires the gun
+on space
+{
+    // find a bullet that isn't currently active
+    for (i = 0; i < 5; i += 1)
+    {
+        if (bullets[i].visible == false)
+        {
+            bullets[i].visible = true;
+            bullets[i].x = gun.x + gun.w/2;
+            bullets[i].y = gun.y;
+            i = 6; // break out of the loop
+        }
+    }
+}

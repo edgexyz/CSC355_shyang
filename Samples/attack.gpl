@@ -1,0 +1,353 @@
+int window_width = 500;
+int window_height = 500;
+int animation_speed = 85;
+
+double window_green = 0.5;
+
+string window_title = "Attak and Defend";
+
+forward animation comp_defender_animate(rectangle cur_defender);
+forward animation user_bullet_animate(triangle cur_bullet);
+forward animation attaker_ball_animate(circle cur_ball);
+forward animation bomb_animate(circle cur_bomb);
+
+int play = 1;
+
+int blocks = 50;
+int comp_blocks_remain = 50;
+int life = 10;
+int defenders = 5;
+int tank_size = 20;
+int user_max_bullet = 3;
+int bullet_increment = 10;
+int balls = 2;
+int given_bombs = 3;
+int max_bomb = 5;
+int bomb_increment = 10;
+
+int block_size;
+int x_inc[defenders];
+int attaker_x_inc[balls];
+int attaker_y_inc[balls];
+
+int i;
+int k;
+int b;
+int l = 9;
+int row;
+int col;
+
+rectangle user_tank[2];
+rectangle comp_defender[defenders];
+rectangle user_blocks[blocks];
+rectangle comp_blocks[blocks];
+
+rectangle user_life[life];
+triangle user_bullet[user_max_bullet]; 
+circle bombs[given_bombs];
+circle attaker_balls[balls];
+
+textbox life_text (x = 10, y = window_height/2 + 12, text = "USER's REMAINING LIFE:");
+textbox instruction (x = 10, y = window_height/2 - 15, text = "Break all of the computer's blocks before losing all life or blocks.");
+textbox key_instruction_1 (x = 10, y = window_height/2 - 30, text = "Use L-R arrow keys to move, spacebar to shoot bullets,");
+textbox key_instruction_2 (x = 10, y = window_height/2 - 45, text = "a-key to shoot bombs, destroy defenders to gain more bombs.");
+textbox bomb_indicator (x = window_width-340, y = window_height/2 - 80, text = "Remaining Bombs: " + max_bomb, red = 1);
+textbox winorlose (x = window_width-300, y = window_height/2 - 100, text = "", red = 1);
+
+initialization
+{
+    // Initializing blocks
+    block_size = window_width/10;
+    // Initializing User's block
+    i = 0;
+    for (row = 0; row < 5; row += 1)
+    {
+        for (col = 0; col < 10; col += 1)
+        {
+            user_blocks[i].h = 10;
+            user_blocks[i].w = block_size;
+            user_blocks[i].x = col*(user_blocks[i].w)+col;
+            user_blocks[i].y = row * 11;
+            i += 1;
+        }
+    }
+    // Initializing Computer's block
+    i = 0;
+    for (row = window_width-51; row < window_width; row += 11)
+    {
+        for (col = 0; col < 10; col += 1)
+        {
+            comp_blocks[i].h = 10;
+            comp_blocks[i].w = block_size;
+            comp_blocks[i].x = col*(comp_blocks[i].w)+col;
+            comp_blocks[i].y = row;
+            i += 1;
+        }
+    }
+    // Initializing user's tank body
+    user_tank[0].h = 15;
+    user_tank[0].w = 30;
+    user_tank[0].x = 0;
+    user_tank[0].y = 60;
+    user_tank[0].red = 0;
+    user_tank[0].blue = 0.3;
+    user_tank[0].green = 0.7; 
+    // Initializing user's tank cannon
+    user_tank[1].h = 5;
+    user_tank[1].w = 10;
+    user_tank[1].x = 10;
+    user_tank[1].y = 75;
+    user_tank[1].red = 0;
+    user_tank[1].blue = 0.3;
+    user_tank[1].green = 0.7;
+    // Initializing user tank's bullet
+    for (i = 0; i < 3; i += 1)
+    {
+        user_bullet[i].size = 10;
+        user_bullet[i].visible = false;
+        user_bullet[i].animation_block = user_bullet_animate;
+    }
+    // Initializing user tank's bomb
+    for (i = 0; i < given_bombs; i += 1)
+    {
+        bombs[i].radius = 5;
+        bombs[i].visible = false;
+        bombs[i].red = 0.5;
+        bombs[i].green = 0.5;
+        bombs[i].blue = 0.5;
+        bombs[i].animation_block = bomb_animate;
+    } 
+    // Initializing defender
+    for (k = 0; k < defenders; k += 1)
+    {
+        comp_defender[k].w = 20;
+        comp_defender[k].h = 20;
+        comp_defender[k].x = random(window_width);
+        comp_defender[k].y = window_height - 75;
+        comp_defender[k].user_int = k;
+        comp_defender[k].animation_block= comp_defender_animate;
+        x_inc[k] = random(30) - 15;
+
+        comp_defender[k].red = 0.5;
+        comp_defender[k].blue = 1;
+    }
+    // Initializing attaker balls
+    for (b = 0; b < balls; b += 1)
+    {
+        attaker_balls[b].x = random(window_height/3);
+        attaker_balls[b].y = random(window_width/3);
+        attaker_balls[b].radius = 10;
+        attaker_balls[b].animation_block = attaker_ball_animate;
+        attaker_balls[b].user_int = b;
+        attaker_x_inc[b] = random(30) - 12;
+        attaker_y_inc[b] = random(30) - 12;
+    }
+    // Initializing user tank's life
+    for (i = 0; i < life; i += 1)
+    {
+        user_life[i].h = 10;
+        user_life[i].w = window_width/20;
+        user_life[i].x = i*(user_life[i].w)+i; 
+        user_life[i].y = window_height/2;
+        user_life[i].red = 0;
+        user_life[i].green = 1;
+    }
+}
+
+animation attaker_ball_animate (circle cur_ball)
+{
+    if (play == 1)
+    {
+        if (cur_ball.x < 0 || cur_ball.x > window_width - 20)
+            attaker_x_inc[cur_ball.user_int] = - attaker_x_inc[cur_ball.user_int];
+
+        if (cur_ball.y < 0 || cur_ball.y > window_height - 20)
+            attaker_y_inc[cur_ball.user_int] = - attaker_y_inc[cur_ball.user_int];
+
+        // If the balls hits user's blocks, they break the block.
+        for (i = 0; i < 50; i += 1)
+        {
+            if (user_blocks[i].visible && cur_ball touches user_blocks[i])
+            {
+                user_blocks[i].visible = false;
+                attaker_y_inc[cur_ball.user_int] = - attaker_y_inc[cur_ball.user_int];
+                i = 50;
+                blocks -= 1;
+                if (blocks == 0)
+                {
+                    play = 0;
+                    winorlose.text = "YOU LOSE!";
+                }
+            }
+        }
+
+        // If the balls hits computer's blocks, it just bounce off.
+        for (i = 0; i < 50; i += 1)
+        {
+            if (cur_ball touches comp_blocks[i])
+            {
+                attaker_y_inc[cur_ball.user_int] = - attaker_y_inc[cur_ball.user_int];
+                i = 50;
+            }
+        }
+
+        // If the balls hits the user's tank, tank's life reduces. 
+        if (l > -1 && cur_ball touches user_tank[0])
+        {
+            user_life[l].visible = false;
+            l -= 1;
+            if (l == -1) 
+            {
+                play = 0;
+                winorlose.text = "YOU LOSE!";
+            }
+        }
+
+        cur_ball.x += attaker_x_inc[cur_ball.user_int];
+        cur_ball.y += attaker_y_inc[cur_ball.user_int];
+    }
+}
+
+animation comp_defender_animate (rectangle cur_defender)
+{
+    if (play == 1)
+    {
+        if (cur_defender.x < 0 || cur_defender.x > window_width - 20)
+            x_inc[cur_defender.user_int] = - x_inc[cur_defender.user_int];
+        cur_defender.x += x_inc[cur_defender.user_int];
+    }
+}
+
+animation user_bullet_animate(triangle cur_bullet)
+{
+    if (cur_bullet.visible)
+    {
+        for (i = 0; i < 50; i += 1)
+        {
+            if (comp_blocks[i].visible == true && cur_bullet touches comp_blocks[i])
+            {
+                comp_blocks[i].visible = false;
+                cur_bullet.visible = false;
+                comp_blocks_remain -= 1;
+                if (comp_blocks_remain == 0)
+                {
+                    play = 0;
+                    winorlose.text = "YOU WIN!";
+                } 
+            }
+        }
+
+        cur_bullet.y += bullet_increment;
+
+        if (cur_bullet.y > window_height)
+            cur_bullet.visible = false;
+
+        // If bullet hits any of the defenders, it gets lost
+        if (cur_bullet touches comp_defender[0])
+            cur_bullet.visible = false;
+        if (cur_bullet touches comp_defender[1])
+            cur_bullet.visible = false;
+        if (cur_bullet touches comp_defender[2])
+            cur_bullet.visible = false;
+        if (cur_bullet touches comp_defender[3])
+            cur_bullet.visible = false;
+        if (cur_bullet touches comp_defender[4])
+            cur_bullet.visible = false;
+    }
+}
+
+animation bomb_animate (circle cur_bomb)
+{
+    if (cur_bomb.visible == true)
+    {
+        // Break blocks that was hit and the near ones.
+        for (i =0; i < 50; i += 1)
+        {
+            if (comp_blocks[i].visible == true && cur_bomb touches comp_blocks[i])
+            {
+                comp_blocks[i].visible = false;
+                if (i+1 < blocks && comp_blocks[i+1].visible == true)
+                {
+                    comp_blocks[i+1].visible = false;
+                    comp_blocks_remain -= 1;
+                }
+                if (i-1 > -1 && comp_blocks[i-1].visible == true)
+                {
+                    comp_blocks[i-1].visible = false;
+                    comp_blocks_remain -= 1;
+                }
+                cur_bomb.visible = false;
+                comp_blocks_remain -= 1; 
+            }
+        }
+        // If hit defender, bomb can destroy it and increase gain 2 bombs. 
+        for (i = 0; i < 5; i += 1)
+        {
+            if (comp_defender[i].visible == true && cur_bomb touches comp_defender[i])
+            {
+                comp_defender[i].red = 1;
+                comp_defender[i].blue = 0;
+                comp_defender[i].visible = false;
+                cur_bomb.visible = false;
+                max_bomb += 2;
+                bomb_indicator.text = "Remaining bombs: " + max_bomb;
+            }
+        }
+
+        cur_bomb.y += bomb_increment;
+        if (cur_bomb.y > window_height)
+            cur_bomb.visible = false;
+    }
+}
+on leftarrow
+{
+    if (play == 1 && user_tank[0].x > 0)
+    {
+        user_tank[0].x -= 15;
+        user_tank[1].x -= 15;
+    }
+}
+
+on rightarrow
+{
+    if (play == 1 && user_tank[0].x+40 < window_width)
+    {
+        user_tank[0].x += 15;
+        user_tank[1].x += 15;
+    }
+}
+on space
+{
+    if (play == 1)
+    {
+        // find a bullet that isn't currently active
+        for (i = 0; i < 3; i += 1)
+        {
+            if (user_bullet[i].visible == false)
+            {
+                user_bullet[i].visible = true;
+                user_bullet[i].x = user_tank[1].x + user_tank[1].w/2;
+                user_bullet[i].y = user_tank[1].y;
+                i = 6; // break out of the loop
+            }
+        }
+    }
+}
+on akey
+{
+    if (max_bomb > 0) 
+    {
+        for (i = 0; i < given_bombs; i += 1)
+        {
+            if (bombs[i].visible == false)
+            {
+                bombs[i].visible = true;
+                bombs[i].x = user_tank[1].x + user_tank[1].w/2;
+                bombs[i].y = user_tank[1].y;
+                i = given_bombs;
+            }
+        }
+        max_bomb -= 1;
+        bomb_indicator.text = "Remaining bombs: " + max_bomb;
+    }
+}

@@ -1,0 +1,6 @@
+
+rectangle rectangle1(x = 100, y = 100, w = 42, h = 11);
+
+circle circle1(x = 300, y = 20, radius = 76);
+
+triangle triangle1(x = 10, y = 300);
