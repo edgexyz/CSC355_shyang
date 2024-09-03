@@ -1,0 +1,51 @@
+int window_width = 1000;
+int window_height = 1000;
+string window_title = "BB ENHANCED PONG";
+
+int mouse_x;
+int mouse_y;
+
+int ball_size = 50;
+int ball_x_increment = 4;
+int ball_y_increment = 5;
+
+forward animation ball_animate(circle cur_ball);
+
+int i;
+circle ball();
+pixmap bb(x = 100, y = 200, filename = "./Labs/Lab1/BB.bmp");
+
+initialization {
+    ball.x = random(window_width);
+    ball.y = random(window_height);
+    ball.radius = ball_size/2;
+    ball.red = random(255)/255.0;
+    ball.green = random(255)/255.0;
+    ball.blue = random(255)/255.0;
+    ball.animation_block = ball_animate;
+}
+
+animation ball_animate(circle cur_ball) {
+    // if ball has reached either the left or right, reverse its direction
+    if (cur_ball.x < 0 || cur_ball.x > window_width - ball_size)
+        ball_x_increment = -ball_x_increment;
+
+    // if ball has reached either the top or bottom, reverse its direction
+    if (cur_ball.y < 0 || cur_ball.y > window_height - ball_size)
+        ball_y_increment = -ball_y_increment;
+
+    // if ball touches the pixmap, reverse its direction
+    if (cur_ball touches bb) {
+        ball_x_increment = -ball_x_increment;
+        ball_y_increment = -ball_y_increment;
+    }
+
+    // on each step of the animation, move the ball
+    cur_ball.x += ball_x_increment;
+    cur_ball.y += ball_y_increment;
+}
+
+on mouse_move {
+    bb.x = mouse_x;
+    bb.y = mouse_y;
+}
