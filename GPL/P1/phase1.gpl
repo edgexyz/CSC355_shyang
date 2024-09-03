@@ -1,6 +1,6 @@
 int window_width = 1000;
 int window_height = 1000;
-string window_title = "BB ENHANCED PONG";
+string window_title = "BEAT BB";
 
 int mouse_x;
 int mouse_y;
@@ -13,7 +13,7 @@ forward animation ball_animate(circle cur_ball);
 
 int i;
 circle ball();
-pixmap bb(x = 100, y = 200, filename = "./Labs/Lab1/BB.bmp");
+pixmap bb(filename = "BB.bmp");
 
 initialization {
     ball.x = random(window_width);
@@ -23,6 +23,9 @@ initialization {
     ball.green = random(255)/255.0;
     ball.blue = random(255)/255.0;
     ball.animation_block = ball_animate;
+
+    bb.x = window_width/2;
+    bb.y = window_height/2;
 }
 
 animation ball_animate(circle cur_ball) {
