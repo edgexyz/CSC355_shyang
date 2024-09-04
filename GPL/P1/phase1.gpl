@@ -2,18 +2,24 @@ int window_width = 1000;
 int window_height = 1000;
 string window_title = "BEAT BB";
 
+int play = 1;
 int mouse_x;
 int mouse_y;
 
 int ball_size = 50;
 int ball_x_increment = 4;
 int ball_y_increment = 5;
+int life = 10;
 
 forward animation ball_animate(circle cur_ball);
 
 int i;
 circle ball();
+rectangle user_rect(x=100, y=50, h=40, w=40, green=1);
 pixmap bb(filename = "BB.bmp");
+
+textbox life_indicator(x=10, y=10, text="Remaining "+life+" times to beat BB", blue=1);
+textbox winbox(x=window_width-550, y=window_height/2 - 50,text="", red=1);
 
 initialization {
     ball.x = random(window_width);
@@ -29,26 +35,44 @@ initialization {
 }
 
 animation ball_animate(circle cur_ball) {
-    // if ball has reached either the left or right, reverse its direction
-    if (cur_ball.x < 0 || cur_ball.x > window_width - ball_size)
-        ball_x_increment = -ball_x_increment;
+    if(play == 1) {
+        // if ball has reached either the left or right, reverse its direction
+        if(cur_ball.x < 0 || cur_ball.x > window_width - ball_size)
+            ball_x_increment = -ball_x_increment;
 
-    // if ball has reached either the top or bottom, reverse its direction
-    if (cur_ball.y < 0 || cur_ball.y > window_height - ball_size)
-        ball_y_increment = -ball_y_increment;
+        // if ball has reached either the top or bottom, reverse its direction
+        if(cur_ball.y < 0 || cur_ball.y > window_height - ball_size)
+            ball_y_increment = -ball_y_increment;
 
-    // if ball touches the pixmap, reverse its direction
-    if (cur_ball touches bb) {
-        ball_x_increment = -ball_x_increment;
-        ball_y_increment = -ball_y_increment;
+        // if ball touches BB, reverse its direction and decrease BB's life
+        if(cur_ball touches bb) {
+            ball_x_increment = -ball_x_increment;
+            ball_y_increment = -ball_y_increment;
+
+            life -= 1;
+            if(life == 0) {
+                winbox.text = "YOU WIN";
+                play = 0;
+            }
+        }
+
+        // if ball touches user's rectangle, reverse its direction
+        if(cur_ball touches user_rect) {
+            ball_x_increment = -ball_x_increment;
+            ball_y_increment = -ball_y_increment;
+        }
+
+        // on each step of the animation, move the ball
+        cur_ball.x += ball_x_increment;
+        cur_ball.y += ball_y_increment;
     }
-
-    // on each step of the animation, move the ball
-    cur_ball.x += ball_x_increment;
-    cur_ball.y += ball_y_increment;
 }
 
 on mouse_move {
-    bb.x = mouse_x;
-    bb.y = mouse_y;
+    if(play == 1) {
+        user_rect.x = mouse_x;
+        user_rect.y = mouse_y;
+
+        life_indicator.text = "Remaining "+life+" times to beat BB";
+    }
 }
