@@ -5,19 +5,19 @@
 // we need to add an extra backslash (\) in some cases. For example,
 // "\\s" not just "\s" for whitespace.
 bool isValidEmail(const std::string& email) {
-    const std::regex pattern("");
+    const std::regex pattern("([A-Za-z_]|[0-9])+((-|\.)?([A-Za-z_]|[0-9])+)+@([A-Za-z_]|[0-9])+(\.([A-Za-z_]|[0-9])+)+");
 
     return std::regex_match(email, pattern);
 }
 
 bool isValidPhoneNumber(const std::string& phoneNumber) {
-    const std::regex pattern("");
+    const std::regex pattern("\([0-9]{3}\)([0-9]{3}\.|(\\s|-)?[0-9]{3}(\\s|-)?)[0-9]{4}");
 
     return std::regex_match(phoneNumber, pattern);
 }
 
 bool isValidIntDeclaration(const std::string& declaration) {
-    const std::regex pattern("");
+    const std::regex pattern("(int)\\s+[A-Za-z_]((\\s)*=(\\s)*[0-9]+)?;");
 
     return std::regex_match(declaration, pattern);
 }
