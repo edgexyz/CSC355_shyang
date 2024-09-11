@@ -17,7 +17,7 @@ bool isValidPhoneNumber(const std::string& phoneNumber) {
 }
 
 bool isValidIntDeclaration(const std::string& declaration) {
-    const std::regex pattern("(int)\\s+[A-Za-z_]((\\s)*=(\\s)*[0-9]+)?;");
+    const std::regex pattern("(int)\\s+[A-Za-z_]+((\\s)*=(\\s)*[0-9]+)?;");
 
     return std::regex_match(declaration, pattern);
 }
