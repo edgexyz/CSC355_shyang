@@ -1,3 +1,7 @@
+/*
+ * Author: Shu Yang/shyang
+ */
+
 %{
 #include <iostream>
 #include <stdio.h>
@@ -56,13 +60,18 @@ void error() {
 /* Definitions */
 KEYWORDS    "int"|"float"|"char"|"string"|"if"|"else"|"while"|"return"|"printf" 
 DIGIT       [0-9]
-LETTER 
-ID      
-NUMBER 
+LETTER      [a-zA-Z]
+ID          {LETTER}({LETTER}|{DIGIT}|_)*
+NUMBER      {DIGIT}+(.|(E|e)(-)?)?{DIGIT}+
 
 /* Rules */
 %%
 {KEYWORDS} getToken(T_KEYWORD);
+{ID} getToken(T_IDENTIFIER);
+{NUMBER} getToken(T_NUMBER);
+{LETTER} getToken(T_CHAR_LIT);
+{LETTER}+ getToken(T_STRING_LIT);
+["+"|"-"|"*"|"/"|"="|"<"|">"|">="|"<="|"!="|"=="|"&"] getToken(T_OPERATOR);
 %%
 
 int main(int argc, char **argv) {
