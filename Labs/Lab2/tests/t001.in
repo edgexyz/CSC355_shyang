@@ -1,0 +1,4 @@
+int a = 1;
+int b = 1000000;
+float c = 1.0;
+float d = 1.1;

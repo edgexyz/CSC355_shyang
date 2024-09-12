@@ -1,0 +1,338 @@
+Input: # is UNKNOWN
+<T_IDENTIFIER, 'include'>
+<T_OPERATOR, '<'>
+<T_IDENTIFIER, 'iostream'>
+<T_OPERATOR, '>'>
+Input: # is UNKNOWN
+<T_IDENTIFIER, 'include'>
+<T_OPERATOR, '<'>
+<T_IDENTIFIER, 'vector'>
+<T_OPERATOR, '>'>
+Input: # is UNKNOWN
+<T_IDENTIFIER, 'include'>
+<T_OPERATOR, '<'>
+<T_KEYWORD, 'string'>
+<T_OPERATOR, '>'>
+<T_KEYWORD, 'int'>
+<T_IDENTIFIER, 'main'>
+<T_DELIMITER, '('>
+<T_DELIMITER, ')'>
+<T_DELIMITER, '{'>
+<T_KEYWORD, 'int'>
+<T_IDENTIFIER, 'a'>
+<T_OPERATOR, '='>
+<T_NUMBER, '0'>
+<T_DELIMITER, ';'>
+<T_KEYWORD, 'int'>
+<T_IDENTIFIER, 'b'>
+<T_OPERATOR, '='>
+<T_NUMBER, '1'>
+<T_DELIMITER, ';'>
+<T_KEYWORD, 'int'>
+<T_IDENTIFIER, 'result'>
+<T_OPERATOR, '='>
+<T_NUMBER, '0'>
+<T_DELIMITER, ';'>
+<T_IDENTIFIER, 'std'>
+Input: : is UNKNOWN
+Input: : is UNKNOWN
+<T_IDENTIFIER, 'vector'>
+<T_OPERATOR, '<'>
+<T_KEYWORD, 'int'>
+<T_OPERATOR, '>'>
+<T_IDENTIFIER, 'numbers'>
+<T_OPERATOR, '='>
+<T_DELIMITER, '{'>
+<T_NUMBER, '1'>
+<T_DELIMITER, ','>
+<T_NUMBER, '2'>
+<T_DELIMITER, ','>
+<T_NUMBER, '3'>
+<T_DELIMITER, ','>
+<T_NUMBER, '4'>
+<T_DELIMITER, ','>
+<T_NUMBER, '5'>
+<T_DELIMITER, ','>
+<T_NUMBER, '6'>
+<T_DELIMITER, ','>
+<T_NUMBER, '7'>
+<T_DELIMITER, ','>
+<T_NUMBER, '8'>
+<T_DELIMITER, ','>
+<T_NUMBER, '9'>
+<T_DELIMITER, ','>
+<T_NUMBER, '10'>
+<T_DELIMITER, '}'>
+<T_DELIMITER, ';'>
+<T_IDENTIFIER, 'for'>
+<T_DELIMITER, '('>
+<T_KEYWORD, 'int'>
+<T_IDENTIFIER, 'i'>
+<T_OPERATOR, '='>
+<T_NUMBER, '0'>
+<T_DELIMITER, ';'>
+<T_IDENTIFIER, 'i'>
+<T_OPERATOR, '<'>
+<T_IDENTIFIER, 'numbers'>
+Input: . is UNKNOWN
+<T_IDENTIFIER, 'size'>
+<T_DELIMITER, '('>
+<T_DELIMITER, ')'>
+<T_DELIMITER, ';'>
+<T_IDENTIFIER, 'i'>
+<T_OPERATOR, '+'>
+<T_OPERATOR, '+'>
+<T_DELIMITER, ')'>
+<T_DELIMITER, '{'>
+<T_IDENTIFIER, 'result'>
+<T_OPERATOR, '+'>
+<T_OPERATOR, '='>
+<T_IDENTIFIER, 'numbers'>
+<T_DELIMITER, '['>
+<T_IDENTIFIER, 'i'>
+<T_DELIMITER, ']'>
+<T_DELIMITER, ';'>
+<T_DELIMITER, '}'>
+<T_KEYWORD, 'if'>
+<T_DELIMITER, '('>
+<T_IDENTIFIER, 'result'>
+<T_OPERATOR, '>'>
+<T_NUMBER, '20'>
+<T_DELIMITER, ')'>
+<T_DELIMITER, '{'>
+<T_IDENTIFIER, 'std'>
+Input: : is UNKNOWN
+Input: : is UNKNOWN
+<T_IDENTIFIER, 'cout'>
+<T_OPERATOR, '<'>
+<T_OPERATOR, '<'>
+<T_STRING_LIT, '"Result is greater than 20"'>
+<T_OPERATOR, '<'>
+<T_OPERATOR, '<'>
+<T_IDENTIFIER, 'std'>
+Input: : is UNKNOWN
+Input: : is UNKNOWN
+<T_IDENTIFIER, 'endl'>
+<T_DELIMITER, ';'>
+<T_DELIMITER, '}'>
+<T_KEYWORD, 'else'>
+<T_DELIMITER, '{'>
+<T_IDENTIFIER, 'std'>
+Input: : is UNKNOWN
+Input: : is UNKNOWN
+<T_IDENTIFIER, 'cout'>
+<T_OPERATOR, '<'>
+<T_OPERATOR, '<'>
+<T_STRING_LIT, '"Result is 20 or less"'>
+<T_OPERATOR, '<'>
+<T_OPERATOR, '<'>
+<T_IDENTIFIER, 'std'>
+Input: : is UNKNOWN
+Input: : is UNKNOWN
+<T_IDENTIFIER, 'endl'>
+<T_DELIMITER, ';'>
+<T_DELIMITER, '}'>
+<T_KEYWORD, 'while'>
+<T_DELIMITER, '('>
+<T_IDENTIFIER, 'a'>
+<T_OPERATOR, '<'>
+<T_NUMBER, '10'>
+<T_DELIMITER, ')'>
+<T_DELIMITER, '{'>
+<T_IDENTIFIER, 'a'>
+<T_OPERATOR, '+'>
+<T_OPERATOR, '+'>
+<T_DELIMITER, ';'>
+<T_IDENTIFIER, 'b'>
+<T_OPERATOR, '*'>
+<T_OPERATOR, '='>
+<T_NUMBER, '2'>
+<T_DELIMITER, ';'>
+<T_DELIMITER, '}'>
+<T_IDENTIFIER, 'for'>
+<T_DELIMITER, '('>
+<T_KEYWORD, 'int'>
+<T_IDENTIFIER, 'i'>
+<T_OPERATOR, '='>
+<T_NUMBER, '0'>
+<T_DELIMITER, ';'>
+<T_IDENTIFIER, 'i'>
+<T_OPERATOR, '<'>
+<T_NUMBER, '10'>
+<T_DELIMITER, ';'>
+<T_IDENTIFIER, 'i'>
+<T_OPERATOR, '+'>
+<T_OPERATOR, '+'>
+<T_DELIMITER, ')'>
+<T_DELIMITER, '{'>
+<T_IDENTIFIER, 'for'>
+<T_DELIMITER, '('>
+<T_KEYWORD, 'int'>
+<T_IDENTIFIER, 'j'>
+<T_OPERATOR, '='>
+<T_NUMBER, '0'>
+<T_DELIMITER, ';'>
+<T_IDENTIFIER, 'j'>
+<T_OPERATOR, '<'>
+<T_NUMBER, '5'>
+<T_DELIMITER, ';'>
+<T_IDENTIFIER, 'j'>
+<T_OPERATOR, '+'>
+<T_OPERATOR, '+'>
+<T_DELIMITER, ')'>
+<T_DELIMITER, '{'>
+<T_IDENTIFIER, 'result'>
+<T_OPERATOR, '+'>
+<T_OPERATOR, '='>
+<T_IDENTIFIER, 'i'>
+<T_OPERATOR, '*'>
+<T_IDENTIFIER, 'j'>
+<T_DELIMITER, ';'>
+<T_DELIMITER, '}'>
+<T_DELIMITER, '}'>
+<T_IDENTIFIER, 'std'>
+Input: : is UNKNOWN
+Input: : is UNKNOWN
+<T_IDENTIFIER, 'cout'>
+<T_OPERATOR, '<'>
+<T_OPERATOR, '<'>
+<T_STRING_LIT, '"Final result: "'>
+<T_OPERATOR, '<'>
+<T_OPERATOR, '<'>
+<T_IDENTIFIER, 'result'>
+<T_OPERATOR, '<'>
+<T_OPERATOR, '<'>
+<T_IDENTIFIER, 'std'>
+Input: : is UNKNOWN
+Input: : is UNKNOWN
+<T_IDENTIFIER, 'endl'>
+<T_DELIMITER, ';'>
+<T_IDENTIFIER, 'std'>
+Input: : is UNKNOWN
+Input: : is UNKNOWN
+<T_KEYWORD, 'string'>
+<T_IDENTIFIER, 'text'>
+<T_OPERATOR, '='>
+<T_STRING_LIT, '"Complexity increases"'>
+<T_DELIMITER, ';'>
+<T_IDENTIFIER, 'for'>
+<T_DELIMITER, '('>
+<T_KEYWORD, 'int'>
+<T_IDENTIFIER, 'i'>
+<T_OPERATOR, '='>
+<T_NUMBER, '0'>
+<T_DELIMITER, ';'>
+<T_IDENTIFIER, 'i'>
+<T_OPERATOR, '<'>
+<T_IDENTIFIER, 'text'>
+Input: . is UNKNOWN
+<T_IDENTIFIER, 'length'>
+<T_DELIMITER, '('>
+<T_DELIMITER, ')'>
+<T_DELIMITER, ';'>
+<T_IDENTIFIER, 'i'>
+<T_OPERATOR, '+'>
+<T_OPERATOR, '+'>
+<T_DELIMITER, ')'>
+<T_DELIMITER, '{'>
+<T_KEYWORD, 'if'>
+<T_DELIMITER, '('>
+<T_IDENTIFIER, 'text'>
+<T_DELIMITER, '['>
+<T_IDENTIFIER, 'i'>
+<T_DELIMITER, ']'>
+<T_OPERATOR, '=='>
+<T_CHAR_LIT, ''e''>
+<T_DELIMITER, ')'>
+<T_DELIMITER, '{'>
+<T_IDENTIFIER, 'text'>
+<T_DELIMITER, '['>
+<T_IDENTIFIER, 'i'>
+<T_DELIMITER, ']'>
+<T_OPERATOR, '='>
+<T_CHAR_LIT, ''E''>
+<T_DELIMITER, ';'>
+<T_DELIMITER, '}'>
+<T_DELIMITER, '}'>
+<T_IDENTIFIER, 'std'>
+Input: : is UNKNOWN
+Input: : is UNKNOWN
+<T_IDENTIFIER, 'cout'>
+<T_OPERATOR, '<'>
+<T_OPERATOR, '<'>
+<T_IDENTIFIER, 'text'>
+<T_OPERATOR, '<'>
+<T_OPERATOR, '<'>
+<T_IDENTIFIER, 'std'>
+Input: : is UNKNOWN
+Input: : is UNKNOWN
+<T_IDENTIFIER, 'endl'>
+<T_DELIMITER, ';'>
+<T_IDENTIFIER, 'for'>
+<T_DELIMITER, '('>
+<T_KEYWORD, 'int'>
+<T_IDENTIFIER, 'i'>
+<T_OPERATOR, '='>
+<T_NUMBER, '0'>
+<T_DELIMITER, ';'>
+<T_IDENTIFIER, 'i'>
+<T_OPERATOR, '<'>
+<T_NUMBER, '50'>
+<T_DELIMITER, ';'>
+<T_IDENTIFIER, 'i'>
+<T_OPERATOR, '+'>
+<T_OPERATOR, '+'>
+<T_DELIMITER, ')'>
+<T_DELIMITER, '{'>
+<T_KEYWORD, 'if'>
+<T_DELIMITER, '('>
+<T_IDENTIFIER, 'i'>
+Input: % is UNKNOWN
+<T_NUMBER, '2'>
+<T_OPERATOR, '=='>
+<T_NUMBER, '0'>
+<T_DELIMITER, ')'>
+<T_DELIMITER, '{'>
+<T_IDENTIFIER, 'std'>
+Input: : is UNKNOWN
+Input: : is UNKNOWN
+<T_IDENTIFIER, 'cout'>
+<T_OPERATOR, '<'>
+<T_OPERATOR, '<'>
+<T_IDENTIFIER, 'i'>
+<T_OPERATOR, '<'>
+<T_OPERATOR, '<'>
+<T_STRING_LIT, '" is even"'>
+<T_OPERATOR, '<'>
+<T_OPERATOR, '<'>
+<T_IDENTIFIER, 'std'>
+Input: : is UNKNOWN
+Input: : is UNKNOWN
+<T_IDENTIFIER, 'endl'>
+<T_DELIMITER, ';'>
+<T_DELIMITER, '}'>
+<T_KEYWORD, 'else'>
+<T_DELIMITER, '{'>
+<T_IDENTIFIER, 'std'>
+Input: : is UNKNOWN
+Input: : is UNKNOWN
+<T_IDENTIFIER, 'cout'>
+<T_OPERATOR, '<'>
+<T_OPERATOR, '<'>
+<T_IDENTIFIER, 'i'>
+<T_OPERATOR, '<'>
+<T_OPERATOR, '<'>
+<T_STRING_LIT, '" is odd"'>
+<T_OPERATOR, '<'>
+<T_OPERATOR, '<'>
+<T_IDENTIFIER, 'std'>
+Input: : is UNKNOWN
+Input: : is UNKNOWN
+<T_IDENTIFIER, 'endl'>
+<T_DELIMITER, ';'>
+<T_DELIMITER, '}'>
+<T_DELIMITER, '}'>
+<T_KEYWORD, 'return'>
+<T_NUMBER, '0'>
+<T_DELIMITER, ';'>
+<T_DELIMITER, '}'>

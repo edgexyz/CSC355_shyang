@@ -1,0 +1,28 @@
+int main() {
+    int a = 5;
+    int b = 10, c = 20;
+
+    float e = 3.14;
+    float f = 5.67E8;
+    float x = 4.56e-3;
+
+    char h = 'H';
+    char i = 'I';
+
+    char j[] = "Hello, World!";
+    char *k = "This is a test.";
+
+    int l = 1, m = 2, n = 3;
+    float o = 4.56, p = 7.89;
+
+    int *q = &a;
+    float *r = &e;
+
+    int s;
+    float t;
+    char u;
+    int *w;
+
+    return 0;
+}
+

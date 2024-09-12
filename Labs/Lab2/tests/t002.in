@@ -1,0 +1,5 @@
+int sum = a + b;
+float avg = sum / 2;
+if (a == b) {
+    return a + 1;
+}
