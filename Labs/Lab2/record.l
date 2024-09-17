@@ -102,16 +102,15 @@ The right-hand-side (RHS) specifies an action (code to execute) when
 [ \t\r]         ; // ignore spaces, tabs and the microsoft line feed (\r)
 
 "record"        return T_RECORD;
+","             return T_COMMA;
 "="             return T_ASSIGN;
 "{"             return T_LBRACE;
 "}"             return T_RBRACE;
 ";"             return T_SEMIC;
-","             return T_COMMA;
 
-
-([0-9]+\.[0-9]*|[0-9]*\.[0-9]+)                                         get_double_value(); return T_DOUBLE_CONSTANT;
-[0-9]+                                                                  get_int_value(); return T_INT_CONSTANT;
-[A-Za-z_]([A-Za-z_]|[0-9])*                                             get_string_value(); return T_ID;
+[0-9]+[.][0-9]*|[0-9]*[.][0-9]+ get_double_value(); return T_DOUBLE_CONSTANT;
+[0-9]+          get_int_value(); return T_INT_CONSTANT;
 "JAN"|"FEB"|"MAR"|"APR"|"MAY"|"JUN"|"JUL"|"AUG"|"SEP"|"OCT"|"NOV"|"DEC" return T_MONTH;
-\"[^"]+\"                                                               get_quoted_string_value(); return T_STRING_CONSTANT;
-.                                                                       error(); return T_ERROR;
+[A-Za-z_][A-Za-z0-9_]*       get_string_value(); return T_ID;
+\"[^"]+\"       get_quoted_string_value(); return T_STRING_CONSTANT;
+.               error(); return T_ERROR;
