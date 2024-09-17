@@ -1,0 +1,16 @@
+<T_KEYWORD, 'int'>
+<T_IDENTIFIER, 'main'>
+<T_DELIMITER, '('>
+<T_DELIMITER, ')'>
+<T_DELIMITER, '{'>
+<T_KEYWORD, 'int'>
+Input: 1abc is UNKNOWN
+<T_OPERATOR, '='>
+<T_NUMBER, '1'>
+<T_DELIMITER, ';'>
+<T_KEYWORD, 'int'>
+<T_IDENTIFIER, 'abc1'>
+<T_OPERATOR, '='>
+<T_NUMBER, '1'>
+<T_DELIMITER, ';'>
+<T_DELIMITER, '}'>

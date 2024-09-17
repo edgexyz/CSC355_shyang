@@ -1,0 +1,15 @@
+int main() {
+    int sum = 0;
+    float avg;
+    int a = 5;
+    int b = 10;
+    
+    sum = a + b;
+    avg = sum / 2.0;
+
+    if (a == b) {
+        return 0;
+    } else {
+        return 1;
+    }
+}
