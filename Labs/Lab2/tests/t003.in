@@ -1,0 +1,6 @@
+record George
+{
+  height = 68.2;
+  age = 42.5;
+  weight = 175.42;
+}

@@ -1,0 +1,3 @@
+record Ronald {}
+record Jimmy {age=92;}
+record George {height = 68;age=42;weight=175;}

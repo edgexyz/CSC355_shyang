@@ -1,0 +1,7 @@
+record George
+{
+  name = "George Washington";
+  height = 68.2;
+  age = 42.5;
+  weight = 175.42;
+}

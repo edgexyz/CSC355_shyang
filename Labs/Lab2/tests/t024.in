@@ -1,0 +1,4 @@
+record this_is_an_error_period_is_not_a_legal_double
+{
+  a = .;
+}

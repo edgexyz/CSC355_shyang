@@ -1,0 +1,6 @@
+record Doubles
+{
+  x = 1.12;
+  y = .12;
+  z = 42.;
+}

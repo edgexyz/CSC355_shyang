@@ -1,0 +1,6 @@
+record modify_identifiers_so_they_can_contains_digits_if_not_first_char
+{
+  a1 = 1;
+  a2 = 2;
+  a3 = 3;
+}

@@ -1,0 +1,23 @@
+parser.cpp::main() reading file tests/t005.in
+parser.cpp::main() about to call yyparse()
+type zero or more record declarations followed by ^D:
+
+------------------------------------------------------
+record George
+{
+
+  name = 'George Washington' (string)
+  height = 68.2 (double)
+  age = 42.5 (double)
+  weight = 175.42 (double)
+
+} 4 fields were declared.
+
+1 record was declared.
+------------------------------------------------------
+
+parser.cpp::main() after call to yyparse()
+
+no errors found by yyparse()
+
+parser.cpp::main() end of program.

@@ -1,0 +1,281 @@
+Terminals which are not used
+
+   "error"
+
+
+Grammar
+
+    0 $accept: program $end
+
+    1 program: declaration_list
+
+    2 declaration_list: declaration_list declaration
+    3                 | empty
+
+    4 @1: /* empty */
+
+    5 declaration: "record" "identifier" @1 "{" field_list "}"
+
+    6 field_list: field_list field
+    7           | empty
+
+    8 field: "identifier" "=" "int constant" ";"
+    9      | "identifier" "=" "double constant" ";"
+   10      | "identifier" "=" "string constant" ";"
+   11      | "identifier" "=" "month" "int constant" "," "int constant" ";"
+
+   12 empty: /* empty */
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+error (256)
+"=" (258) 8 9 10 11
+"{" (259) 5
+"}" (260) 5
+";" (261) 8 9 10 11
+"record" (262) 5
+"," (263) 11
+"int constant" (264) 8 11
+"identifier" (265) 5 8 9 10 11
+"error" (266)
+"string constant" (267) 10
+"double constant" (268) 9
+"month" (269) 11
+
+
+Nonterminals, with rules where they appear
+
+$accept (15)
+    on left: 0
+program (16)
+    on left: 1, on right: 0
+declaration_list (17)
+    on left: 2 3, on right: 1 2
+declaration (18)
+    on left: 5, on right: 2
+@1 (19)
+    on left: 4, on right: 5
+field_list (20)
+    on left: 6 7, on right: 5 6
+field (21)
+    on left: 8 9 10 11, on right: 6
+empty (22)
+    on left: 12, on right: 3 7
+
+
+state 0
+
+    0 $accept: . program $end
+
+    $default  reduce using rule 12 (empty)
+
+    program           go to state 1
+    declaration_list  go to state 2
+    empty             go to state 3
+
+
+state 1
+
+    0 $accept: program . $end
+
+    $end  shift, and go to state 4
+
+
+state 2
+
+    1 program: declaration_list .
+    2 declaration_list: declaration_list . declaration
+
+    "record"  shift, and go to state 5
+
+    $default  reduce using rule 1 (program)
+
+    declaration  go to state 6
+
+
+state 3
+
+    3 declaration_list: empty .
+
+    $default  reduce using rule 3 (declaration_list)
+
+
+state 4
+
+    0 $accept: program $end .
+
+    $default  accept
+
+
+state 5
+
+    5 declaration: "record" . "identifier" @1 "{" field_list "}"
+
+    "identifier"  shift, and go to state 7
+
+
+state 6
+
+    2 declaration_list: declaration_list declaration .
+
+    $default  reduce using rule 2 (declaration_list)
+
+
+state 7
+
+    5 declaration: "record" "identifier" . @1 "{" field_list "}"
+
+    $default  reduce using rule 4 (@1)
+
+    @1  go to state 8
+
+
+state 8
+
+    5 declaration: "record" "identifier" @1 . "{" field_list "}"
+
+    "{"  shift, and go to state 9
+
+
+state 9
+
+    5 declaration: "record" "identifier" @1 "{" . field_list "}"
+
+    $default  reduce using rule 12 (empty)
+
+    field_list  go to state 10
+    empty       go to state 11
+
+
+state 10
+
+    5 declaration: "record" "identifier" @1 "{" field_list . "}"
+    6 field_list: field_list . field
+
+    "}"           shift, and go to state 12
+    "identifier"  shift, and go to state 13
+
+    field  go to state 14
+
+
+state 11
+
+    7 field_list: empty .
+
+    $default  reduce using rule 7 (field_list)
+
+
+state 12
+
+    5 declaration: "record" "identifier" @1 "{" field_list "}" .
+
+    $default  reduce using rule 5 (declaration)
+
+
+state 13
+
+    8 field: "identifier" . "=" "int constant" ";"
+    9      | "identifier" . "=" "double constant" ";"
+   10      | "identifier" . "=" "string constant" ";"
+   11      | "identifier" . "=" "month" "int constant" "," "int constant" ";"
+
+    "="  shift, and go to state 15
+
+
+state 14
+
+    6 field_list: field_list field .
+
+    $default  reduce using rule 6 (field_list)
+
+
+state 15
+
+    8 field: "identifier" "=" . "int constant" ";"
+    9      | "identifier" "=" . "double constant" ";"
+   10      | "identifier" "=" . "string constant" ";"
+   11      | "identifier" "=" . "month" "int constant" "," "int constant" ";"
+
+    "int constant"     shift, and go to state 16
+    "string constant"  shift, and go to state 17
+    "double constant"  shift, and go to state 18
+    "month"            shift, and go to state 19
+
+
+state 16
+
+    8 field: "identifier" "=" "int constant" . ";"
+
+    ";"  shift, and go to state 20
+
+
+state 17
+
+   10 field: "identifier" "=" "string constant" . ";"
+
+    ";"  shift, and go to state 21
+
+
+state 18
+
+    9 field: "identifier" "=" "double constant" . ";"
+
+    ";"  shift, and go to state 22
+
+
+state 19
+
+   11 field: "identifier" "=" "month" . "int constant" "," "int constant" ";"
+
+    "int constant"  shift, and go to state 23
+
+
+state 20
+
+    8 field: "identifier" "=" "int constant" ";" .
+
+    $default  reduce using rule 8 (field)
+
+
+state 21
+
+   10 field: "identifier" "=" "string constant" ";" .
+
+    $default  reduce using rule 10 (field)
+
+
+state 22
+
+    9 field: "identifier" "=" "double constant" ";" .
+
+    $default  reduce using rule 9 (field)
+
+
+state 23
+
+   11 field: "identifier" "=" "month" "int constant" . "," "int constant" ";"
+
+    ","  shift, and go to state 24
+
+
+state 24
+
+   11 field: "identifier" "=" "month" "int constant" "," . "int constant" ";"
+
+    "int constant"  shift, and go to state 25
+
+
+state 25
+
+   11 field: "identifier" "=" "month" "int constant" "," "int constant" . ";"
+
+    ";"  shift, and go to state 26
+
+
+state 26
+
+   11 field: "identifier" "=" "month" "int constant" "," "int constant" ";" .
+
+    $default  reduce using rule 11 (field)

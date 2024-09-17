@@ -1,0 +1,16 @@
+parser.cpp::main() reading file tests/t023.in
+parser.cpp::main() about to call yyparse()
+type zero or more record declarations followed by ^D:
+
+------------------------------------------------------
+record this_is_an_error_identifiers_cannot_start_with_digit
+{
+
+  a = 1 (int)
+------------------------------------------------------
+
+parser.cpp::main() after call to yyparse()
+
+yyparse() found errors
+
+parser.cpp::main() end of program.

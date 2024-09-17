@@ -1,0 +1,23 @@
+record George
+{
+  name = "George Washington";
+  birthday = FEB 22, 1732;
+  height = 68.2;
+  age = 42.5;
+  weight = 175.42;
+}
+record dates
+{
+  a = JAN 1, 2001;
+  b = FEB 2, 2002;
+  c = MAR 3, 2003;
+  d = APR 4, 2004;
+  e = MAY 5, 2005;
+  f = JUN 6, 2006;
+  g = JUL 7, 2007;
+  h = AUG 8, 2008;
+  i = SEP 9, 2009;
+  j = OCT 10, 2010;
+  k = NOV 11, 2011;
+  l = DEC 12, 2012;
+}
