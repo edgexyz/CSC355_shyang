@@ -1,0 +1,28 @@
+parser.cpp::main() reading file tests/t000.in
+parser.cpp::main() about to call yyparse()
+type zero or more record declarations followed by ^D:
+
+------------------------------------------------------
+record sally
+{
+
+  age = 42 (int)
+
+} 1 field was declared.
+
+record george
+{
+
+  age = 31 (int)
+  phone = 5551212 (int)
+
+} 2 fields were declared.
+
+2 records were declared.
+------------------------------------------------------
+
+parser.cpp::main() after call to yyparse()
+
+no errors found by yyparse()
+
+parser.cpp::main() end of program.

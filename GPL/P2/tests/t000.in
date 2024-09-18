@@ -1,0 +1,10 @@
+record sally
+{  
+  age = 42;
+}  
+
+record george
+{  
+  age = 31;
+  phone = 5551212;
+}

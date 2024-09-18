@@ -1,0 +1,4 @@
+record _identifiers_can_start_with_underscore_fields_on_one_line
+{
+  _a1 = "string a1"; _a2 = "string a2"; _a3 = "string a3";
+}

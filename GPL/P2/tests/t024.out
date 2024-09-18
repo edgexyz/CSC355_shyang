@@ -1,0 +1,15 @@
+parser.cpp::main() reading file tests/t024.in
+parser.cpp::main() about to call yyparse()
+type zero or more record declarations followed by ^D:
+
+------------------------------------------------------
+record this_is_an_error_period_is_not_a_legal_double
+{
+
+------------------------------------------------------
+
+parser.cpp::main() after call to yyparse()
+
+yyparse() found errors
+
+parser.cpp::main() end of program.

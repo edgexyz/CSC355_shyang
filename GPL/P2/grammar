@@ -1,0 +1,7 @@
+
+program: declaration_list
+declaration_list: declaration_list declaration |empty
+declaration: T_RECORD T_ID  T_LBRACE field_list T_RBRACE
+field_list: field_list field | empty 
+field: T_ID T_ASSIGN T_INT_CONSTANT T_SEMIC
+

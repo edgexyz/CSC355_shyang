@@ -1,0 +1,26 @@
+parser.cpp::main() reading file tests/t012.in
+parser.cpp::main() about to call yyparse()
+type zero or more record declarations followed by ^D:
+
+------------------------------------------------------
+record test_some_more_legal_identifiers
+{
+
+  a_a_a_a_a_a = 'string a_a_a_a_a_a' (string)
+  a_1234_abcd_1a2b3c = 'string a_1234_abcd_1a2b3c' (string)
+  _ = 'string _' (string)
+  _______ = 'string _______' (string)
+  a1______2 = 'string a1______2' (string)
+  _12345 = 'string _12345' (string)
+  abcd_ = 'string abcd_' (string)
+
+} 7 fields were declared.
+
+1 record was declared.
+------------------------------------------------------
+
+parser.cpp::main() after call to yyparse()
+
+no errors found by yyparse()
+
+parser.cpp::main() end of program.

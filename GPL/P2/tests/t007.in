@@ -1,0 +1,4 @@
+record MakeSureYourQuotedStringsCanContainAnyCharacters
+{
+  password = "! @ # $ % ^ & * ( ) _ + ";
+}
