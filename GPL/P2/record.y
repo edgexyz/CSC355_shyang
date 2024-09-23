@@ -42,6 +42,8 @@ extern int line_count;            // current line in the input; from record.l
 #include <string>
 using namespace std;
 
+Error parser_error_handler;
+
 // bison syntax to indicate the end of the header
 %} 
 
@@ -204,7 +206,9 @@ field:
 
     if(error)
     {
-      yyerror("Invalid date format.");
+      std::string error_token = *$3 + " " + std::to_string($4) + ", " + std::to_string($6);
+      parser_error_handler.error(Error::ILLEGAL_TOKEN, error_token);
+      return T_ERROR;
     }
     else
     {
