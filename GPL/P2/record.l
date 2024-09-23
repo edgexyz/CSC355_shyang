@@ -73,6 +73,12 @@ void get_quoted_string_value()
   yylval.union_string = new string(yytext + 1);
 }
 
+void get_month_value()
+{
+  // stores the month value to yylval
+  yylval.union_string = new string(yytext);
+}
+
 void error()
 {
   // have the error handling object report the problem
@@ -96,6 +102,8 @@ The right-hand-side (RHS) specifies an action (code to execute) when
   the regular expression is matched.
 */
 
+MONTHS "JAN"|"FEB"|"MAR"|"APR"|"MAY"|"JUN"|"JUL"|"AUG"|"SEP"|"OCT"|"NOV"|"DEC"
+
 %%
 
 [\n]            line_count++; // count the lines for error reporting
@@ -108,9 +116,9 @@ The right-hand-side (RHS) specifies an action (code to execute) when
 "}"             return T_RBRACE;
 ";"             return T_SEMIC;
 
-
 [0-9]+          get_int_value(); return T_INT_CONSTANT;
-[A-Za-z]+       get_string_value(); return T_ID;
-
-
+[0-9]+[.][0-9]*|[0-9]*[.][0-9]+ get_double_value(); return T_DOUBLE_CONSTANT;
+{MONTHS}        get_month_value(); return T_MONTH;
+[A-Za-z_][A-Za-z0-9_]* get_string_value(); return T_ID;
+\"[^"]+\"       get_quoted_string_value(); return T_STRING_CONSTANT;
 .               error(); return T_ERROR;

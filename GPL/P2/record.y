@@ -67,10 +67,12 @@ using namespace std;
 %union {
  int            union_int;
  std::string    *union_string;  // MUST be a pointer to a string (this sucks!)
+ double         union_double;
 }
 
 // turn on verbose (longer) error messages
-%error-verbose
+// %error-verbose
+%define parse.error verbose
 
 // A token is like an enumerated type.  It is used to pass information
 // between the lexer and the parser.
@@ -81,6 +83,7 @@ using namespace std;
 %token T_LBRACE   "{"
 %token T_RBRACE   "}"
 %token T_SEMIC    ";"
+%token T_COMMA    ","
 %token T_RECORD   "record"
 
 
@@ -130,7 +133,14 @@ declaration_list:
 declaration:
   T_RECORD T_ID {cout << "record " << *$2 << "\n{\n\n";} T_LBRACE field_list T_RBRACE
   {
-      cout << "\n}\n\n";
+      cout << "\n} ";
+
+      if($5 == 1)
+        cout << "1 field was declared.\n";
+      else
+        cout << $5 << " fields were declared.\n";
+
+      cout << "\n";
   }
   ;
 
@@ -138,7 +148,13 @@ declaration:
 //---------------------------------------------------------------------
 field_list:
   field_list field
-  | empty 
+  {
+    $$ = $1 + 1;
+  }
+  | empty
+  {
+    $$ = 0;
+  } 
   ;
 
 //---------------------------------------------------------------------
@@ -146,6 +162,54 @@ field:
   T_ID T_ASSIGN T_INT_CONSTANT T_SEMIC
   {
     cout << "  " << *$1 << " = " << $3 << " (int)\n";
+  }
+  |
+  T_ID T_ASSIGN T_DOUBLE_CONSTANT T_SEMIC
+  {
+    cout << "  " << *$1 << " = " << $3 << " (double)\n";
+  }
+  |
+  T_ID T_ASSIGN T_STRING_CONSTANT T_SEMIC
+  {
+    cout << "  " << *$1 << " = " << *$3 << " (string)\n";
+  }
+  |
+  T_ID T_ASSIGN T_MONTH T_INT_CONSTANT T_COMMA T_INT_CONSTANT T_SEMIC
+  {
+    bool error = false;
+
+    if(*$3 == "FEB")
+    {
+      if($6 % 4 == 0 && ($6 % 100 != 0 || $6 % 400 == 0))
+      {
+        if($4 > 29)
+        {
+          error = true;
+        }
+      }
+      else if($4 > 28)
+      {
+        error = true;
+      }
+    }
+
+    if((*$3 == "APR" || *$3 == "JUN" || *$3 == "SEP" || *$3 == "NOV") && $4 > 30)
+    {
+      error = true;
+    }
+
+    if($4 > 31) {
+      error = true;
+    }
+
+    if(error)
+    {
+      yyerror("Invalid date format.");
+    }
+    else
+    {
+      cout << "  " << *$1 << " = " << *$3 << " " << $4 << ", " << $6 << " (date)\n";
+    }
   }
   ;
   
