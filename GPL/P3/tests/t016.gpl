@@ -1,0 +1,9 @@
+// this is an error, no newlines allowed in strings
+// if you do not allow newlines in strings, you will get the error that 
+//  '"' is not a legal token.  The " is not matching the quoted string,
+//  the " is a token all by itself.
+//
+// If you are not getting any errors, you ARE allowing newlines in strings
+
+string s = "hello
+world";

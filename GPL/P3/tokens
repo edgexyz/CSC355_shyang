@@ -1,0 +1,117 @@
+// updated August 2017
+
+// in addition to the static tokens listed below, there are four non-static
+// tokens -- these are described in the handout
+integer constant
+double constant
+string constant
+identifier
+
+// Static tokens (always the same string)
+// types
+int
+double
+string
+triangle
+pixmap
+circle
+rectangle
+textbox
+
+// keywords
+forward
+initialization
+termination
+on
+animation
+if
+for
+else
+exit
+print
+true
+false
+
+// event keys
+space
+leftarrow
+rightarrow
+uparrow
+downarrow
+leftmouse_down
+middlemouse_down
+rightmouse_down
+leftmouse_up
+middlemouse_up
+rightmouse_up
+mouse_move
+mouse_drag
+f1
+akey
+skey
+dkey
+fkey
+hkey
+jkey
+kkey
+lkey
+wkey
+zkey
+
+// punctuation
+(
+)
+{
+}
+[
+]
+;
+,
+.
+
+// assignment operators
+// unlike C/C++/Java, assignment operators are NOT part of expressions
+//   thus they don't need to be assigned a precedence level
+// unlike C/C++/Java, ++ and -- are not expressions operators
+//   they are assignments operators
+=
++=
+-=
+++
+--
+
+// unary operators with textual names
+// these "fake" functions are in the grammar in such a way
+// that they do not need to be assigned a precedence level
+sin
+cos
+tan
+asin
+acos
+atan
+sqrt
+abs
+floor
+random
+
+// graphical operators (need precedence level)
+touches
+near
+
+// mathematical operators (need precedence level)
+*
+/
++
+-
+%
+
+// logical operators (need precedence level)
+<
+>
+<=
+>=
+==
+!=
+!
+&&
+||

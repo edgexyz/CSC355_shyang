@@ -1,0 +1,4 @@
+// if you use the regular expression A-z in gpl.l you will think 
+// this is a legal identifier instead of an error
+// use [A-Za-z] to get just the letters
+int one^two;
