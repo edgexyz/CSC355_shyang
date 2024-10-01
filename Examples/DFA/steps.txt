@@ -1,0 +1,40 @@
+NFA:
+        ---------e---------------
+        |        -----e------   |
+        |        |          |   |
+        |        v          |   |
+    -> (1) -a-> (2) -b-> ((4))<--
+        |                  ^
+        |                  |
+        ---a--->(3)---e----|
+
+Steps:
+1. e-closure(1) = {1, 2, 3}
+    A = {1, 2, 3}
+2. e-closure(Move(A,a))
+    2a. Move(A,a) = {2, 3}
+    2b. e-closure({2, 3}) = {2, 3, 4}
+    B = {2, 3, 4}
+3. e-closure(Move(A,b))
+    3a. Move(A,b) = {4}
+    3b. e-closure({4}) = {2, 4}
+    C = {2, 4}
+4. e-closure(Move(B,a))
+    4a. Move(B,a) = {}
+5. e-closure(Move(B,b))
+    5a. Move(B,b) = {4}
+    5b. e-closure({4}) = {2, 4} // == C
+6. e-closure(Move(C,a))
+    6a. Move(C,a) = {}
+7. e-closure(Move(C,b))
+    7a. Move(C,b) = {4}
+    7b. e-closure({4}) = {2, 4} // == C
+
+DFA:
+    -> ((A)) -a-> ((B))---
+        |          ^     |     
+        |          |     |
+        b-->((C))--b     |
+              ^          |
+              |          |
+              -----------b
