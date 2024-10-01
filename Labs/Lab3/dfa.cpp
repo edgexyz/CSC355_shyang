@@ -1,7 +1,7 @@
 /*
  * This program simulates DFA.
  *
- * Author: ?
+ * Author: Shu Yang
  */
 
 
@@ -13,6 +13,10 @@ using namespace std;
 // DFA States
 enum State {
     // COMPLETE ME
+    A,
+    B,
+    C,
+    D,
     ERROR // Error state for undefined transitions
 };
 
@@ -23,7 +27,7 @@ enum State {
  */
 bool isAcceptingState(State currentState) {
     // COMPLETE ME
-    return false;
+    return currentState == B || currentState == C || currentState == D;
 }
 
 /*  Convert enum State type to string.
@@ -36,6 +40,21 @@ string toString(State currentState) {
     string state;
 
     // COMPLETE ME
+    if(currentState == A) {
+        state = "A";
+    }
+    else if(currentState == B) {
+        state = "B";
+    }
+    else if(currentState == C) {
+        state = "C";
+    }
+    else if(currentState == D) {
+        state = "D";
+    }
+    else {
+        state = "ERROR";
+    }
 
     return state;
 }
@@ -48,6 +67,30 @@ string toString(State currentState) {
  */
 State transition(State currentState, char symbol) {
     // COMPLETE ME
+    switch(currentState) {
+    case A:
+        if(symbol == 'a')
+            return B;
+        else
+            break;
+
+    case B:
+        if(symbol == 'a')
+            return C;
+        else if(symbol == 'b')
+            return D;
+        else
+            break;
+
+    case D:
+        if(symbol == 'a' || symbol == 'b')
+            return C;
+        else
+            break;
+    
+    default:
+        break;
+    }
 
     return ERROR;
 }
