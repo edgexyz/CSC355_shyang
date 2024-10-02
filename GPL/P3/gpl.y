@@ -145,3 +145,302 @@ int undeclared = 0;
 %%
 
 // COMPLETE ME
+// updated January 2018
+
+//---------------------------------------------------------------------
+program:
+    declaration_list block_list
+    ;
+
+//---------------------------------------------------------------------
+declaration_list:
+    declaration_list declaration
+    | empty
+    ;
+
+//---------------------------------------------------------------------
+declaration:
+    variable_declaration T_SEMIC
+    | object_declaration T_SEMIC
+    | forward_declaration T_SEMIC
+    ;
+
+//---------------------------------------------------------------------
+variable_declaration:
+    simple_type  T_ID  optional_initializer
+    | simple_type  T_ID  T_LBRACKET expression T_RBRACKET
+    ;
+
+//---------------------------------------------------------------------
+simple_type:
+    T_INT
+    | T_DOUBLE
+    | T_STRING
+    ;
+
+//---------------------------------------------------------------------
+optional_initializer:
+    T_ASSIGN expression
+    | empty
+    ;
+
+//---------------------------------------------------------------------
+object_declaration:
+    object_type T_ID T_LPAREN parameter_list_or_empty T_RPAREN
+    | object_type T_ID T_LBRACKET expression T_RBRACKET
+    ;
+
+//---------------------------------------------------------------------
+object_type:
+    T_TRIANGLE
+    | T_PIXMAP
+    | T_CIRCLE
+    | T_RECTANGLE
+    | T_TEXTBOX
+    ;
+
+//---------------------------------------------------------------------
+parameter_list_or_empty :
+    parameter_list
+    | empty
+    ;
+
+//---------------------------------------------------------------------
+parameter_list :
+    parameter_list T_COMMA parameter
+    | parameter
+    ;
+
+//---------------------------------------------------------------------
+parameter:
+    T_ID T_ASSIGN expression
+    ;
+
+//---------------------------------------------------------------------
+forward_declaration:
+    T_FORWARD T_ANIMATION T_ID T_LPAREN forward_parameter_list_or_empty T_RPAREN
+    ;
+
+//---------------------------------------------------------------------
+forward_parameter_list_or_empty:
+    forward_parameter_list
+    | empty
+    ;
+
+//---------------------------------------------------------------------
+forward_parameter_list:
+    forward_parameter_list T_COMMA forward_parameter
+    | forward_parameter
+    ;
+
+//---------------------------------------------------------------------
+forward_parameter:
+    simple_type T_ID
+    | object_type T_ID
+    ;
+
+//---------------------------------------------------------------------
+block_list:
+    block_list block
+    | empty
+    ;
+
+//---------------------------------------------------------------------
+block:
+    initialization_block
+    | termination_block
+    | animation_block
+    | on_block
+    ;
+
+//---------------------------------------------------------------------
+initialization_block:
+    T_INITIALIZATION statement_block
+    ;
+
+//---------------------------------------------------------------------
+termination_block:
+    T_TERMINATION statement_block
+    ;
+
+//---------------------------------------------------------------------
+animation_block:
+    T_ANIMATION T_ID T_LPAREN check_animation_parameter T_RPAREN T_LBRACE statement_list T_RBRACE end_of_statement_block
+    ;
+
+//---------------------------------------------------------------------
+animation_parameter:
+    object_type T_ID
+    ;
+
+//---------------------------------------------------------------------
+check_animation_parameter:
+    object_type T_ID
+    ;
+
+//---------------------------------------------------------------------
+on_block:
+    T_ON keystroke statement_block
+    ;
+
+//---------------------------------------------------------------------
+keystroke:
+    T_SPACE
+    | T_LEFTARROW
+    | T_RIGHTARROW
+    | T_UPARROW
+    | T_DOWNARROW
+    | T_LEFTMOUSE_DOWN
+    | T_MIDDLEMOUSE_DOWN
+    | T_RIGHTMOUSE_DOWN
+    | T_LEFTMOUSE_UP
+    | T_MIDDLEMOUSE_UP
+    | T_RIGHTMOUSE_UP
+    | T_MOUSE_MOVE
+    | T_MOUSE_DRAG
+    | T_F1
+    | T_AKEY
+    | T_SKEY
+    | T_DKEY
+    | T_FKEY
+    | T_HKEY
+    | T_JKEY
+    | T_KKEY
+    | T_LKEY
+    | T_WKEY
+    | T_ZKEY
+    ;
+
+//---------------------------------------------------------------------
+if_block:
+    statement_block_creator statement end_of_statement_block
+    | statement_block
+    ;
+
+//---------------------------------------------------------------------
+statement_block:
+    T_LBRACE statement_block_creator statement_list T_RBRACE end_of_statement_block
+    ;
+
+//---------------------------------------------------------------------
+statement_block_creator:
+    // this goes to nothing so that you can put an action here in p7
+    ;
+
+//---------------------------------------------------------------------
+end_of_statement_block:
+    // this goes to nothing so that you can put an action here in p7
+    ;
+
+//---------------------------------------------------------------------
+statement_list:
+    statement_list statement
+    | empty
+    ;
+
+//---------------------------------------------------------------------
+statement:
+    | assign_statement T_SEMIC
+    | print_statement T_SEMIC
+    | exit_statement T_SEMIC
+    | if_statement
+    | for_statement
+    ;
+
+//---------------------------------------------------------------------
+if_statement:
+    T_IF T_LPAREN expression T_RPAREN if_block %prec IF_NO_ELSE
+    | T_IF T_LPAREN expression T_RPAREN if_block T_ELSE if_block
+    ;
+
+//---------------------------------------------------------------------
+for_statement:
+    T_FOR T_LPAREN statement_block_creator assign_statement_or_empty end_of_statement_block T_SEMIC expression T_SEMIC statement_block_creator assign_statement_or_empty end_of_statement_block T_RPAREN statement_block
+    ;
+
+//---------------------------------------------------------------------
+print_statement:
+    T_PRINT T_LPAREN expression T_RPAREN
+    ;
+
+//---------------------------------------------------------------------
+exit_statement:
+    T_EXIT T_LPAREN expression T_RPAREN
+    ;
+
+//---------------------------------------------------------------------
+assign_statement_or_empty:
+    assign_statement
+    | empty
+    ;
+
+//---------------------------------------------------------------------
+assign_statement:
+    variable T_ASSIGN expression
+    | variable T_PLUS_ASSIGN expression
+    | variable T_MINUS_ASSIGN expression
+    | variable T_PLUS_PLUS
+    | variable T_MINUS_MINUS
+    ;
+
+//---------------------------------------------------------------------
+variable:
+    T_ID
+    | T_ID T_LBRACKET expression T_RBRACKET
+    | T_ID T_PERIOD T_ID
+    | T_ID T_LBRACKET expression T_RBRACKET T_PERIOD T_ID
+    ;
+
+//---------------------------------------------------------------------
+expression:
+    primary_expression
+    | expression T_OR expression
+    | expression T_AND expression
+    | expression T_LESS_EQUAL expression
+    | expression T_GREATER_EQUAL  expression
+    | expression T_LESS expression
+    | expression T_GREATER  expression
+    | expression T_EQUAL expression
+    | expression T_NOT_EQUAL expression
+    | expression T_PLUS expression
+    | expression T_MINUS expression
+    | expression T_MULTIPLY expression
+    | expression T_DIVIDE expression
+    | expression T_MOD expression
+    | T_MINUS  expression %prec UNARY_OPS
+    | T_NOT  expression %prec UNARY_OPS
+    | math_operator T_LPAREN expression T_RPAREN
+    | expression T_NEAR expression
+    | expression T_TOUCHES expression
+    ;
+
+//---------------------------------------------------------------------
+primary_expression:
+    T_LPAREN  expression T_RPAREN
+    | variable
+    | T_INT_CONSTANT
+    | T_TRUE
+    | T_FALSE
+    | T_DOUBLE_CONSTANT
+    | T_STRING_CONSTANT
+    ;
+
+//---------------------------------------------------------------------
+math_operator:
+    T_SIN
+    | T_COS
+    | T_TAN
+    | T_ASIN
+    | T_ACOS
+    | T_ATAN
+    | T_SQRT
+    | T_ABS
+    | T_FLOOR
+    | T_RANDOM
+    ;
+
+//---------------------------------------------------------------------
+empty:
+    // empty goes to nothing so that you can use empty in productions
+    // when you want a production to go to nothing
+    ;
