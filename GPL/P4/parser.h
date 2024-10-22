@@ -28,6 +28,7 @@
 
 #include <string>
 
+#include "gpl_type.h"
 
 // put new included ABOVE this line
 #include "y.tab.h"
