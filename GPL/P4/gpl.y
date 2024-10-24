@@ -151,9 +151,6 @@ int undeclared = 0;
 
 %%
 
-// COMPLETE ME
-// updated January 2018
-
 //---------------------------------------------------------------------
 program:
     declaration_list block_list
