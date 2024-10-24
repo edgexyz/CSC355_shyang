@@ -25,27 +25,44 @@ Symbol_table::~Symbol_table()
 
 bool Symbol_table::insert(Symbol *symbol)
 {
-    // COMPLETE ME
+  if (lookup(symbol->get_name()) == NULL) {
+    m_symbols.insert({symbol->get_name(), symbol});
+
+    return true;
+  }
+
+  return false;
 }
 
 Symbol *Symbol_table::lookup(string name) const
 {
-    // COMPLETE ME
+  auto find = m_symbols.find(name);
+
+  if (find != m_symbols.end()) {
+    return find->second;
+  }
+
+  return NULL;
 }
 
 // comparison function for the STL sort algorithm
 bool compare_symbols(Symbol *a, Symbol *b) 
 {
-    // COMPLETE ME
+  return a->get_name() < b->get_name() ? true : false;
 }
 
 
 void Symbol_table::print(ostream &os) const
 {
-  // COMPLETE ME
+  vector<Symbol *> symbols;
 
-  // HINT: What I would do here is ...
-  // (1) add all symbols in the table into a vector.
-  // (2) sort the vector.
-  // (3) print the elements (symbols) in the vector.
+  for (const auto& map_pair: m_symbols) {
+    symbols.push_back(map_pair.second);
+  }
+
+  sort(symbols.begin(), symbols.end(), compare_symbols);
+
+  for (const auto& symbol: symbols) {
+    symbol->print(os);
+  }
 }

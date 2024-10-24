@@ -6,6 +6,9 @@
 
 #include "error.h"
 #include "gpl_assert.h"
+#include "gpl_type.h"
+#include "symbol.h"
+#include "symbol_table.h"
 #include <iostream>
 #include <sstream>
 #include <cmath> // for floor()
@@ -24,6 +27,7 @@ int undeclared = 0;
   int              union_int;
   double           union_double;
   std::string      *union_string;  // MUST be a pointer to a string ARG!
+  Gpl_type         union_gpl_type;
 }
 
 %error-verbose
@@ -130,6 +134,9 @@ int undeclared = 0;
 
 %token T_ERROR               "error"
 
+%type <union_gpl_type> simple_type
+%type <union_gpl_type> object_type
+
 %nonassoc IF_NO_ELSE
 %nonassoc T_ELSE
 
@@ -168,14 +175,64 @@ declaration:
 //---------------------------------------------------------------------
 variable_declaration:
     simple_type  T_ID  optional_initializer
-    | simple_type  T_ID  T_LBRACKET expression T_RBRACKET
+    {
+        Symbol_table *symbol_table = Symbol_table::instance();
+
+        Symbol* s;
+
+        switch ($1)
+        {
+            case INT:
+                s = new Symbol(*$2, 42);
+                break;
+                
+            case DOUBLE:
+                s = new Symbol(*$2, 3.14159);
+                break;
+                
+            case STRING:
+                s = new Symbol(*$2, "Hello world");
+        }
+
+        if (!symbol_table->insert(s))
+        {
+            Error::error(Error::PREVIOUSLY_DECLARED_VARIABLE, *$2);
+        }
+    }
+    // | simple_type  T_ID  T_LBRACKET expression T_RBRACKET
+    | simple_type  T_ID  T_LBRACKET T_INT_CONSTANT T_RBRACKET
+    {
+        Symbol_table *symbol_table = Symbol_table::instance();
+
+        if ($4 > 0)
+        {
+            Symbol* s = new Symbol(*$2, (Gpl_type)$1, $4);
+            if (!symbol_table->insert(s))
+            {
+                Error::error(Error::PREVIOUSLY_DECLARED_VARIABLE, *$2);
+            }
+        }
+        else
+        {
+            Error::error(Error::INVALID_ARRAY_SIZE, *$2, std::to_string($4));
+        }
+    }
     ;
 
 //---------------------------------------------------------------------
 simple_type:
     T_INT
+    {
+        $$ = INT;
+    }
     | T_DOUBLE
+    {
+        $$ = DOUBLE;
+    }
     | T_STRING
+    {
+        $$ = STRING;
+    }
     ;
 
 //---------------------------------------------------------------------
