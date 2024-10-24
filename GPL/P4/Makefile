@@ -33,20 +33,20 @@ PHASE := $(notdir $(CURDIR))
 #   GRAPHICS turns on graphics for p6-p8
 # P5 P6 P7 P8 are used by my private code so I can use the same file for 
 #   multiple phases.  You may use them if you want.
-ifeq ($(PHASE),p3)
+ifeq ($(PHASE),P3)
   MACRO_DEFINITIONS = -DP3
-else ifeq ($(PHASE),p4)
+else ifeq ($(PHASE),P4)
   MACRO_DEFINITIONS = -DSYMBOL_TABLE -DP4
-else ifeq ($(PHASE),p5)
+else ifeq ($(PHASE),P5)
   MACRO_DEFINITIONS = -DSYMBOL_TABLE -DP5
-else ifeq ($(PHASE),p6)
+else ifeq ($(PHASE),P6)
   MACRO_DEFINITIONS = -DSYMBOL_TABLE -DGRAPHICS -DP5 -DP6
-else ifeq ($(PHASE),p7)
+else ifeq ($(PHASE),P7)
   MACRO_DEFINITIONS = -DSYMBOL_TABLE -DGRAPHICS -DP5 -DP6 -DP7
-else ifeq ($(PHASE),p8)
+else ifeq ($(PHASE),P8)
   MACRO_DEFINITIONS = -DSYMBOL_TABLE -DGRAPHICS -DP5 -DP6 -DP7 -DP8
 else
-  PHASE = UNKNOWN PHASE: THIS IS AN ERROR (bad directory name, must be p3,p4,...p8)
+  PHASE = UNKNOWN PHASE: THIS IS AN ERROR (bad directory name, must be P3, P4,...P8)
 endif
 
 # if this is a Linux computer, set up Linux libraries
