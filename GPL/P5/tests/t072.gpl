@@ -1,0 +1,19 @@
+string s1 = 40;
+
+string s2 = 2;
+
+// string concatinaton: "40" + "2" = "402"
+string s3 = s1 + s2; 
+
+// the right hand sides should be evaluated and then the result cast to a string
+string s4 = 38.86 + 3.14;
+
+string s5 = 41.12 + .88;
+
+string s6 = 2 * 21;
+
+string s7 = 84 / 2.0;
+
+string s8 = 2+2+2+2+2+2+2+2+2+2+2+2+2+2+2+2+2+2+2+2+2;
+
+string s9 = 84-2-2-2-2-2-2-2-2-2-2-2-2-2-2-2-2-2-2-2-2-2;

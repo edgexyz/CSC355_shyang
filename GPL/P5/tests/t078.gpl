@@ -1,0 +1,4 @@
+int nums[10];
+int i = nums[1];
+string s = nums[2];
+double d = nums[8];

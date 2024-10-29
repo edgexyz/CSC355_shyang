@@ -1,0 +1,7 @@
+// use the floor() function from the math library
+int a = floor(1.2);
+int b = floor(-1.2);
+int c = floor(-2);
+int d = floor(-2.5);
+int e = floor(-1.9999);
+int f = floor(-2.0001);

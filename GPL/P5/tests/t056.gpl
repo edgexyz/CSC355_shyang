@@ -1,0 +1,4 @@
+string a = "one";
+
+// this is not ok
+int b = !a;

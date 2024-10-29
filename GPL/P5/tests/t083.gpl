@@ -1,0 +1,4 @@
+// floor should always return an INT.
+// if floor returns a double, y would be 0.5
+// if floor returns an int, y would be 0 (integer 1/2 is zero)
+double y = 1/floor(2.2);

@@ -1,0 +1,6 @@
+Semantic error on line 1: Variable 'a[]' was not declared before it was used.
+Semantic error on line 2: The array 'b' was declared with illegal size '0'. Arrays sizes must be integers of 1 or larger.
+Semantic error on line 3: The array 'c' was declared with illegal size '-2'. Arrays sizes must be integers of 1 or larger.
+Semantic error on line 5: The given expression is not a legal type for the size of array <d>.  The size must be an integer.  Given expression is of type string.
+Semantic error on line 6: The given expression is not a legal type for the size of array <e>.  The size must be an integer.  Given expression is of type double.
+Semantic error on line 7: The given expression is not a legal type for the size of array <f>.  The size must be an integer.  Given expression is of type double.

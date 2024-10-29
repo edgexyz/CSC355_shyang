@@ -1,0 +1,5 @@
+int a = 1025;
+int b = 37;
+
+int c = a % b;
+int d = 12 % 10;

@@ -1,0 +1,4 @@
+int nums[5];
+int i = 2;
+int j = 40;
+int k = j + nums[i];

@@ -1,0 +1,3 @@
+Semantic error on line 2: Index value '10' is out of bounds for array 'nums'.
+Semantic error on line 3: Index value '20' is out of bounds for array 'nums'.
+Semantic error on line 4: Index value '30' is out of bounds for array 'nums'.

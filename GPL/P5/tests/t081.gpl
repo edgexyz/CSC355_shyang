@@ -1,0 +1,7 @@
+int a = a[3];
+int b[0];
+int c[40 - 42];
+
+int d["hello"];
+int e[1.2345];
+int f[42.0 / 17];

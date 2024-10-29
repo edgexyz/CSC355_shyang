@@ -1,0 +1,5 @@
+int values[5];
+
+int i = values[0];
+double d = values[1];
+string s = values[2];

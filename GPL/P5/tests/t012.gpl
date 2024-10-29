@@ -1,0 +1,3 @@
+// use M_PI from /usr/include/limits.h
+// DO NOT CREATE YOUR OWN VALUE FOR PI
+double x = sin(20);

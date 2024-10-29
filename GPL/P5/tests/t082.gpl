@@ -1,0 +1,9 @@
+// make sure you have an INT version of abs() and a DOUBLE version
+
+// abs(double) is a double, thus this is an error
+double x = 42;
+int i = abs(x);
+
+// abs(int) is an int, this is NOT an error
+int k = 42;
+int l = abs(k);

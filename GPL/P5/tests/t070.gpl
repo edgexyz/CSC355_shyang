@@ -1,0 +1,6 @@
+int a = 1;
+string s = "hello";
+
+int j = s/a;
+double x = a/s;
+double y = s/a;

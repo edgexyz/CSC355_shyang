@@ -1,0 +1,3 @@
+int not_an_array;
+
+int x = not_an_array[100];

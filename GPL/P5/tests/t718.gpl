@@ -1,0 +1,3 @@
+// gpl and C++ print this as "-0"
+
+double negative_zero = -0.0;

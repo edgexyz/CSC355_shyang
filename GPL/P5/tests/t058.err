@@ -1,0 +1,1 @@
+Semantic error on line 1: Arithmetic mod by zero at parse time. Using zero as the result so parse can continue.

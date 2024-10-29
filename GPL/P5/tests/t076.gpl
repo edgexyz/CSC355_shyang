@@ -1,0 +1,17 @@
+int i1 = 4 + -46;
+int i2 = 40 - -2;
+int i3 = -2 + 44;
+int i4 = -2 + -40;
+int i5 = - - 2 - -40;
+
+double x1 = 4 + -46;
+double x2 = 40 - -2;
+double x3 = -2 + 44;
+double x4 = -2 + -40;
+double x5 = - - 2 - -40;
+
+double y1 = 4 + -46.1;
+double y2 = 40.1 - -2;
+double y3 = -2 + 44.1;
+double y4 = -2.1 + -40;
+double y5 = - - 2.1 - -40;

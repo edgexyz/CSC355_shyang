@@ -1,0 +1,64 @@
+string s01 = "hello";
+string s02 = "world";
+
+// this is ok (string concatination)
+string s03 = s01 + s02;
+
+// all of the following are errors
+string s10 = s01 - s02;
+string s11 = s01 * s02;
+string s12 = s01 / s02;
+string s13 = s01 % s02;
+
+string s20 = s01 - 1;
+string s21 = s01 * 1;
+string s22 = s01 / 1;
+string s23 = s01 % 1;
+
+string s30 = s01 - 1.234;
+string s31 = s01 * 1.234;
+string s32 = s01 / 1.234;
+string s33 = s01 % 1.234;
+
+string s40 = 1 - s01;
+string s41 = 1 * s01;
+string s42 = 1 / s01;
+string s43 = 1 % s01;
+
+string s50 = 1.234 - s01;
+string s51 = 1.234 * s01;
+string s52 = 1.234 / s01;
+string s53 = 1.234 % s01;
+
+
+string s60 = 1 - "str constant";
+string s61 = 1 * "str constant";
+string s62 = 1 / "str constant";
+string s63 = 1 % "str constant";
+
+string s70 = 1.234 - "str constant";
+string s71 = 1.234 * "str constant";
+string s72 = 1.234 / "str constant";
+string s73 = 1.234 % "str constant";
+
+double x10 = cos(s1);
+double x11 = sin(s1);
+double x12 = tan(s1);
+double x13 = acos(s1);
+double x14 = asin(s1);
+double x15 = atan(s1);
+double x16 = sqrt(s1);
+double x17 = abs(s1);
+double x18 = floor(s1);
+double x19 = random(s1);
+
+double x20 = cos("str constant");
+double x21 = sin("str constant");
+double x22 = tan("str constant");
+double x23 = acos("str constant");
+double x24 = asin("str constant");
+double x25 = atan("str constant");
+double x26 = sqrt("str constant");
+double x27 = abs("str constant");
+double x28 = floor("str constant");
+double x29 = random("str constant");

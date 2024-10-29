@@ -1,0 +1,8 @@
+// checking that math functions not typed as INT
+double x1 = 100 * cos(40);
+double x2 = 100 * sin(40);
+double x3 = 100 * tan(40);
+double x4 = 100 * atan(40);
+double x5 = 100 * abs(40.123);
+double x6 = 100 * abs(-40.123);
+double x7 = 100 * sqrt(40);

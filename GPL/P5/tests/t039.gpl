@@ -1,0 +1,5 @@
+// make sure you don't stop parsing on the first error
+// this program should issue TWO errors
+int a;
+int b = a[1];
+int c = a[100];

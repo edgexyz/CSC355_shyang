@@ -1,0 +1,4 @@
+// make sure you are not using an int when you implement double division
+double x = 3.63;
+double y = 3.3;
+double z = x / y;

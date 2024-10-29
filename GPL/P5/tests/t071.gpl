@@ -1,0 +1,11 @@
+// default values should be 0
+int int_array[3];
+
+// string should be equal to "0"
+string s_int = int_array[1];
+
+// default values should be 0
+double double_array[3];
+
+// string should be equal to "0"
+string s_double = double_array[1];

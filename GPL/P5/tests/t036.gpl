@@ -1,0 +1,17 @@
+// explicitly initialize a string to empty
+string empty_string = "";
+string hello = "hello";
+string world = "world";
+string space_string = " ";
+
+string aa = "hello" + empty_string + "world";
+string ab = "hello" + "" + "world";
+string ac = hello + empty_string + world;
+
+string ad = hello + empty_string + "world";
+string ae = hello + "" + world;
+string af = hello + empty_string + world;
+
+string ag = hello + space_string + "world";
+string ah = hello + " " + world;
+string ai = hello + space_string + world;

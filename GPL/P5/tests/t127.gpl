@@ -1,0 +1,4 @@
+int int_array[3];
+
+int k = 42 + int_array[0];
+

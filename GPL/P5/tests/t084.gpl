@@ -1,0 +1,4 @@
+// a double (0.77 in this example) is true
+// thus 0.77 && 1 is true and equal to 1
+// yikes should be 1.0
+double yikes = 0.77 && 1;

@@ -1,0 +1,5 @@
+// make sure you don't stop parsing on the first error
+// this program should issue TWO errors
+int a[10];
+int b = a;
+int c = a;

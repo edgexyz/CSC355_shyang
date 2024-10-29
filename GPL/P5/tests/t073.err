@@ -1,0 +1,56 @@
+Semantic error on line 8: Invalid left operand for operator '-'.
+Semantic error on line 8: Invalid right operand for operator '-'.
+Semantic error on line 9: Invalid left operand for operator '*'.
+Semantic error on line 9: Invalid right operand for operator '*'.
+Semantic error on line 10: Invalid left operand for operator '/'.
+Semantic error on line 10: Invalid right operand for operator '/'.
+Semantic error on line 11: Invalid left operand for operator '%'.
+Semantic error on line 11: Invalid right operand for operator '%'.
+Semantic error on line 13: Invalid left operand for operator '-'.
+Semantic error on line 14: Invalid left operand for operator '*'.
+Semantic error on line 15: Invalid left operand for operator '/'.
+Semantic error on line 16: Invalid left operand for operator '%'.
+Semantic error on line 18: Invalid left operand for operator '-'.
+Semantic error on line 19: Invalid left operand for operator '*'.
+Semantic error on line 20: Invalid left operand for operator '/'.
+Semantic error on line 21: Invalid left operand for operator '%'.
+Semantic error on line 21: Invalid right operand for operator '%'.
+Semantic error on line 23: Invalid right operand for operator '-'.
+Semantic error on line 24: Invalid right operand for operator '*'.
+Semantic error on line 25: Invalid right operand for operator '/'.
+Semantic error on line 26: Invalid right operand for operator '%'.
+Semantic error on line 28: Invalid right operand for operator '-'.
+Semantic error on line 29: Invalid right operand for operator '*'.
+Semantic error on line 30: Invalid right operand for operator '/'.
+Semantic error on line 31: Invalid left operand for operator '%'.
+Semantic error on line 31: Invalid right operand for operator '%'.
+Semantic error on line 34: Invalid right operand for operator '-'.
+Semantic error on line 35: Invalid right operand for operator '*'.
+Semantic error on line 36: Invalid right operand for operator '/'.
+Semantic error on line 37: Invalid right operand for operator '%'.
+Semantic error on line 39: Invalid right operand for operator '-'.
+Semantic error on line 40: Invalid right operand for operator '*'.
+Semantic error on line 41: Invalid right operand for operator '/'.
+Semantic error on line 42: Invalid left operand for operator '%'.
+Semantic error on line 42: Invalid right operand for operator '%'.
+Semantic error on line 44: Variable 's1' was not declared before it was used.
+Semantic error on line 45: Variable 's1' was not declared before it was used.
+Semantic error on line 46: Variable 's1' was not declared before it was used.
+Semantic error on line 47: Variable 's1' was not declared before it was used.
+Semantic error on line 48: Variable 's1' was not declared before it was used.
+Semantic error on line 49: Variable 's1' was not declared before it was used.
+Semantic error on line 50: Variable 's1' was not declared before it was used.
+Semantic error on line 51: Variable 's1' was not declared before it was used.
+Semantic error on line 52: Variable 's1' was not declared before it was used.
+Semantic error on line 53: Variable 's1' was not declared before it was used.
+Semantic error on line 53: Illegal argument to random()<0>.  Must be >= 1.
+Semantic error on line 55: Invalid right operand for operator 'cos'.
+Semantic error on line 56: Invalid right operand for operator 'sin'.
+Semantic error on line 57: Invalid right operand for operator 'tan'.
+Semantic error on line 58: Invalid right operand for operator 'acos'.
+Semantic error on line 59: Invalid right operand for operator 'asin'.
+Semantic error on line 60: Invalid right operand for operator 'atan'.
+Semantic error on line 61: Invalid right operand for operator 'sqrt'.
+Semantic error on line 62: Invalid right operand for operator 'abs'.
+Semantic error on line 63: Invalid right operand for operator 'floor'.
+Semantic error on line 64: Invalid right operand for operator 'random'.

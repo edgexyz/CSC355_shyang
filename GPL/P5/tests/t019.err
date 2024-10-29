@@ -1,0 +1,3 @@
+Semantic error on line 9: Illegal argument to random()<-42>.  Must be >= 1.
+Semantic error on line 10: Illegal argument to random()<-12.345000>.  Must be >= 1.
+Semantic error on line 11: Illegal argument to random()<0.345000>.  Must be >= 1.

@@ -1,0 +1,29 @@
+// use M_PI from /usr/include/limits.h
+// DO NOT CREATE YOUR OWN VALUE FOR PI
+
+double a = sin(42.0);
+double b = cos(42.0);
+double c = tan(42.0);
+
+double d = asin(a);
+double e = acos(b);
+double f = atan(c);
+
+double g = asin(.5);
+double h = acos(.5);
+double i = atan(.5);
+
+double j = sin(g);
+double k = cos(h);
+double l = tan(i);
+
+double m = sqrt(144.0);
+double n = abs(-42.0);
+double o = abs(-42);
+double p = abs(42);
+
+double q = floor(42.42);
+double s = floor(42);
+double t = floor(.42);
+
+

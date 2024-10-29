@@ -1,0 +1,19 @@
+
+int b = 0;
+
+int c = !b;
+int d = -c;
+
+int e = -b;
+int f = !b;
+
+int g = !-b;
+int h = -!b;
+
+int i = !(-b);
+int j = -(!b);
+
+// ! should have a higher precedence than * resulting in 2
+// If the precedences are reverse the result would be 0
+int k = !b + 1;
+

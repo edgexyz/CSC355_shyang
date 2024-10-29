@@ -1,0 +1,11 @@
+// random accepts INT and DOUBLE >= 1.0
+// double values are rounded down
+// The INVALID_ARGUMENT_FOR_RANDOM error is issued if argument < 1.0
+//
+// All three of these contain invalid arguments.  Should get three errors.
+//
+// Starting in p7, when the argument to random is < 1.0, an error is 
+// issued and the program continues to execute using 2 as the argument.
+int i = random(-42);
+int j = random(-12.345);
+int k = random(0.345);

@@ -1,0 +1,31 @@
+gpl.cpp::main()
+  input file(tests/t716.gpl)
+  random seed(42)
+  read_keypresses_from_standard_input(false)
+  dump_pixels(false)
+  symbol_table(true)
+  graphics(false)
+
+gpl.cpp::main() Calling yyparse()
+
+
+gpl.cpp::main() after call to yyparse().
+
+No errors found (parser probably worked correctly).
+
+
+Printing the symbol table from main()
+double a_cos0 = 1
+double b_cos45 = 0.707107
+double c_cos135 = -0.707107
+double d_cos180 = -1
+double e_sin0 = 0
+double f_sin45 = 0.707107
+double g_sin90 = 1
+double h_sin135 = 0.707107
+double i_tan0 = 0
+double j_tan45 = 1
+double k_tan135 = -1
+Graphics is turned off by the Makefile.  Program exiting.
+
+gpl.cpp::main() done.
