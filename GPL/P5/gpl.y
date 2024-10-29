@@ -196,8 +196,7 @@ variable_declaration:
             Error::error(Error::PREVIOUSLY_DECLARED_VARIABLE, *$2);
         }
     }
-    // | simple_type  T_ID  T_LBRACKET expression T_RBRACKET
-    | simple_type  T_ID  T_LBRACKET T_INT_CONSTANT T_RBRACKET
+    | simple_type  T_ID  T_LBRACKET expression T_RBRACKET
     {
         Symbol_table *symbol_table = Symbol_table::instance();
 

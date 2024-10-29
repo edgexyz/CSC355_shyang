@@ -30,6 +30,9 @@
 
 #include "gpl_type.h"
 
+class Expression;
+class Variable;
+
 // put new included ABOVE this line
 #include "y.tab.h"
 
