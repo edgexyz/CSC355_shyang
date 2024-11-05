@@ -1,0 +1,45 @@
+Test Input 1: i + i * i $
+Parsing successful!
+------------------------
+Test Input 2: i * i + i $
+Parsing successful!
+------------------------
+Test Input 3: ( i + i ) * i $
+Parsing successful!
+------------------------
+Test Input 4: i + ( i * i ) $
+Parsing successful!
+------------------------
+Test Input 5: ( ( i + i ) * i ) $
+Parsing successful!
+------------------------
+Test Input 6: i $
+Parsing successful!
+------------------------
+Test Input 7: ( i ) $
+Parsing successful!
+------------------------
+Test Input 8: i * + i $
+Parsing error!
+------------------------
+Test Input 9: i + * i $
+Parsing error!
+------------------------
+Test Input 10: ( i + i $
+Parsing error!
+------------------------
+Test Input 11: i + ( i * $
+Parsing error!
+------------------------
+Test Input 12: i * ( + i ) $
+Parsing error!
+------------------------
+Test Input 13: + i $
+Parsing error!
+------------------------
+Test Input 14: ( ) $
+Parsing error!
+------------------------
+Test Input 15: i + $
+Parsing error!
+------------------------
