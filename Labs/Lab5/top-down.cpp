@@ -114,9 +114,37 @@ string table(const string &X, const string &a) {
  * @return True if the input is successfully parsed according to the grammar, false otherwise.
  */
 bool interpret(const vector<string>& input) {
-    
-    // COMPLETE ME
+    while(!parseStack.empty()) {
+        pop();
+    }
 
+    push("$");
+    push("E");
+
+    for (const auto& token: input) {
+        while (!isTerminal(top())) {
+            string X = top();
+            pop();
+
+            string prod = table(X, token);
+
+            if (prod == "error") {
+                return false;
+            }
+
+            for (int i=prod.length()-1; i>=0; i--) {
+                push(prod.substr(i, 1));
+            }
+        }
+
+        if (token != top()) {
+            return false;
+        }
+
+        pop();
+    }
+
+    return true;
 }
 
 int main() {
