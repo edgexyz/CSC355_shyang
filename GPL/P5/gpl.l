@@ -84,7 +84,7 @@ int j;
 DIGIT             [0-9]
 INT_CONSTANT      ({DIGIT}|[1-9]{DIGIT}+)
 DOUBLE_CONSTANT   {DIGIT}+[.]{DIGIT}*|{DIGIT}*[.]{DIGIT}+
-STRING_CONSTANT   \"[^"\n]+\"
+STRING_CONSTANT   \"[^"\n]*\"
 ID                [A-Za-z_][A-Za-z_0-9]*
 
 %%

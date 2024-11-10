@@ -9,12 +9,16 @@ using namespace std;
 
 Variable::Variable(Symbol *symbol)
 {
-    // COMPLETE ME
+  m_symbol = symbol;
+  m_type = symbol->get_type();
 }
 
 Variable::Variable(Symbol *symbol, Expression *expression)
 {
-    // COMPLETE ME
+  m_symbol = symbol;
+  m_expression = expression;
+  // m_type = symbol->get_type();
+  m_type = symbol->get_base_type();
 }
 
 string Variable::get_name() const
@@ -30,32 +34,131 @@ string Variable::get_name() const
 
 int Variable::get_int_value() const
 {
-    // COMPLETE ME
+  if (m_expression)
+  {
+    int index = m_expression->eval_int();
+
+    if (index >= 0 && index < m_symbol->size())
+    {
+      return m_symbol->get_int_value(index);
+    }
+    else
+    {
+      Error::error(Error::ARRAY_INDEX_OUT_OF_BOUNDS, m_symbol->get_name(), to_string(index));
+      return m_symbol->get_int_value(0);
+    }
+  }
+  else
+  {
+    return m_symbol->get_int_value();
+  }
 }
 
 double Variable::get_double_value() const
 {
-    // COMPLETE ME
+  if (m_expression)
+  {
+    int index = m_expression->eval_int();
+
+    if (index >= 0 && index < m_symbol->size())
+    {
+      return m_symbol->get_double_value(index);
+    }
+    else
+    {
+      Error::error(Error::ARRAY_INDEX_OUT_OF_BOUNDS, m_symbol->get_name(), to_string(index));
+      return m_symbol->get_double_value(0);
+    }
+  }
+  else
+  {
+    return m_symbol->get_double_value();
+  }
 }
 
 string Variable::get_string_value() const
 {
-    // COMPLETE ME
+  if (m_expression)
+  {
+    int index = m_expression->eval_int();
+
+    if (index >= 0 && index < m_symbol->size())
+    {
+      return m_symbol->get_string_value(index);
+    }
+    else
+    {
+      Error::error(Error::ARRAY_INDEX_OUT_OF_BOUNDS, m_symbol->get_name(), to_string(index));
+      return m_symbol->get_string_value(0);
+    }
+  }
+  else
+  {
+    return m_symbol->get_string_value();
+  }
 }
 
 void Variable::set(int value)
 {
-    // COMPLETE ME
+  if (m_expression)
+  {
+    int index = m_expression->eval_int();
+
+    if (index >= 0 && index < m_symbol->size())
+    {
+      m_symbol->set(value, index);
+    }
+    else
+    {
+      Error::error(Error::ARRAY_INDEX_OUT_OF_BOUNDS, m_symbol->get_name(), to_string(index));
+    }
+  }
+  else
+  {
+    m_symbol->set(value);
+  }
 }
 
 void Variable::set(double value)
 {
-    // COMPLETE ME
+  if (m_expression)
+  {
+    int index = m_expression->eval_int();
+
+    if (index >= 0 && index < m_symbol->size())
+    {
+      m_symbol->set(value, index);
+    }
+    else
+    {
+      Error::error(Error::ARRAY_INDEX_OUT_OF_BOUNDS, m_symbol->get_name(), to_string(index));
+    }
+  }
+  else
+  {
+    m_symbol->set(value);
+  }
 }
 
 void Variable::set(string value)
 {
-    // COMPLETE ME
+  if (m_expression)
+  {
+    int index = m_expression->eval_int();
+
+    if (index >= 0 && index < m_symbol->size())
+    {
+      m_symbol->set(value, index);
+    }
+    else
+    {
+      Error::error(Error::ARRAY_INDEX_OUT_OF_BOUNDS, m_symbol->get_name(), to_string(index));
+    }
+  }
+  else
+  {
+    m_symbol->set(value);
+  }
 }
 
 // Evaluate expression if there is one, return index if index is out of bounds, 

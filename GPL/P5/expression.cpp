@@ -10,21 +10,25 @@ using namespace std;
 
 Expression::Expression(int value)
 {
-    // COMPLETE ME
+  m_type = INT;
+  m_constant = new Constant(value);
 }
 Expression::Expression(double value)
 {
-    // COMPLETE ME
+  m_type = DOUBLE;
+  m_constant = new Constant(value);
 }
 
 Expression::Expression(string *value)
 {
-    // COMPLETE ME
+  m_type = STRING;
+  m_constant = new Constant(*value);
 }
 
 Expression::Expression(Variable *variable)
 {
-    // COMPLETE ME
+  m_type = variable->get_type();
+  m_variable = variable;
 }
 
 Expression::Expression(Operator_type op,
@@ -32,12 +36,34 @@ Expression::Expression(Operator_type op,
                        Expression *rhs
                        )
 {
-    // COMPLETE ME
+  m_op = op;
+  m_lhs = lhs;
+  m_rhs = rhs;
+
+  if (op == AND || op == OR || op == EQUAL || op == NOT_EQUAL || 
+      op == LESS_THAN || op == GREATER_THAN || op == LESS_EQUAL || 
+      op == GREATER_EQUAL || op == NEAR || op == TOUCHES)
+    m_type = INT;
+  else if (lhs->get_type() == STRING || rhs->get_type() == STRING)
+    m_type = STRING;
+  else if (lhs->get_type() == DOUBLE || rhs->get_type() == DOUBLE)
+    m_type = DOUBLE;
+  else if (lhs->get_type() == INT && rhs->get_type() == INT)
+    m_type = INT;
+  else assert(false && "undefined operation");
 }
 
 Expression::Expression(Operator_type op, Expression *operand)
 {
-    // COMPLETE ME
+  m_op = op;
+  m_lhs = operand;
+
+  if (op == FLOOR || op == RANDOM || op == NOT)
+    m_type = INT;
+  else if (op == SIN || op == COS || op == TAN || op == SQRT ||
+           op == ASIN || op == ACOS || op == ATAN)
+    m_type = DOUBLE;
+  else m_type = operand->get_type();
 }
 
 

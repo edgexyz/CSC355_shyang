@@ -44,7 +44,7 @@ Symbol::Symbol(string name, Gpl_type type, int size)
     {
       int *arr = new int[size];
       for (int i=0; i<size; i++) {
-        arr[i] = 42;
+        arr[i] = 0;
       }
       m_data_void_ptr = (void *)arr;
       break;
@@ -54,7 +54,7 @@ Symbol::Symbol(string name, Gpl_type type, int size)
     {
       double *arr = new double[size];
       for (int i=0; i<size; i++) {
-        arr[i] = 3.14159;
+        arr[i] = 0.0;
       }
       m_data_void_ptr = (void *)arr;
       break;
@@ -64,7 +64,7 @@ Symbol::Symbol(string name, Gpl_type type, int size)
     {
       string *arr = new string[size];
       for (int i=0; i<size; i++) {
-        arr[i] = "Hello world";
+        arr[i] = "";
       }
       m_data_void_ptr = (void *)arr;
       break;
@@ -140,6 +140,33 @@ string Symbol::get_string_value(int index /* = UNDEFINED_INDEX */) const
     return ((string *) m_data_void_ptr)[index];
   else
     return *((string *) m_data_void_ptr);
+}
+
+void Symbol::set(int value, int index /* = UNDEFINED_INDEX */)
+{
+  validate_type_and_index(INT, index);
+  if (is_array())
+    ((int *)m_data_void_ptr)[index] = value;
+  else
+    *(int *)m_data_void_ptr = value;
+}
+
+void Symbol::set(double value, int index /* = UNDEFINED_INDEX */)
+{
+  validate_type_and_index(DOUBLE, index);
+  if (is_array())
+    ((double *)m_data_void_ptr)[index] = value;
+  else
+    *(double *)m_data_void_ptr = value;
+}
+
+void Symbol::set(string value, int index /* = UNDEFINED_INDEX */)
+{
+  validate_type_and_index(STRING, index);
+  if (is_array())
+    ((string *)m_data_void_ptr)[index] = value;
+  else
+    *(string *)m_data_void_ptr = value;
 }
 
 void Symbol::print(ostream &os) const

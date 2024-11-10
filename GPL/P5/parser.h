@@ -27,6 +27,10 @@
 //   of "string"
 
 #include <string>
+#include "symbol.h"
+#include "symbol_table.h"
+#include "variable.h"
+#include "expression.h"
 
 #include "gpl_type.h"
 

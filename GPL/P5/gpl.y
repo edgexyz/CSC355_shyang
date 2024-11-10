@@ -7,8 +7,7 @@
 #include "error.h"
 #include "gpl_assert.h"
 #include "gpl_type.h"
-#include "symbol.h"
-#include "symbol_table.h"
+#include "parser.h"
 #include <iostream>
 #include <sstream>
 #include <cmath> // for floor()
@@ -21,6 +20,33 @@ extern int line_count;  // from gpl.l, used for statement blocks
 
 int undeclared = 0;
 
+Symbol* empty_symbol = new Symbol("__empty", 0);
+Variable* empty_variable = new Variable(empty_symbol);
+
+Expression* semantic_check(Operator_type op, Expression *lhs, Expression *rhs, int valid)
+{
+    bool invalid = false;
+
+    if (!(lhs->get_type() & valid))
+    {
+        if (rhs == NULL)
+            Error::error(Error::INVALID_RIGHT_OPERAND_TYPE, operator_to_string(op));
+        else
+            Error::error(Error::INVALID_LEFT_OPERAND_TYPE, operator_to_string(op));
+        
+        invalid = true;
+    }
+
+    if (rhs != NULL && !(rhs->get_type() & valid))
+    {
+        Error::error(Error::INVALID_RIGHT_OPERAND_TYPE, operator_to_string(op));
+        invalid = true;
+    }
+
+    if (invalid) return new Expression(0);
+
+    return rhs != NULL ? new Expression(op, lhs, rhs) : new Expression(op, lhs);
+}
 %}
 
 %union {
@@ -28,6 +54,9 @@ int undeclared = 0;
   double           union_double;
   std::string      *union_string;  // MUST be a pointer to a string ARG!
   Gpl_type         union_gpl_type;
+  Operator_type    union_operator;
+  Expression       *union_expression;
+  Variable         *union_variable;
 }
 
 %error-verbose
@@ -136,6 +165,12 @@ int undeclared = 0;
 
 %type <union_gpl_type> simple_type
 %type <union_gpl_type> object_type
+%type <union_operator> math_operator
+%type <union_expression> optional_initializer
+%type <union_expression> expression
+%type <union_expression> primary_expression
+%type <union_variable> variable
+
 
 %nonassoc IF_NO_ELSE
 %nonassoc T_ELSE
@@ -180,15 +215,50 @@ variable_declaration:
         switch ($1)
         {
             case INT:
-                s = new Symbol(*$2, 42);
+            {
+                int initial_value = 0;
+
+                if ($3 != NULL)
+                {
+                    if ($3->get_type() != INT)
+                        Error::error(Error::INVALID_TYPE_FOR_INITIAL_VALUE, gpl_type_to_string($3->get_type()), *$2, gpl_type_to_string($1));
+                    else initial_value = $3->eval_int();
+                }
+
+                s = new Symbol(*$2, initial_value);
                 break;
+            }
                 
             case DOUBLE:
-                s = new Symbol(*$2, 3.14159);
+            {
+                double initial_value = 0.0;
+
+                if ($3 != NULL)
+                {
+                    if ($3->get_type() != DOUBLE && $3->get_type() != INT)
+                        Error::error(Error::INVALID_TYPE_FOR_INITIAL_VALUE, gpl_type_to_string($3->get_type()), *$2, gpl_type_to_string($1));
+                    else initial_value = $3->eval_double();
+                }
+
+                s = new Symbol(*$2, initial_value);
                 break;
+            }
                 
             case STRING:
-                s = new Symbol(*$2, "Hello world");
+            {
+                string initial_value = "";
+
+                if ($3 != NULL)
+                {
+                    // if ($3->get_type() != STRING)
+                        // Error::error(Error::INVALID_TYPE_FOR_INITIAL_VALUE, gpl_type_to_string($3->get_type()), *$2, gpl_type_to_string($1));
+                    // else initial_value = $3->eval_string();
+                    initial_value = $3->eval_string();
+                }
+
+                s = new Symbol(*$2, initial_value);
+                break;
+            }
         }
 
         if (!symbol_table->insert(s))
@@ -199,18 +269,30 @@ variable_declaration:
     | simple_type  T_ID  T_LBRACKET expression T_RBRACKET
     {
         Symbol_table *symbol_table = Symbol_table::instance();
+        int size = 1;
 
-        if ($4 > 0)
+        if ($4->get_type() != INT)
         {
-            Symbol* s = new Symbol(*$2, (Gpl_type)$1, $4);
-            if (!symbol_table->insert(s))
-            {
-                Error::error(Error::PREVIOUSLY_DECLARED_VARIABLE, *$2);
-            }
+            Error::error(Error::ARRAY_SIZE_MUST_BE_AN_INTEGER, gpl_type_to_string($4->get_type()), *$2);
         }
         else
         {
-            Error::error(Error::INVALID_ARRAY_SIZE, *$2, std::to_string($4));
+            int evaluated = $4->eval_int();
+
+            if (evaluated > 0)
+            {
+                size = evaluated;
+            }
+            else
+            {
+                Error::error(Error::INVALID_ARRAY_SIZE, *$2, to_string(evaluated));
+            }
+        }
+
+        Symbol* s = new Symbol(*$2, (Gpl_type)$1, size);
+        if (!symbol_table->insert(s))
+        {
+            Error::error(Error::PREVIOUSLY_DECLARED_VARIABLE, *$2);
         }
     }
     ;
@@ -234,7 +316,13 @@ simple_type:
 //---------------------------------------------------------------------
 optional_initializer:
     T_ASSIGN expression
+    {
+        $$ = $2;
+    }
     | empty
+    {
+        $$ = NULL;
+    }
     ;
 
 //---------------------------------------------------------------------
@@ -439,7 +527,68 @@ assign_statement:
 //---------------------------------------------------------------------
 variable:
     T_ID
+    {
+        Symbol_table *symbol_table = Symbol_table::instance();
+        Symbol* s = symbol_table->lookup(*$1);
+
+        if (s != NULL)
+        {
+            if (s->is_array())
+            {
+                Error::error(Error::VARIABLE_IS_AN_ARRAY, *$1);
+                $$ = empty_variable;
+            }
+            else
+            {
+                $$ = new Variable(s);
+            }
+        }
+        else
+        {
+            Error::error(Error::UNDECLARED_VARIABLE, *$1);
+            $$ = empty_variable;
+        }
+    }
     | T_ID T_LBRACKET expression T_RBRACKET
+    {
+        Symbol_table *symbol_table = Symbol_table::instance();
+        Symbol* s = symbol_table->lookup(*$1);
+
+        if (s != NULL)
+        {
+            if ($3->get_type() != INT)
+            {
+                string msg = "";
+
+                switch ($3->get_type())
+                {
+                    case DOUBLE: msg = "A double expression"; break;
+                    case STRING: msg = "A string expression"; break;
+                    case ANIMATION_BLOCK: msg = "A animation_block expression"; break;
+                }
+
+                Error::error(Error::ARRAY_INDEX_MUST_BE_AN_INTEGER, *$1, msg);
+                $$ = empty_variable;
+            }
+            else
+            {
+                if (s->is_array())
+                {
+                    $$ = new Variable(s, $3);
+                }
+                else
+                {
+                    Error::error(Error::VARIABLE_NOT_AN_ARRAY, *$1);
+                    $$ = empty_variable;
+                }
+            }
+        }
+        else
+        {
+            Error::error(Error::UNDECLARED_VARIABLE, *$1+"[]");
+            $$ = empty_variable;
+        }
+    }
     | T_ID T_PERIOD T_ID
     | T_ID T_LBRACKET expression T_RBRACKET T_PERIOD T_ID
     ;
@@ -447,22 +596,73 @@ variable:
 //---------------------------------------------------------------------
 expression:
     primary_expression
+    {
+        $$ = $1;
+    }
     | expression T_OR expression
+    {
+        $$ = semantic_check(OR, $1, $3, INT|DOUBLE);
+    }
     | expression T_AND expression
+    {
+        $$ = semantic_check(AND, $1, $3, INT|DOUBLE);
+    }
     | expression T_LESS_EQUAL expression
+    {
+        $$ = semantic_check(LESS_EQUAL, $1, $3, INT|DOUBLE|STRING);
+    }
     | expression T_GREATER_EQUAL  expression
+    {
+        $$ = semantic_check(GREATER_EQUAL, $1, $3, INT|DOUBLE|STRING);
+    }
     | expression T_LESS expression
+    {
+        $$ = semantic_check(LESS_THAN, $1, $3, INT|DOUBLE|STRING);
+    }
     | expression T_GREATER  expression
+    {
+        $$ = semantic_check(GREATER_THAN, $1, $3, INT|DOUBLE|STRING);
+    }
     | expression T_EQUAL expression
+    {
+        $$ = semantic_check(EQUAL, $1, $3, INT|DOUBLE|STRING);
+    }
     | expression T_NOT_EQUAL expression
+    {
+        $$ = semantic_check(NOT_EQUAL, $1, $3, INT|DOUBLE|STRING);
+    }
     | expression T_PLUS expression
+    {
+        $$ = semantic_check(PLUS, $1, $3, INT|DOUBLE|STRING);
+    }
     | expression T_MINUS expression
+    {
+        $$ = semantic_check(MINUS, $1, $3, INT|DOUBLE);
+    }
     | expression T_MULTIPLY expression
+    {
+        $$ = semantic_check(MULTIPLY, $1, $3, INT|DOUBLE);
+    }
     | expression T_DIVIDE expression
+    {
+        $$ = semantic_check(DIVIDE, $1, $3, INT|DOUBLE);
+    }
     | expression T_MOD expression
+    {
+        $$ = semantic_check(MOD, $1, $3, INT);
+    }
     | T_MINUS  expression %prec UNARY_OPS
+    {
+        $$ = semantic_check(UNARY_MINUS, $2, NULL, INT|DOUBLE);
+    }
     | T_NOT  expression %prec UNARY_OPS
+    {
+        $$ = semantic_check(NOT, $2, NULL, INT|DOUBLE);
+    }
     | math_operator T_LPAREN expression T_RPAREN
+    {
+        $$ = semantic_check($1, $3, NULL, INT|DOUBLE);
+    }
     | expression T_NEAR expression
     | expression T_TOUCHES expression
     ;
@@ -470,26 +670,77 @@ expression:
 //---------------------------------------------------------------------
 primary_expression:
     T_LPAREN  expression T_RPAREN
+    {
+        $$ = $2;
+    }
     | variable
+    {
+        $$ = new Expression($1);
+    }
     | T_INT_CONSTANT
+    {
+        $$ = new Expression($1);
+    }
     | T_TRUE
+    {
+        $$ = new Expression(1);
+    }
     | T_FALSE
+    {
+        $$ = new Expression(0);
+    }
     | T_DOUBLE_CONSTANT
+    {
+        $$ = new Expression($1);
+    }
     | T_STRING_CONSTANT
+    {
+        $$ = new Expression($1);
+    }
     ;
 
 //---------------------------------------------------------------------
 math_operator:
     T_SIN
+    {
+        $$ = SIN;
+    }
     | T_COS
+    {
+        $$ = COS;
+    }
     | T_TAN
+    {
+        $$ = TAN;
+    }
     | T_ASIN
+    {
+        $$ = ASIN;
+    }
     | T_ACOS
+    {
+        $$ = ACOS;
+    }
     | T_ATAN
+    {
+        $$ = ATAN;
+    }
     | T_SQRT
+    {
+        $$ = SQRT;
+    }
     | T_ABS
+    {
+        $$ = ABS;
+    }
     | T_FLOOR
+    {
+        $$ = FLOOR;
+    }
     | T_RANDOM
+    {
+        $$ = RANDOM;
+    }
     ;
 
 //---------------------------------------------------------------------
