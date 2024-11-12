@@ -27,12 +27,15 @@
 //   of "string"
 
 #include <string>
+#include "gpl_type.h"
+
 #include "symbol.h"
 #include "symbol_table.h"
 #include "variable.h"
 #include "expression.h"
 
-#include "gpl_type.h"
+#include "event_manager.h"
+#include "game_object.h"
 
 class Expression;
 class Variable;
