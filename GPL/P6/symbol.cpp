@@ -1,5 +1,11 @@
 #include "symbol.h"
-#include "gpl_assert.h"
+#include "game_object.h"
+#include "triangle.h"
+#include "pixmap.h"
+#include "circle.h"
+#include "rectangle.h"
+#include "textbox.h"
+#include "animation_block.h"
 
 #include <string>
 
@@ -9,8 +15,8 @@ Symbol::Symbol(string name, int initial_value)
 {
   m_name = name;
   m_type = INT;
-  m_data_void_ptr = (void *) new int(initial_value);
   m_size = UNDEFINED_SIZE;
+  m_data_void_ptr = (void *) new int(initial_value);
   validate();
 }
 
@@ -18,8 +24,8 @@ Symbol::Symbol(string name, double initial_value)
 {
   m_name = name;
   m_type = DOUBLE;
-  m_data_void_ptr = (void *) new double(initial_value);
   m_size = UNDEFINED_SIZE;
+  m_data_void_ptr = (void *) new double(initial_value);
   validate();
 }
 
@@ -27,11 +33,35 @@ Symbol::Symbol(string name, string initial_value)
 {
   m_name = name;
   m_type = STRING;
-  m_data_void_ptr = (void *) new string(initial_value);
   m_size = UNDEFINED_SIZE;
+  m_data_void_ptr = (void *) new string(initial_value);
   validate();
 }
 
+Symbol::Symbol(string name, Gpl_type type)
+{
+  assert(type == CIRCLE ||
+         type == RECTANGLE ||
+         type == TRIANGLE ||
+         type == TEXTBOX ||
+         type == PIXMAP ||
+         type == ANIMATION_BLOCK
+        );
+  
+  m_name = name;
+  m_type = type;
+  m_size = UNDEFINED_SIZE;
+
+  switch (type)
+  {
+    case CIRCLE: m_data_void_ptr = (void *) new Circle(); break;
+    case RECTANGLE: m_data_void_ptr = (void *) new Rectangle(); break;
+    case TRIANGLE: m_data_void_ptr = (void *) new Triangle(); break;
+    case PIXMAP: m_data_void_ptr = (void *) new Pixmap(); break;
+    case ANIMATION_BLOCK: m_data_void_ptr = (void *) new Animation_block(); break;
+    default: assert(0);
+  }
+}
 
 Symbol::Symbol(string name, Gpl_type type, int size)
 {
@@ -118,6 +148,7 @@ void Symbol::validate_type_and_index(Gpl_type type, int index) const
 int Symbol::get_int_value(int index /* = UNDEFINED_INDEX */) const
 {
   validate_type_and_index(INT, index);
+
   if (is_array())
     return ((int *) m_data_void_ptr)[index];
   else
@@ -127,6 +158,7 @@ int Symbol::get_int_value(int index /* = UNDEFINED_INDEX */) const
 double Symbol::get_double_value(int index /* = UNDEFINED_INDEX */) const
 {
   validate_type_and_index(DOUBLE, index);
+
   if (is_array())
     return ((double *) m_data_void_ptr)[index];
   else
@@ -136,10 +168,37 @@ double Symbol::get_double_value(int index /* = UNDEFINED_INDEX */) const
 string Symbol::get_string_value(int index /* = UNDEFINED_INDEX */) const
 {
   validate_type_and_index(STRING, index);
+
   if (is_array())
     return ((string *) m_data_void_ptr)[index];
   else
     return *((string *) m_data_void_ptr);
+}
+
+Game_object* Symbol::get_game_object_value(int index /* = UNDEFINED_INDEX */) const
+{
+  validate_type_and_index(GAME_OBJECT, index);
+
+  if (is_array())
+  {
+    switch (m_type)
+    {
+      case CIRCLE_ARRAY: return (Circle *) m_data_void_ptr + index; break;
+      case RECTANGLE_ARRAY: return (Rectangle *) m_data_void_ptr + index; break;
+      case TRIANGLE_ARRAY: return (Triangle *) m_data_void_ptr + index; break;
+      case TEXTBOX_ARRAY: return (Textbox *) m_data_void_ptr + index; break;
+      case PIXMAP_ARRAY: return (Pixmap *) m_data_void_ptr + index; break;
+      default:
+      {
+        assert(false && "given type is not handled by switch");
+        return NULL;
+      }
+    }
+  }
+  else
+  {
+    return (Game_object *) m_data_void_ptr;
+  }
 }
 
 void Symbol::set(int value, int index /* = UNDEFINED_INDEX */)

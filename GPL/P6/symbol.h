@@ -21,6 +21,7 @@ class Symbol
     Symbol(std::string name, int initial_value);
     Symbol(std::string name, double initial_value);
     Symbol(std::string name, std::string initial_value);
+    Symbol(std::string name, Gpl_type type);
   
     // array: int, double, string, circle, rectangle, triangle, textbox, pixmap
     Symbol(std::string name, Gpl_type type, int size);
@@ -52,6 +53,7 @@ class Symbol
     int get_int_value(int index = UNDEFINED_INDEX) const;
     double get_double_value(int index = UNDEFINED_INDEX) const;
     std::string get_string_value(int index = UNDEFINED_INDEX) const;
+    Game_object* get_game_object_value(int index = UNDEFINED_INDEX) const;
 
     void set(int value, int index = UNDEFINED_INDEX);
     void set(double value, int index = UNDEFINED_INDEX);
