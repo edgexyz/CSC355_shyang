@@ -7,7 +7,10 @@
 #include "error.h"
 #include "gpl_assert.h"
 #include "gpl_type.h"
-#include "parser.h"
+#include "symbol.h"
+#include "symbol_table.h"
+#include "variable.h"
+#include "expression.h"
 #include <iostream>
 #include <sstream>
 #include <cmath> // for floor()
