@@ -1,0 +1,23 @@
+// should issue many "previously declared" errors
+
+
+int a;
+double a;
+string a;
+
+int b[10];
+double b[10];
+string b[10];
+
+string c[10];
+int c;
+double c;
+
+string d;
+int d;
+double d[10];
+
+double f;
+int f[100];
+string f;
+

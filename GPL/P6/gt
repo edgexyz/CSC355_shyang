@@ -1,0 +1,175 @@
+#!/usr/bin/env bash
+
+# gpl project testing script
+#
+# This bash script should work for testing p3, p4, p5, p6, p7
+#
+# It is assumed that the current directory (the one in which this script
+# is executed) contains the gpl executable.
+#
+# test_dir indicates the directory where the tests (e.g. t001.gpl, 
+# t001.out, t002.err, etc) live.
+test_dir=tests
+
+
+# result_dir is the name of the directory where the results will be put
+result_dir=results
+
+if ! [ -f ./gpl ] ; then
+  echo "There is no gpl executable in this directory. gt is giving up."
+  exit
+fi
+
+if ! [ -d $test_dir ] ; then
+  echo "There is not a test subdirectory in this directory. gt is giving up."
+  exit
+fi
+
+# count the number of tests that are passed, failed, or passed during a
+# previous execution of this script (when a test is passed, a file is 
+# created in the results directory (for example: results/t001.passed) 
+passed=0
+failed=0
+previously_passed=0
+
+
+# all the tests/t*.gpl files
+all_test_files=$test_dir/t[0-9][0-9][0-9].gpl
+
+# if -all is specified on the command line, remove the results
+# directory so that all the .passed files are deleted and all the
+# tests are run
+# 
+# if a single number (42) is specified, tests/t042.gpl is run
+#  0's are added to pad 1 --> 001 and 10 --> 010
+if [[  $# -eq 1  && $1 == "-all" ]] ; then
+  rm -rf $result_dir
+elif [[  $# -eq 1 ]] ; then
+  if [[ $1 -lt 10 ]] ; then
+    test_number=00$1
+  elif [[ $1 -lt 100 ]] ; then
+    test_number=0$1
+  else
+    test_number=$1
+  fi
+  all_test_files=$test_dir/t$test_number.gpl
+  rm -f results/t$test_number.passed
+
+  if ! [ -f $all_test_files ] ; then
+    echo "<$all_test_files> does not exist. Giving up."
+    exit
+  fi
+fi
+
+# NOTE: The random number generator is seeded to 42 so the random 
+# operator will always return the same value (helps when testing)
+
+# create the results directory if it does not exist 
+#  (mkdir does nothing if it already exists,  the error will be ignored)
+mkdir $result_dir 2>/dev/null
+
+# for all the files in the tests directory with the .gpl extension
+#for gpl_test_file in $test_dir/t[0-9][0-9][0-9].gpl ; do
+for gpl_test_file in $all_test_files ; do
+    test_name=${gpl_test_file%.gpl}
+    test_name=${test_name##*/}
+
+    # when the above glob does not match, test_name == "t[0-9][0-9][0-9]" (very annoying)
+    # use "t[0-9][0-9][0-9]" as an indication that the test directory is empty
+    if [ "$test_name" = "t[0-9][0-9][0-9]" ] ; then
+      echo "The test directory does not contain any tests. gt is giving up"
+      exit
+    fi
+    
+    # if we passed this test on a previous run, don't retest
+    if [ -f $result_dir/$test_name.passed ] ; then
+          (( previously_passed++ ))
+
+    # else we have not already passed this test
+    else
+      if [ -f $test_dir/$test_name.jpg ] ; then
+        # create an empty pixels file
+        echo "no pixel file created" > $result_dir/$test_name.mypixels
+        dump_pixel_flag="-dump_pixels $result_dir/$test_name.mypixels"
+      else
+        dump_pixel_flag=""
+      fi
+  
+      if [ -f $test_dir/$test_name.keypresses ] ; then
+          ./gpl -stdin -s 42 $dump_pixel_flag $gpl_test_file < $test_dir/$test_name.keypresses > $result_dir/$test_name.myout 2> $result_dir/$test_name.myerr
+      else 
+          ./gpl -s 42 $dump_pixel_flag $gpl_test_file > $result_dir/$test_name.myout 2> $result_dir/$test_name.myerr
+      fi
+  
+      # from time to time freeglut issues warnings that need to be removed
+      # in S15, there are no such warnings
+      # if they reappear, here is sample code for removing those errors
+      # (1) change the > ...myerr above to > ...myerr_raw
+      # (2) use sed to delete the warnings from the .myerr_raw file > .myerr
+      #sed '/freeglut.*/, /This may hurt.*/ d' < $result_dir/$test_name.myerr_raw | sed '/unknown.*/ d' > $result_dir/$test_name.myerr
+      #rm $result_dir/$test_name.myerr_raw
+  
+      if diff $result_dir/$test_name.myout $test_dir/$test_name.out >& /dev/null ; then
+        correct_stdout=true
+      else
+        correct_stdout=false;
+      fi
+
+      if diff $result_dir/$test_name.myerr $test_dir/$test_name.err >& /dev/null ; then
+        correct_stderr=true
+      else
+        correct_stderr=false
+      fi
+      if [ -f $test_dir/$test_name.jpg ]
+      then
+        if diff $result_dir/$test_name.mypixels $test_dir/$test_name.pixels >& /dev/null ; then
+          correct_pixels=true
+        elif [ -f $test_dir/$test_name.pixels_option1 ] && diff $result_dir/$test_name.mypixels $test_dir/$test_name.pixels_option1 >& /dev/null ; then
+          correct_pixels=true
+        elif [ -f $test_dir/$test_name.pixels_option2 ] && diff $result_dir/$test_name.mypixels $test_dir/$test_name.pixels_option2 >& /dev/null ; then
+          correct_pixels=true
+        else
+          correct_pixels=false
+        fi
+      else
+        # there is no .jpg file and thus no .pixels files
+        correct_pixels=true
+      fi
+
+      if $correct_stdout && $correct_stderr && $correct_pixels ; then
+          (( passed++ ))
+          echo "Passed $test_name"
+          touch $result_dir/$test_name.passed
+      else
+          if $correct_stdout ; then
+            out=""
+          else 
+            out="<stdout incorrect>"
+          fi
+          if $correct_stderr ; then
+            err=""
+          else 
+            err="<stderr incorrect>"
+          fi
+          if $correct_pixels ; then
+            pixels=""
+          else 
+            pixels="<pixels incorrect>"
+          fi
+          echo "Failed $test_name: $out $err $pixels"
+          (( failed++ ))
+      fi        
+    fi
+done
+
+
+total=$passed
+(( total += failed ))
+echo "Passed $passed out of $total tests."
+echo "Failed $failed out of $total tests."
+
+if [ "$previously_passed" -ne "0" ] ; then
+  echo "  $previously_passed tests were skipped (passed on previous run)"
+  echo "    \"\$ gt -all\" to run all tests (recommended before you turn in assignment)"
+  echo "    \"\$ gt 42\" to run test t042.gpl"
+fi

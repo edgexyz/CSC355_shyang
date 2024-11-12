@@ -1,0 +1,11 @@
+string window_title = "p6 t005.gpl -- compare to t005.jpg ***PRESS q TO QUIT***";
+
+triangle t[3];
+
+int sum = t[0].x + t[1].x + t[2].x;
+
+// should default to zero
+int index; 
+
+// should be same as above (0)
+int sum2 = t[index + 0].x + t[index + 1].x + t[index + 2].x;

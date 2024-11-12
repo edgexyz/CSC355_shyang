@@ -1,0 +1,4 @@
+Semantic error on line 1: The given expression is not a legal type for the size of array <r1>.  The size must be an integer.  Given expression is of type string.
+Semantic error on line 2: The given expression is not a legal type for the size of array <r2>.  The size must be an integer.  Given expression is of type double.
+Semantic error on line 3: The array 'r3' was declared with illegal size '-2'. Arrays sizes must be integers of 1 or larger.
+Semantic error on line 4: The array 'r4' was declared with illegal size '0'. Arrays sizes must be integers of 1 or larger.

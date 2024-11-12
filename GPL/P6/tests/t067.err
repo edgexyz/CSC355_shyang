@@ -1,0 +1,2 @@
+Semantic error on line 7: Variable 'a' previously declared.
+Semantic error on line 7: Game object 'rectangle' does not have a parameter called 'xyz'.

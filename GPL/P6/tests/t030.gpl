@@ -1,0 +1,4 @@
+rectangle r1["hello"];
+rectangle r2[2.2];
+rectangle r3[40 - 42];
+rectangle r4[0];

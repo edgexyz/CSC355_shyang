@@ -1,0 +1,7 @@
+int cur_rect;
+forward animation bounce(rectangle cur_rect);
+
+// repeat the above mistake to make sure you are not hard coding
+// "cur_rect" into your error message
+string my_circle;
+forward animation move(circle my_circle);

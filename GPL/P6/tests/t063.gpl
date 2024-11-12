@@ -1,0 +1,3 @@
+// should be a "previously declared" error
+circle bubbles(x = 42);
+circle bubbles[3];

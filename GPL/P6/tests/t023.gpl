@@ -1,0 +1,21 @@
+forward animation bounce(rectangle cur_rectangle);
+
+// in expression creation and evauation do not assume the only 
+// types are INT/DOUBLE/STRING
+
+int i1 = 4 + bounce;
+int i2 = 4 - bounce;
+int i3 = 4 * bounce;
+int i4 = 4 / bounce;
+int i5 = 4 < bounce;
+int i6 = 4 > bounce;
+int i7 = 4 <= bounce;
+int i8 = 4 >= bounce;
+int i9 = 4 == bounce;
+
+double x1 = 4.2 + bounce;
+double x2 = 4.2 - bounce;
+double x3 = 4.2 * bounce;
+double x4 = 4.2 / bounce;
+
+string s1 = 4.2 + bounce;

@@ -1,0 +1,4 @@
+// previously declared animation block
+forward animation bounce(rectangle cur_rect);
+forward animation bounce(rectangle cur_rect);
+

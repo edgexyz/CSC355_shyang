@@ -1,0 +1,8 @@
+// You must issue the error for "a" being previously decleared before you 
+// issue the error for rectangle not having an "xyz" field.
+// The trick is to check for "a" in the symbol table right after you create
+// the rectangle (you still have to create a rectangle, but it will not
+// end up in the symbol table).
+int a;
+rectangle a(xyz = "hello");
+

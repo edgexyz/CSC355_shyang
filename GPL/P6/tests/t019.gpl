@@ -1,0 +1,5 @@
+string window_title = "p6 t019.gpl -- compare to t019.jpg ***PRESS q TO QUIT***";
+circle circles[1];
+rectangle rectangles[2];
+triangle triangles[3];
+textbox textboxes[4];

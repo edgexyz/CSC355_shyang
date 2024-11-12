@@ -1,0 +1,2 @@
+string window_title = "p6 t002.gpl -- compare to t002.jpg ***PRESS q TO QUIT***";
+rectangle my_rectangle(x = 100, y = 100);

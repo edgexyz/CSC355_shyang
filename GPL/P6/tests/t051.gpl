@@ -1,0 +1,6 @@
+rectangle r1(x = 3.14159);
+
+rectangle r2(rotation = "hello");
+
+// this is NOT an error
+rectangle r3(user_string = 12, user_string2 = 1.111);

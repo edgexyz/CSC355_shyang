@@ -1,0 +1,6 @@
+string window_title = "p6 t007.gpl -- compare to t007.jpg ***PRESS q TO QUIT***";
+
+rectangle r1(x = 100, y = 100, w = 75, h = 100, red = 0.0, green = 1.0);
+circle c1(x = 200, y = 200, radius = 40);
+triangle t1(x = c1.x + 100, y = c1.y + 100, size = 70, blue = .75, user_string = "test t07");
+textbox tb1(x = 50, y = 300, text = t1.user_string);
