@@ -12,6 +12,8 @@ using namespace std;
 class Variable;
 class Constant;
 
+class Game_object;
+class Animation_block;
 
 class Expression
 {
@@ -36,6 +38,8 @@ class Expression
     int eval_int();
     double eval_double();
     string eval_string();
+    Game_object* eval_game_object();
+    Animation_block* eval_animation_block();
 
     bool eval_variable() {return m_variable;}
 

@@ -57,6 +57,7 @@ Symbol::Symbol(string name, Gpl_type type)
     case CIRCLE: m_data_void_ptr = (void *) new Circle(); break;
     case RECTANGLE: m_data_void_ptr = (void *) new Rectangle(); break;
     case TRIANGLE: m_data_void_ptr = (void *) new Triangle(); break;
+    case TEXTBOX: m_data_void_ptr = (void *) new Textbox(); break;
     case PIXMAP: m_data_void_ptr = (void *) new Pixmap(); break;
     case ANIMATION_BLOCK: m_data_void_ptr = (void *) new Animation_block(); break;
     default: assert(0);
@@ -96,6 +97,41 @@ Symbol::Symbol(string name, Gpl_type type, int size)
       for (int i=0; i<size; i++) {
         arr[i] = "";
       }
+      m_data_void_ptr = (void *)arr;
+      break;
+    }
+
+    case CIRCLE:
+    {
+      Circle *arr = new Circle[size];
+      m_data_void_ptr = (void *)arr;
+      break;
+    }
+
+    case RECTANGLE:
+    {
+      Rectangle *arr = new Rectangle[size];
+      m_data_void_ptr = (void *)arr;
+      break;
+    }
+
+    case TRIANGLE:
+    {
+      Triangle *arr = new Triangle[size];
+      m_data_void_ptr = (void *)arr;
+      break;
+    }
+
+    case TEXTBOX:
+    {
+      Textbox *arr = new Textbox[size];
+      m_data_void_ptr = (void *)arr;
+      break;
+    }
+
+    case PIXMAP:
+    {
+      Pixmap *arr = new Pixmap[size];
       m_data_void_ptr = (void *)arr;
       break;
     }
@@ -201,6 +237,16 @@ Game_object* Symbol::get_game_object_value(int index /* = UNDEFINED_INDEX */) co
   }
 }
 
+Animation_block *Symbol::get_animation_block_value() const
+{
+  validate_type_and_index(ANIMATION_BLOCK, UNDEFINED_INDEX);
+  
+  // arrays of Animation_blocks are not allowed
+  assert(!is_array());
+  // return &(*((Animation_block *) m_data_void_ptr));
+  return (Animation_block *) m_data_void_ptr;
+}
+
 void Symbol::set(int value, int index /* = UNDEFINED_INDEX */)
 {
   validate_type_and_index(INT, index);
@@ -233,14 +279,23 @@ void Symbol::print(ostream &os) const
   if (is_array())
   {
     for(int i=0; i<m_size; i++) {
-      os << gpl_type_to_base_string(m_type) << " " << m_name << "[" << i << "] = ";
+      string current_name = m_name + "[" + to_string(i) + "]";
 
-      switch (get_base_type())
+      if (m_type & GAME_OBJECT)
       {
-        case INT: os << get_int_value(i); break;
-        case DOUBLE: os << get_double_value(i); break;
-        case STRING: os << "\"" << get_string_value(i) << "\""; break;
-        default: os << m_data_void_ptr;
+        ((Game_object *)m_data_void_ptr)->print(current_name, os);
+      }
+      else
+      {
+        os << gpl_type_to_base_string(m_type) << " " << current_name << " = ";
+
+        switch (m_type)
+        {
+          case INT_ARRAY: os << get_int_value(i); break;
+          case DOUBLE_ARRAY: os << get_double_value(i); break;
+          case STRING_ARRAY: os << "\"" << get_string_value(i) << "\""; break;
+          default: os << m_data_void_ptr;
+        }
       }
 
       os << endl;
@@ -248,14 +303,25 @@ void Symbol::print(ostream &os) const
   }
   else
   {
-    os << gpl_type_to_base_string(m_type) << " " << m_name << " = ";
-
-    switch (m_type)
+    if (m_type & GAME_OBJECT)
     {
-      case INT: os << get_int_value(); break;
-      case DOUBLE: os << get_double_value(); break;
-      case STRING: os << "\"" << get_string_value() << "\""; break;
-      default: os << m_data_void_ptr;
+      ((Game_object *)m_data_void_ptr)->print(m_name, os);
+    }
+    else if (m_type == ANIMATION_BLOCK)
+    {
+      os << gpl_type_to_base_string(m_type) << " " << m_name;
+    }
+    else
+    {
+      os << gpl_type_to_base_string(m_type) << " " << m_name << " = ";
+
+      switch (m_type)
+      {
+        case INT: os << get_int_value(); break;
+        case DOUBLE: os << get_double_value(); break;
+        case STRING: os << "\"" << get_string_value() << "\""; break;
+        default: os << m_data_void_ptr;
+      }
     }
 
     os << endl;

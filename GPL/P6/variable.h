@@ -49,6 +49,10 @@ class Variable
     Variable(Symbol *symbol);
     // For arrays.
     Variable(Symbol *symbol, Expression *expression);
+    // For object member variables.
+    Variable(Symbol *symbol, std::string *field);
+    // For member variables of objects in array
+    Variable(Symbol *Symbol, Expression *expression, std::string *field);
 
     std::string get_name() const;
     bool is_array() const {return m_expression != NULL;}
@@ -59,13 +63,19 @@ class Variable
     int get_int_value() const;
     double get_double_value() const;
     std::string get_string_value() const;
+    Game_object* get_game_object_value() const;
+    Animation_block* get_animation_block_value() const;
 
     Gpl_type get_type() const {return m_type;}
+    Gpl_type get_base_game_object_type() const;
 
     bool is_int() const {return m_type & INT;} 
     bool is_double() const {return m_type & DOUBLE;}
     bool is_numeric() const {return m_type & INT || m_type & DOUBLE;}
     bool is_string() const {return m_type & STRING;}
+    bool is_game_object() const {return m_type & GAME_OBJECT;}
+    bool is_animation_block() const {return m_type == ANIMATION_BLOCK;}
+    bool is_non_member_animation_block() const;
     
     // Setter functions. The functions set the value, i.e., m_data_void_ptr,
     // of symbols. Note that m_data_void_ptr is a private member variable meaning that
@@ -93,6 +103,7 @@ class Variable
     // arra[k+2] : k+2 is an expression.
     // Non-array variable object's m_expressions remains NULL.
     Expression *m_expression = NULL;
+    std::string *m_field = NULL;
 };
 
 

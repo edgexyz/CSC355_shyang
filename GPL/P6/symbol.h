@@ -54,6 +54,7 @@ class Symbol
     double get_double_value(int index = UNDEFINED_INDEX) const;
     std::string get_string_value(int index = UNDEFINED_INDEX) const;
     Game_object* get_game_object_value(int index = UNDEFINED_INDEX) const;
+    Animation_block* get_animation_block_value() const;
 
     void set(int value, int index = UNDEFINED_INDEX);
     void set(double value, int index = UNDEFINED_INDEX);

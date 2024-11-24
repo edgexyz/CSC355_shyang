@@ -36,6 +36,11 @@ int undeclared = 0;
 Symbol* empty_symbol = new Symbol("__empty", 0);
 Variable* empty_variable = new Variable(empty_symbol);
 
+// Global variable to make the construction of object much less complex
+// Only one object can ever be under construction at one time
+Game_object *cur_object_under_construction = NULL;
+string cur_object_under_construction_name;
+
 Expression* semantic_check(Operator_type op, Expression *lhs, Expression *rhs, int valid)
 {
     bool invalid = false;
@@ -70,6 +75,7 @@ Expression* semantic_check(Operator_type op, Expression *lhs, Expression *rhs, i
   Operator_type    union_operator;
   Expression       *union_expression;
   Variable         *union_variable;
+  Symbol           *union_symbol;
 }
 
 %error-verbose
@@ -179,6 +185,7 @@ Expression* semantic_check(Operator_type op, Expression *lhs, Expression *rhs, i
 %type <union_gpl_type> simple_type
 %type <union_gpl_type> object_type
 %type <union_operator> math_operator
+%type <union_symbol> animation_parameter
 %type <union_expression> optional_initializer
 %type <union_expression> expression
 %type <union_expression> primary_expression
@@ -263,15 +270,15 @@ variable_declaration:
 
                 if ($3 != NULL)
                 {
-                    // if ($3->get_type() != STRING)
-                        // Error::error(Error::INVALID_TYPE_FOR_INITIAL_VALUE, gpl_type_to_string($3->get_type()), *$2, gpl_type_to_string($1));
-                    // else initial_value = $3->eval_string();
-                    initial_value = $3->eval_string();
+                    if ($3->get_type() != STRING && $3->get_type() != INT && $3->get_type() != DOUBLE)
+                        Error::error(Error::INVALID_TYPE_FOR_INITIAL_VALUE, gpl_type_to_string($3->get_type()), *$2, gpl_type_to_string($1));
+                    else initial_value = $3->eval_string();
                 }
 
                 s = new Symbol(*$2, initial_value);
                 break;
             }
+            default: Error::error(Error::UNDEFINED_ERROR); break;
         }
 
         if (!symbol_table->insert(s))
@@ -340,17 +347,81 @@ optional_initializer:
 
 //---------------------------------------------------------------------
 object_declaration:
-    object_type T_ID T_LPAREN parameter_list_or_empty T_RPAREN
+    object_type T_ID 
+    {
+        // create a new object and it's symbol
+        // (Symbol() creates the new object);
+        Symbol_table *symbol_table = Symbol_table::instance();
+        Symbol *s = new Symbol(*$2, $1);
+    
+        if (!symbol_table->insert(s))
+        {
+            Error::error(Error::PREVIOUSLY_DECLARED_VARIABLE, *$2);
+        }
+
+        // assign to global variable so the parameters can be inserted into
+        // this object when each parameter is parsed
+        cur_object_under_construction = s->get_game_object_value();
+        cur_object_under_construction_name = s->get_name();
+    } 
+    T_LPAREN parameter_list_or_empty T_RPAREN
+    {
+        cur_object_under_construction = NULL;
+        delete $2; // Scanner allocates memory for each T_ID string
+    }
     | object_type T_ID T_LBRACKET expression T_RBRACKET
+    {
+        Symbol_table *symbol_table = Symbol_table::instance();
+        int size = 1;
+
+        if ($4->get_type() != INT)
+        {
+            Error::error(Error::ARRAY_SIZE_MUST_BE_AN_INTEGER, gpl_type_to_string($4->get_type()), *$2);
+        }
+        else
+        {
+            int evaluated = $4->eval_int();
+
+            if (evaluated > 0)
+            {
+                size = evaluated;
+            }
+            else
+            {
+                Error::error(Error::INVALID_ARRAY_SIZE, *$2, to_string(evaluated));
+            }
+        }
+
+        Symbol* s = new Symbol(*$2, (Gpl_type)$1, size);
+        if (!symbol_table->insert(s))
+        {
+            Error::error(Error::PREVIOUSLY_DECLARED_VARIABLE, *$2);
+        }
+    }
     ;
 
 //---------------------------------------------------------------------
 object_type:
     T_TRIANGLE
+    {
+        $$ = TRIANGLE;
+    }
     | T_PIXMAP
+    {
+        $$ = PIXMAP;
+    }
     | T_CIRCLE
+    {
+        $$ = CIRCLE;
+    }
     | T_RECTANGLE
+    {
+        $$ = RECTANGLE;
+    }
     | T_TEXTBOX
+    {
+        $$ = TEXTBOX;
+    }
     ;
 
 //---------------------------------------------------------------------
@@ -368,29 +439,118 @@ parameter_list :
 //---------------------------------------------------------------------
 parameter:
     T_ID T_ASSIGN expression
+    {
+        string parameter = *$1;
+        delete $1; // Scanner allocates memory for each T_ID string
+		
+		Expression *value_expression = $3;
+		Gpl_type value_expression_type = value_expression->get_type();
+		
+		// get type of the parameter T_ID of cur_object_under_construction
+		Status status;
+		Gpl_type parameter_type;
+		status = cur_object_under_construction->get_member_variable_type(parameter, parameter_type);
+
+        if (status == MEMBER_NOT_DECLARED)
+        {
+            Error::error(Error::UNKNOWN_CONSTRUCTOR_PARAMETER, gpl_type_to_string(cur_object_under_construction->get_type()), parameter);
+        }
+        
+        switch (parameter_type)
+        {
+            case INT:
+            {
+                if (value_expression_type != INT)
+                {
+                    Error::error(Error::INCORRECT_CONSTRUCTOR_PARAMETER_TYPE, cur_object_under_construction_name, parameter);
+                }
+                else 
+                {
+                    int value = value_expression->eval_int();
+                    status = cur_object_under_construction->set_member_variable(parameter, value);
+                    assert(status == OK);
+                }
+
+                break;
+            }
+
+            case DOUBLE:
+            {
+                if (value_expression_type != INT && value_expression_type != DOUBLE)
+                {
+                    Error::error(Error::INCORRECT_CONSTRUCTOR_PARAMETER_TYPE, cur_object_under_construction_name, parameter);
+                }
+                else 
+                {
+                    double value = value_expression->eval_double();
+                    status = cur_object_under_construction->set_member_variable(parameter, value);
+                    assert(status == OK);
+                }
+
+                break;
+            }
+
+            case STRING:
+            {
+                if (value_expression_type != INT && value_expression_type != DOUBLE && value_expression_type != STRING)
+                {
+                    Error::error(Error::INCORRECT_CONSTRUCTOR_PARAMETER_TYPE, cur_object_under_construction_name, parameter);
+                }
+                else 
+                {
+                    string value = value_expression->eval_string();
+                    status = cur_object_under_construction->set_member_variable(parameter, value);
+                    assert(status == OK);
+                }
+
+                break;
+            }
+
+            case ANIMATION_BLOCK:
+            {
+                if (value_expression_type != ANIMATION_BLOCK)
+                {
+                    Error::error(Error::INCORRECT_CONSTRUCTOR_PARAMETER_TYPE, cur_object_under_construction_name, parameter);
+                }
+                else 
+                {
+                    Animation_block* value = value_expression->eval_animation_block();
+                    
+                    Gpl_type animation_block_type = value->get_parameter_symbol()->get_type();
+                    Gpl_type object_type = cur_object_under_construction->get_type();
+
+                    if (animation_block_type != object_type)
+                    {
+                        Error::error(Error::TYPE_MISMATCH_BETWEEN_ANIMATION_BLOCK_AND_OBJECT, cur_object_under_construction_name, value->name());
+                    }
+                    else
+                    {
+                        status = cur_object_under_construction->set_member_variable(parameter, value);
+                        assert(status == OK);
+                    }
+                }
+
+                break;
+            }
+        }
+    }
     ;
 
 //---------------------------------------------------------------------
 forward_declaration:
-    T_FORWARD T_ANIMATION T_ID T_LPAREN forward_parameter_list_or_empty T_RPAREN
-    ;
+    T_FORWARD T_ANIMATION T_ID T_LPAREN animation_parameter T_RPAREN
+    {
+        Symbol_table *symbol_table = Symbol_table::instance();
+        Symbol *s = new Symbol(*$3, ANIMATION_BLOCK);
 
-//---------------------------------------------------------------------
-forward_parameter_list_or_empty:
-    forward_parameter_list
-    | empty
-    ;
+        Animation_block *animation = s->get_animation_block_value();
+        animation->initialize($5, *$3);
 
-//---------------------------------------------------------------------
-forward_parameter_list:
-    forward_parameter_list T_COMMA forward_parameter
-    | forward_parameter
-    ;
-
-//---------------------------------------------------------------------
-forward_parameter:
-    simple_type T_ID
-    | object_type T_ID
+        if (!symbol_table->insert(s))
+        {
+            Error::error(Error::PREVIOUSLY_DECLARED_VARIABLE, *$3);
+        }
+    }
     ;
 
 //---------------------------------------------------------------------
@@ -425,6 +585,24 @@ animation_block:
 //---------------------------------------------------------------------
 animation_parameter:
     object_type T_ID
+    {
+        Symbol_table *symbol_table = Symbol_table::instance();
+        Symbol *s = new Symbol(*$2, $1);
+
+        Game_object *game_object = s->get_game_object_value();
+        game_object->never_animate();
+        game_object->never_draw();
+
+        if (!symbol_table->insert(s))
+        {
+            Error::error(Error::ANIMATION_PARAMETER_NAME_NOT_UNIQUE, *$2);
+            $$ = NULL;
+        }
+        else
+        {
+            $$ = s;
+        }
+    }
     ;
 
 //---------------------------------------------------------------------
@@ -603,7 +781,100 @@ variable:
         }
     }
     | T_ID T_PERIOD T_ID
+    {
+        Symbol_table *symbol_table = Symbol_table::instance();
+        Symbol* s = symbol_table->lookup(*$1);
+
+        if (s != NULL)
+        {
+            if (s->is_array())
+            {
+                Error::error(Error::VARIABLE_IS_AN_ARRAY, *$1);
+                $$ = empty_variable;
+            }
+            else if(!(s->get_type() & GAME_OBJECT))
+		    {
+			    Error::error(Error::LHS_OF_PERIOD_MUST_BE_OBJECT,*$1);
+                $$ = empty_variable;
+            }
+            else
+            {
+                Game_object* game_object = s->get_game_object_value();
+                Gpl_type type;
+
+                Status status = game_object->get_member_variable_type(*$3, type);
+
+                if (status == MEMBER_NOT_DECLARED)
+                {
+                    Error::error(Error::UNDECLARED_MEMBER, *$1, *$3);
+                    $$ = empty_variable;
+                }
+                else
+                    $$ = new Variable(s, $3);
+            }
+        }
+        else
+        {
+            Error::error(Error::UNDECLARED_VARIABLE, *$1);
+            $$ = empty_variable;
+        }
+    }
     | T_ID T_LBRACKET expression T_RBRACKET T_PERIOD T_ID
+    {
+        Symbol_table *symbol_table = Symbol_table::instance();
+        Symbol* s = symbol_table->lookup(*$1);
+
+        if (s != NULL)
+        {
+            if ($3->get_type() != INT)
+            {
+                string msg = "";
+
+                switch ($3->get_type())
+                {
+                    case DOUBLE: msg = "A double expression"; break;
+                    case STRING: msg = "A string expression"; break;
+                    case ANIMATION_BLOCK: msg = "A animation_block expression"; break;
+                }
+
+                Error::error(Error::ARRAY_INDEX_MUST_BE_AN_INTEGER, *$1, msg);
+                $$ = empty_variable;
+            }
+            else
+            {
+                if (!(s->is_array()))
+                {
+                    Error::error(Error::VARIABLE_NOT_AN_ARRAY, *$1);
+                    $$ = empty_variable;
+                }
+                else if (!(s->get_type() & GAME_OBJECT))
+                {
+                    Error::error(Error::LHS_OF_PERIOD_MUST_BE_OBJECT,*$1);
+                    $$ = empty_variable;
+                }
+                else
+                {
+                    Game_object* game_object = s->get_game_object_value($3->eval_int());
+                    Gpl_type type;
+
+                    Status status = game_object->get_member_variable_type(*$6, type);
+
+                    if (status == MEMBER_NOT_DECLARED)
+                    {
+                        Error::error(Error::UNDECLARED_MEMBER, *$1+"[]", *$6);
+                        $$ = empty_variable;
+                    }
+                    else
+                        $$ = new Variable(s, $3, $6);
+                    }
+            }
+        }
+        else
+        {
+            Error::error(Error::UNDECLARED_VARIABLE, *$1+"[]");
+            $$ = empty_variable;
+        }
+    }
     ;
 
 //---------------------------------------------------------------------

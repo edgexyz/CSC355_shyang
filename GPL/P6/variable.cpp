@@ -3,6 +3,7 @@
 #include "expression.h"
 #include "gpl_type.h"
 #include "gpl_assert.h"
+#include "game_object.h"
 #include "error.h"
 #include <sstream>
 using namespace std;
@@ -21,6 +22,23 @@ Variable::Variable(Symbol *symbol, Expression *expression)
   m_type = symbol->get_base_type();
 }
 
+Variable::Variable(Symbol *symbol, string *field)
+{
+  m_symbol = symbol;
+  m_field = field;
+  Status status = symbol->get_game_object_value()->get_member_variable_type(*field, m_type);
+  assert(status == OK);
+}
+
+Variable::Variable(Symbol *symbol, Expression *expression, string *field)
+{
+  m_symbol = symbol;
+  m_expression = expression;
+  m_field = field;
+  Status status = symbol->get_game_object_value(0)->get_member_variable_type(*field, m_type);
+  assert(status == OK);
+}
+
 string Variable::get_name() const
 {
   string name = m_symbol->get_name();
@@ -34,84 +52,109 @@ string Variable::get_name() const
 
 int Variable::get_int_value() const
 {
-  if (m_expression)
+  if (m_field)
   {
-    int index = m_expression->eval_int();
+    Game_object *cur_game_object;
 
-    if (index >= 0 && index < m_symbol->size())
-    {
-      return m_symbol->get_int_value(index);
-    }
+    if (m_expression)
+      cur_game_object = m_symbol->get_game_object_value(eval_index_with_error_checking());
     else
-    {
-      Error::error(Error::ARRAY_INDEX_OUT_OF_BOUNDS, m_symbol->get_name(), to_string(index));
-      return m_symbol->get_int_value(0);
-    }
+      cur_game_object = m_symbol->get_game_object_value();
+
+    int value;
+    Status status = cur_game_object->get_member_variable(*m_field, value);
+
+    assert(status == OK);
+    return value;
   }
   else
   {
-    return m_symbol->get_int_value();
+    if (m_expression)
+      return m_symbol->get_int_value(eval_index_with_error_checking());
+    else
+      return m_symbol->get_int_value();
   }
 }
 
 double Variable::get_double_value() const
 {
-  if (m_expression)
+  if (m_field)
   {
-    int index = m_expression->eval_int();
+    Game_object *cur_game_object;
 
-    if (index >= 0 && index < m_symbol->size())
-    {
-      return m_symbol->get_double_value(index);
-    }
+    if (m_expression)
+      cur_game_object = m_symbol->get_game_object_value(eval_index_with_error_checking());
     else
-    {
-      Error::error(Error::ARRAY_INDEX_OUT_OF_BOUNDS, m_symbol->get_name(), to_string(index));
-      return m_symbol->get_double_value(0);
-    }
+      cur_game_object = m_symbol->get_game_object_value();
+
+    double value;
+    Status status = cur_game_object->get_member_variable(*m_field, value);
+
+    assert(status == OK);
+    return value;
   }
   else
   {
-    return m_symbol->get_double_value();
+    if (m_expression)
+      return m_symbol->get_double_value(eval_index_with_error_checking());
+    else
+      return m_symbol->get_double_value();
   }
 }
 
 string Variable::get_string_value() const
 {
-  if (m_expression)
+  if (m_field)
   {
-    int index = m_expression->eval_int();
+    Game_object *cur_game_object;
 
-    if (index >= 0 && index < m_symbol->size())
-    {
-      return m_symbol->get_string_value(index);
-    }
+    if (m_expression)
+      cur_game_object = m_symbol->get_game_object_value(eval_index_with_error_checking());
     else
-    {
-      Error::error(Error::ARRAY_INDEX_OUT_OF_BOUNDS, m_symbol->get_name(), to_string(index));
-      return m_symbol->get_string_value(0);
-    }
+      cur_game_object = m_symbol->get_game_object_value();
+
+    string value;
+    Status status = cur_game_object->get_member_variable(*m_field, value);
+
+    assert(status == OK);
+    return value;
   }
   else
   {
-    return m_symbol->get_string_value();
+    if (m_expression)
+      return m_symbol->get_string_value(eval_index_with_error_checking());
+    else
+      return m_symbol->get_string_value();
   }
+}
+
+Game_object* Variable::get_game_object_value() const
+{
+  assert(m_type == GAME_OBJECT);
+
+  if (m_expression)
+    return m_symbol->get_game_object_value(eval_index_with_error_checking());
+  else
+    return m_symbol->get_game_object_value();
+}
+
+Animation_block* Variable::get_animation_block_value() const
+{
+  assert(m_type == ANIMATION_BLOCK);
+  return m_symbol->get_animation_block_value();
+}
+
+Gpl_type Variable::get_base_game_object_type() const
+{
+  return m_symbol->get_base_type();
 }
 
 void Variable::set(int value)
 {
   if (m_expression)
   {
-    int index = m_expression->eval_int();
-
-    if (index >= 0 && index < m_symbol->size())
-    {
-      m_symbol->set(value, index);
-    }
-    else
-    {
-      Error::error(Error::ARRAY_INDEX_OUT_OF_BOUNDS, m_symbol->get_name(), to_string(index));
-    }
+    int index = eval_index_with_error_checking();
+    m_symbol->set(value, index);
   }
   else
   {
@@ -123,16 +166,8 @@ void Variable::set(double value)
 {
   if (m_expression)
   {
-    int index = m_expression->eval_int();
-
-    if (index >= 0 && index < m_symbol->size())
-    {
-      m_symbol->set(value, index);
-    }
-    else
-    {
-      Error::error(Error::ARRAY_INDEX_OUT_OF_BOUNDS, m_symbol->get_name(), to_string(index));
-    }
+    int index = eval_index_with_error_checking();
+    m_symbol->set(value, index);
   }
   else
   {
@@ -144,16 +179,8 @@ void Variable::set(string value)
 {
   if (m_expression)
   {
-    int index = m_expression->eval_int();
-
-    if (index >= 0 && index < m_symbol->size())
-    {
-      m_symbol->set(value, index);
-    }
-    else
-    {
-      Error::error(Error::ARRAY_INDEX_OUT_OF_BOUNDS, m_symbol->get_name(), to_string(index));
-    }
+    int index = eval_index_with_error_checking();
+    m_symbol->set(value, index);
   }
   else
   {
