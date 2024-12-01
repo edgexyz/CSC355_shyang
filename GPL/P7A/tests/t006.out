@@ -1,0 +1,160 @@
+gpl.cpp::main()
+  input file(tests/t006.gpl)
+  random seed(42)
+  read_keypresses_from_standard_input(false)
+  dump_pixels(true, file = results/t006.mypixels)
+  symbol_table(true)
+  graphics(true)
+
+gpl.cpp::main() Calling yyparse()
+
+
+gpl.cpp::main() after call to yyparse().
+
+
+Printing the symbol table from main()
+int blue = 50
+animation_block circle_animate
+int circle_x_increment = 10
+int circle_y_increment = 10
+circle cur_circle
+{
+    animation_block = NULL,
+    blue = double(1),
+    drawing_order = int(0),
+    green = double(0),
+    h = int(20),
+    proximity = int(4),
+    radius = int(10),
+    red = double(0),
+    user_double = double(0),
+    user_double2 = double(0),
+    user_double3 = double(0),
+    user_double4 = double(0),
+    user_double5 = double(0),
+    user_int = int(0),
+    user_int2 = int(0),
+    user_int3 = int(0),
+    user_int4 = int(0),
+    user_int5 = int(0),
+    user_string = string(""),
+    user_string2 = string(""),
+    user_string3 = string(""),
+    user_string4 = string(""),
+    user_string5 = string(""),
+    visible = int(1),
+    w = int(20),
+    x = int(0),
+    y = int(0)
+}
+int green = 33
+int have_printed = 0
+circle my_circle
+{
+    animation_block = circle_animate,
+    blue = double(1),
+    drawing_order = int(0),
+    green = double(0),
+    h = int(60),
+    proximity = int(4),
+    radius = int(30),
+    red = double(0),
+    user_double = double(0),
+    user_double2 = double(0),
+    user_double3 = double(0),
+    user_double4 = double(0),
+    user_double5 = double(0),
+    user_int = int(0),
+    user_int2 = int(0),
+    user_int3 = int(0),
+    user_int4 = int(0),
+    user_int5 = int(0),
+    user_string = string(""),
+    user_string2 = string(""),
+    user_string3 = string(""),
+    user_string4 = string(""),
+    user_string5 = string(""),
+    visible = int(1),
+    w = int(60),
+    x = int(200),
+    y = int(250)
+}
+int red = 12
+textbox txt1
+{
+    animation_block = NULL,
+    blue = double(0),
+    drawing_order = int(0),
+    green = double(0),
+    h = int(11),
+    proximity = int(4),
+    red = double(0),
+    size = double(0.1),
+    spacing = int(10),
+    text = string("let this run until the ball stops"),
+    user_double = double(0),
+    user_double2 = double(0),
+    user_double3 = double(0),
+    user_double4 = double(0),
+    user_double5 = double(0),
+    user_int = int(0),
+    user_int2 = int(0),
+    user_int3 = int(0),
+    user_int4 = int(0),
+    user_int5 = int(0),
+    user_string = string(""),
+    user_string2 = string(""),
+    user_string3 = string(""),
+    user_string4 = string(""),
+    user_string5 = string(""),
+    visible = int(1),
+    w = int(10),
+    x = int(0),
+    y = int(30)
+}
+textbox txt2
+{
+    animation_block = NULL,
+    blue = double(0),
+    drawing_order = int(0),
+    green = double(0),
+    h = int(11),
+    proximity = int(4),
+    red = double(0),
+    size = double(0.1),
+    spacing = int(10),
+    text = string("then compare window to t06.jpg"),
+    user_double = double(0),
+    user_double2 = double(0),
+    user_double3 = double(0),
+    user_double4 = double(0),
+    user_double5 = double(0),
+    user_int = int(0),
+    user_int2 = int(0),
+    user_int3 = int(0),
+    user_int4 = int(0),
+    user_int5 = int(0),
+    user_string = string(""),
+    user_string2 = string(""),
+    user_string3 = string(""),
+    user_string4 = string(""),
+    user_string5 = string(""),
+    visible = int(1),
+    w = int(10),
+    x = int(0),
+    y = int(10)
+}
+int window_height = 500
+string window_title = "p8::t006, compare to t006.jpg"
+int window_width = 400
+gpl.cpp::main() Calling window->initialize().
+
+
+gpl.cpp::main() Passing control to window->main_loop().
+print[46]: cur_circle.red = 0.270000
+print[47]: cur_circle.green = 0.480000
+print[48]: cur_circle.blue = 0.650000
+print[49]: cur_circle.x = 70
+print[50]: cur_circle.y = 420
+
+User quit program.  Executing termination blocks

@@ -1,0 +1,183 @@
+gpl.cpp::main()
+  input file(tests/t017.gpl)
+  random seed(42)
+  read_keypresses_from_standard_input(false)
+  dump_pixels(true, file = results/t017.mypixels)
+  symbol_table(true)
+  graphics(true)
+
+gpl.cpp::main() Calling yyparse()
+
+
+gpl.cpp::main() after call to yyparse().
+
+
+Printing the symbol table from main()
+int animation_counter = 0
+pixmap cur_pixmap
+{
+    animation_block = NULL,
+    blue = double(0.5),
+    drawing_order = int(0),
+    filename = string(""),
+    green = double(0.5),
+    h = int(10),
+    proximity = int(4),
+    red = double(0.5),
+    user_double = double(0),
+    user_double2 = double(0),
+    user_double3 = double(0),
+    user_double4 = double(0),
+    user_double5 = double(0),
+    user_int = int(0),
+    user_int2 = int(0),
+    user_int3 = int(0),
+    user_int4 = int(0),
+    user_int5 = int(0),
+    user_string = string(""),
+    user_string2 = string(""),
+    user_string3 = string(""),
+    user_string4 = string(""),
+    user_string5 = string(""),
+    visible = int(1),
+    w = int(10),
+    x = int(0),
+    y = int(0)
+}
+int has_printed = 0
+pixmap photo1
+{
+    animation_block = pixmap_animate,
+    blue = double(0.5),
+    drawing_order = int(0),
+    filename = string("tests/1.bmp"),
+    green = double(0.5),
+    h = int(10),
+    proximity = int(4),
+    red = double(0.5),
+    user_double = double(0),
+    user_double2 = double(0),
+    user_double3 = double(0),
+    user_double4 = double(0),
+    user_double5 = double(0),
+    user_int = int(0),
+    user_int2 = int(0),
+    user_int3 = int(0),
+    user_int4 = int(0),
+    user_int5 = int(0),
+    user_string = string(""),
+    user_string2 = string(""),
+    user_string3 = string(""),
+    user_string4 = string(""),
+    user_string5 = string(""),
+    visible = int(1),
+    w = int(10),
+    x = int(100),
+    y = int(100)
+}
+pixmap photo2
+{
+    animation_block = pixmap_animate,
+    blue = double(0.5),
+    drawing_order = int(0),
+    filename = string("tests/2.bmp"),
+    green = double(0.5),
+    h = int(10),
+    proximity = int(4),
+    red = double(0.5),
+    user_double = double(0),
+    user_double2 = double(0),
+    user_double3 = double(0),
+    user_double4 = double(0),
+    user_double5 = double(0),
+    user_int = int(0),
+    user_int2 = int(0),
+    user_int3 = int(0),
+    user_int4 = int(0),
+    user_int5 = int(0),
+    user_string = string(""),
+    user_string2 = string(""),
+    user_string3 = string(""),
+    user_string4 = string(""),
+    user_string5 = string(""),
+    visible = int(1),
+    w = int(10),
+    x = int(100),
+    y = int(300)
+}
+pixmap photo3
+{
+    animation_block = pixmap_animate,
+    blue = double(0.5),
+    drawing_order = int(0),
+    filename = string("tests/3.bmp"),
+    green = double(0.5),
+    h = int(10),
+    proximity = int(4),
+    red = double(0.5),
+    user_double = double(0),
+    user_double2 = double(0),
+    user_double3 = double(0),
+    user_double4 = double(0),
+    user_double5 = double(0),
+    user_int = int(0),
+    user_int2 = int(0),
+    user_int3 = int(0),
+    user_int4 = int(0),
+    user_int5 = int(0),
+    user_string = string(""),
+    user_string2 = string(""),
+    user_string3 = string(""),
+    user_string4 = string(""),
+    user_string5 = string(""),
+    visible = int(1),
+    w = int(10),
+    x = int(300),
+    y = int(300)
+}
+pixmap photo4
+{
+    animation_block = pixmap_animate,
+    blue = double(0.5),
+    drawing_order = int(0),
+    filename = string("tests/4.bmp"),
+    green = double(0.5),
+    h = int(10),
+    proximity = int(4),
+    red = double(0.5),
+    user_double = double(0),
+    user_double2 = double(0),
+    user_double3 = double(0),
+    user_double4 = double(0),
+    user_double5 = double(0),
+    user_int = int(0),
+    user_int2 = int(0),
+    user_int3 = int(0),
+    user_int4 = int(0),
+    user_int5 = int(0),
+    user_string = string(""),
+    user_string2 = string(""),
+    user_string3 = string(""),
+    user_string4 = string(""),
+    user_string5 = string(""),
+    visible = int(1),
+    w = int(10),
+    x = int(300),
+    y = int(100)
+}
+animation_block pixmap_animate
+string window_title = "p8 t017.gpl -- compare to t017.jpg when it stops"
+gpl.cpp::main() Calling window->initialize().
+
+
+gpl.cpp::main() Passing control to window->main_loop().
+print[39]: photo1.x = 125
+print[40]: photo1.y = 125
+print[41]: photo2.x = 125
+print[42]: photo2.y = 275
+print[43]: photo3.x = 275
+print[44]: photo3.y = 275
+print[45]: photo4.x = 275
+print[46]: photo4.y = 125
+
+User quit program.  Executing termination blocks

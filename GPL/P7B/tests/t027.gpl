@@ -1,0 +1,84 @@
+int i;
+int num_walls = 8;
+rectangle walls[num_walls];
+int window_width = 700;
+int window_height = 700;
+int window_x = 10;
+int window_y = 10;
+
+circle dot(x = 20, y = 130, radius = 8);
+
+initialization
+{
+    for (i = 0; i < num_walls; i += 1)
+    {
+        walls[i].red = 0.0;
+        walls[i].blue = .25;
+        walls[i].green = .6;
+    }
+
+    walls[0].x = 100;
+    walls[0].y = 100;
+    walls[0].w = 500;
+    walls[0].h = 20;
+
+    walls[1].x = 580;
+    walls[1].y = 120;
+    walls[1].w = 20;
+    walls[1].h = 440;
+
+    walls[2].x = 100;
+    walls[2].y = 600;
+    walls[2].w = 500;
+    walls[2].h = 20;
+
+    walls[3].x = 100;
+    walls[3].y = 160;
+    walls[3].w = 20;
+    walls[3].h = 440;
+
+    walls[4].x = 200;
+    walls[4].y = 120;
+    walls[4].w = 20;
+    walls[4].h = 440;
+
+    walls[5].x = 400;
+    walls[5].y = 120;
+    walls[5].w = 20;
+    walls[5].h = 440;
+
+    walls[6].x = 300;
+    walls[6].y = 160;
+    walls[6].w = 20;
+    walls[6].h = 440;
+
+    walls[7].x = 500;
+    walls[7].y = 160;
+    walls[7].w = 20;
+    walls[7].h = 440;
+}
+
+on hkey
+{
+    dot.x -= 10;
+}
+on lkey
+{
+    dot.x += 10;
+}
+on jkey
+{
+    dot.y -= 10;
+}
+on kkey
+{
+    dot.y += 10;
+}
+on akey
+{
+    for (i = 0; i < num_walls; i += 1)
+    {
+        if (dot touches walls[i])
+		print("dot touching wall " + i);
+    }
+}

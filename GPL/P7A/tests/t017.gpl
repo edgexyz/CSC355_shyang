@@ -1,0 +1,61 @@
+string window_title = "p8 t017.gpl -- compare to t017.jpg when it stops";
+
+// declare the animation handler functions
+forward animation pixmap_animate(pixmap cur_pixmap);
+
+pixmap photo1(x = 100, y = 100, filename = "tests/1.bmp", animation_block = pixmap_animate);
+pixmap photo2(x = 100, y = 300, filename = "tests/2.bmp", animation_block = pixmap_animate);
+pixmap photo3(x = 300, y = 300, filename = "tests/3.bmp", animation_block = pixmap_animate);
+pixmap photo4(x = 300, y = 100, filename = "tests/4.bmp", animation_block = pixmap_animate);
+
+int animation_counter;
+int has_printed = 0;
+
+
+
+initialization
+{
+    // save starting locations for all pixmaps
+    photo1.user_int3 = -1;
+    photo1.user_int4 = -1;
+    photo2.user_int3 = -1;
+    photo2.user_int4 = 1;
+    photo3.user_int3 = 1;
+    photo3.user_int4 = 1;
+    photo4.user_int3 = 1;
+    photo4.user_int4 = -1;
+}
+
+animation pixmap_animate(pixmap cur_pixmap)
+{
+  if (animation_counter < 500)
+  {
+    cur_pixmap.x += cur_pixmap.user_int3;
+    cur_pixmap.y += cur_pixmap.user_int4;
+    animation_counter += 1;
+  }
+  else if (has_printed == 0)
+  {
+    print("photo1.x = " + photo1.x);
+    print("photo1.y = " + photo1.y);
+    print("photo2.x = " + photo2.x);
+    print("photo2.y = " + photo2.y);
+    print("photo3.x = " + photo3.x);
+    print("photo3.y = " + photo3.y);
+    print("photo4.x = " + photo4.x);
+    print("photo4.y = " + photo4.y);
+    has_printed = 1;
+  }
+
+  if (animation_counter == 200)
+  {
+    photo1.user_int3 = -photo1.user_int3;
+    photo1.user_int4 = -photo1.user_int4;
+    photo2.user_int3 = -photo2.user_int3;
+    photo2.user_int4 = -photo2.user_int4;
+    photo3.user_int3 = -photo3.user_int3;
+    photo3.user_int4 = -photo3.user_int4;
+    photo4.user_int3 = -photo4.user_int3;
+    photo4.user_int4 = -photo4.user_int4;
+  }
+}

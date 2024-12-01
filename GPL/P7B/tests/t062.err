@@ -1,0 +1,1 @@
+Semantic error on line 4: The animation parameter 'cur_circle' is not a unique name. Animation parameters must have names that are unique in the global name space.

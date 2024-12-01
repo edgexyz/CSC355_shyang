@@ -1,0 +1,23 @@
+forward animation bounce_rectangle(rectangle cur_rectangle);
+forward animation bounce_circle(circle cur_circle);
+
+rectangle rect(animation_block = bounce_rectangle);
+
+
+animation bounce_rectangle(rectangle cur_rectangle)
+{
+
+}
+
+animation bounce_circle(circle cur_circle)
+{
+
+}
+
+
+on akey
+{
+  // this should be an error because the parameter to 
+  // bounce_circle is not a rectangle
+  rect.animation_block = bounce_circle;
+}

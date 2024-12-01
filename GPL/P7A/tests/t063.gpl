@@ -1,0 +1,6 @@
+int bounce;
+
+animation bounce(rectangle cur_rect)
+{
+
+}

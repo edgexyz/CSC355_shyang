@@ -1,0 +1,3 @@
+Semantic error on line 6: Invalid left operand for operator '*'.
+Semantic error on line 6: Invalid right operand for operator '*'.
+Semantic error on line 9: Variable 'z' was not declared before it was used.

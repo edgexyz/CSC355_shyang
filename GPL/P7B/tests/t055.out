@@ -1,0 +1,118 @@
+gpl.cpp::main()
+  input file(tests/t055.gpl)
+  random seed(42)
+  read_keypresses_from_standard_input(false)
+  dump_pixels(true, file = results/t055.mypixels)
+  symbol_table(true)
+  graphics(true)
+
+gpl.cpp::main() Calling yyparse()
+
+
+gpl.cpp::main() after call to yyparse().
+
+
+Printing the symbol table from main()
+textbox text1
+{
+    animation_block = NULL,
+    blue = double(0),
+    drawing_order = int(0),
+    green = double(0),
+    h = int(11),
+    proximity = int(4),
+    red = double(0),
+    size = double(0.1),
+    spacing = int(10),
+    text = string("42"),
+    user_double = double(0),
+    user_double2 = double(0),
+    user_double3 = double(0),
+    user_double4 = double(0),
+    user_double5 = double(0),
+    user_int = int(0),
+    user_int2 = int(0),
+    user_int3 = int(0),
+    user_int4 = int(0),
+    user_int5 = int(0),
+    user_string = string(""),
+    user_string2 = string(""),
+    user_string3 = string(""),
+    user_string4 = string(""),
+    user_string5 = string(""),
+    visible = int(1),
+    w = int(10),
+    x = int(50),
+    y = int(300)
+}
+textbox text2
+{
+    animation_block = NULL,
+    blue = double(0),
+    drawing_order = int(0),
+    green = double(0),
+    h = int(11),
+    proximity = int(4),
+    red = double(0),
+    size = double(0.2),
+    spacing = int(10),
+    text = string("42.345678"),
+    user_double = double(0),
+    user_double2 = double(0),
+    user_double3 = double(0),
+    user_double4 = double(0),
+    user_double5 = double(0),
+    user_int = int(0),
+    user_int2 = int(0),
+    user_int3 = int(0),
+    user_int4 = int(0),
+    user_int5 = int(0),
+    user_string = string(""),
+    user_string2 = string(""),
+    user_string3 = string(""),
+    user_string4 = string(""),
+    user_string5 = string(""),
+    visible = int(1),
+    w = int(10),
+    x = int(100),
+    y = int(200)
+}
+textbox text3
+{
+    animation_block = NULL,
+    blue = double(0),
+    drawing_order = int(0),
+    green = double(0),
+    h = int(11),
+    proximity = int(4),
+    red = double(0),
+    size = double(0.3),
+    spacing = int(10),
+    text = string("forty-two"),
+    user_double = double(0),
+    user_double2 = double(0),
+    user_double3 = double(0),
+    user_double4 = double(0),
+    user_double5 = double(0),
+    user_int = int(0),
+    user_int2 = int(0),
+    user_int3 = int(0),
+    user_int4 = int(0),
+    user_int5 = int(0),
+    user_string = string(""),
+    user_string2 = string(""),
+    user_string3 = string(""),
+    user_string4 = string(""),
+    user_string5 = string(""),
+    visible = int(1),
+    w = int(10),
+    x = int(300),
+    y = int(100)
+}
+string window_title = "p8 test t055 -- compare to t055.jpg"
+gpl.cpp::main() Calling window->initialize().
+
+
+gpl.cpp::main() Passing control to window->main_loop().
+
+User quit program.  Executing termination blocks

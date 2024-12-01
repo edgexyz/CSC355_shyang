@@ -1,0 +1,465 @@
+Copy (Replace) the Code Below to gpl.y and Complete the Parts Marked with COMPLETE ME.
+You might (and likely) have to modify the grammar beyond the ones listed here.
+Again, it is important that you understand the program itself, including the input and output of gpl, to finalize the project.
+
+//---------------------------------------------------------------------
+termination_block:
+  T_TERMINATION statement_block
+  {
+      // COMPLETE ME
+  }
+  ;
+//---------------------------------------------------------------------
+on_block:
+  T_ON keystroke statement_block
+  {
+      // COMPLETE ME
+  }
+  ;
+//---------------------------------------------------------------------
+keystroke:
+    T_SPACE
+    {
+      $$ = Window::SPACE;
+    }
+    | T_LEFTARROW
+    {
+      $$ = Window::LEFTARROW;
+    }
+    | T_RIGHTARROW
+    {
+      $$ = Window::RIGHTARROW;
+    }
+    | T_UPARROW
+    {
+      $$ = Window::UPARROW;
+    }
+    | T_DOWNARROW
+    {
+      $$ = Window::DOWNARROW;
+    }
+    | T_LEFTMOUSE_DOWN
+    {
+      $$ = Window::LEFTMOUSE_DOWN;
+    }
+    | T_MIDDLEMOUSE_DOWN
+    {
+      $$ = Window::MIDDLEMOUSE_DOWN;
+    }
+    | T_RIGHTMOUSE_DOWN
+    {
+      $$ = Window::RIGHTMOUSE_DOWN;
+    }
+    | T_LEFTMOUSE_UP
+    {
+      $$ = Window::LEFTMOUSE_UP;
+    }
+    | T_MIDDLEMOUSE_UP
+    {
+      $$ = Window::MIDDLEMOUSE_UP;
+    }
+    | T_RIGHTMOUSE_UP
+    {
+      $$ = Window::RIGHTMOUSE_UP;
+    }
+    | T_MOUSE_MOVE
+    {
+      $$ = Window::MOUSE_MOVE;
+    }
+    | T_MOUSE_DRAG
+    {
+      $$ = Window::MOUSE_DRAG;
+    }
+    | T_F1
+    {
+      $$ = Window::F1;
+    }
+    | T_AKEY
+    {
+      $$ = Window::AKEY;
+    }
+    | T_SKEY
+    {
+      $$ = Window::SKEY;
+    }
+    | T_DKEY
+    {
+      $$ = Window::DKEY;
+    }
+    | T_FKEY
+    {
+      $$ = Window::FKEY;
+    }
+    | T_HKEY
+    {
+      $$ = Window::HKEY;
+    }
+    | T_JKEY
+    {
+      $$ = Window::JKEY;
+    }
+    | T_KKEY
+    {
+      $$ = Window::KKEY;
+    }
+    | T_LKEY
+    {
+      $$ = Window::LKEY;
+    }
+    | T_WKEY
+    {
+      $$ = Window::WKEY;
+    }
+    | T_ZKEY
+    {
+      $$ = Window::ZKEY;
+    }
+    ;
+//---------------------------------------------------------------------
+if_block:
+  statement_block_creator statement end_of_statement_block
+  {
+      $$ = $1;
+  }
+  | statement_block
+  {
+      $$ = $1;
+  }
+  ;
+//---------------------------------------------------------------------
+statement_block:
+  T_LBRACE statement_block_creator statement_list T_RBRACE end_of_statement_block
+  {
+      $$ = $2;
+  }
+  ;
+//---------------------------------------------------------------------
+statement_block_creator:
+  {
+      Statement_block *new_block = new Statement_block();
+      statement_block_stack.push(new_block);
+      $$ = new_block;
+  }
+  ;
+//---------------------------------------------------------------------
+end_of_statement_block:
+  {
+      assert(!statement_block_stack.empty());
+      statement_block_stack.pop();
+  }
+  ;
+//---------------------------------------------------------------------
+if_statement:
+  T_IF T_LPAREN expression T_RPAREN if_block %prec IF_NO_ELSE
+  {
+      Expression *expr = $3;
+      if (expr->get_type() != INT)
+      {
+        Error::error(Error::INVALID_TYPE_FOR_IF_STMT_EXPRESSION);
+        expr = new Expression(0);
+      }
+      statement_block_stack.top()->insert(new If_statement(expr,$5));
+  }
+  | T_IF T_LPAREN expression T_RPAREN if_block T_ELSE if_block
+  {
+      // COMPLETE ME
+  }
+  ;
+
+//---------------------------------------------------------------------
+for_statement:
+  T_FOR T_LPAREN
+    statement_block_creator assign_statement_or_empty end_of_statement_block
+    T_SEMIC expression T_SEMIC
+    statement_block_creator assign_statement_or_empty end_of_statement_block
+    T_RPAREN statement_block
+  {
+      // COMPLETE ME
+  }
+  ;
+
+//---------------------------------------------------------------------
+print_statement:
+  T_PRINT T_LPAREN expression T_RPAREN
+  {
+      Expression *expr = $3;
+      if (expr->get_type() != INT
+        && expr->get_type() != DOUBLE
+        && expr->get_type() != STRING
+       )
+      {
+        Error::error(Error::INVALID_TYPE_FOR_PRINT_STMT_EXPRESSION);
+        // for error handling
+        expr = new Expression(0);
+      }
+      statement_block_stack.top()->insert(new Print_statement(expr, $1)); // $1 has line_number
+  }
+  ;
+//---------------------------------------------------------------------
+exit_statement:
+  T_EXIT T_LPAREN expression T_RPAREN
+  {
+      // COMPLETE ME
+  }
+  ;
+//---------------------------------------------------------------------
+assign_statement:
+  variable T_ASSIGN expression
+  {
+      Variable *lhs = $1;
+      Expression *rhs = $3;
+      Gpl_type lhs_type = lhs->get_type();
+      Gpl_type rhs_type = rhs->get_type();
+
+      // game_object is illegal on lhs of assignment
+      if (lhs_type & GAME_OBJECT)
+      {
+        Error::error(Error::INVALID_LHS_OF_ASSIGNMENT,
+              lhs->get_name(),
+              gpl_type_to_string(lhs_type)
+              );
+      }
+
+      // if variable is an INT, expression must be INT
+      // if variable is a DOUBLE, expression must be INT or DOUBLE
+      // if variable is a STRING, expression must be STRING,INT, or DOUBLE
+      // if variable is a ANIMATION_BLOCK, expression ANIMATION_BLOCK
+      else if ((lhs_type == INT && rhs_type != INT)
+          ||(lhs_type==DOUBLE&&(rhs_type != INT && rhs_type!=DOUBLE))
+          ||(lhs_type == STRING && rhs_type == ANIMATION_BLOCK)
+          ||(lhs_type==ANIMATION_BLOCK&& rhs_type != ANIMATION_BLOCK)
+          )
+      {
+        Error::error(Error::ASSIGNMENT_TYPE_ERROR,
+                     gpl_type_to_string(lhs_type),
+                     gpl_type_to_string(rhs_type)
+                    );
+      }
+        else if (lhs_type==ANIMATION_BLOCK)
+        {
+          // since lhs is an ANIMATION_BLOCK, it SHOULD take one of these forms
+          // circle.animation_block =
+          // circles[index].animation_block =
+
+          // this is ok
+          //   my_rect.animation_block = bounce;
+          // this is NOT ok
+          //   bounce = move;
+          // check to make sure it is not this illegal form
+          if (lhs->is_non_member_animation_block())
+          {
+            Error::error(Error::CANNOT_ASSIGN_TO_NON_MEMBER_ANIMATION_BLOCK,
+                         lhs->get_name()
+                        );
+          }
+          else
+          {
+  
+            // get the type of the Game_object on the LHS
+            Gpl_type lhs_base_object_type = lhs->get_base_game_object_type();
+  
+            Gpl_type rhs_param_type = rhs->eval_animation_block()->get_parameter_symbol()->get_type();
+  
+            // Animation_block *block = rhs->eval_animation_block();
+            // Symbol *sym = block->get_parameter_symbol();
+  
+            if (lhs_base_object_type != rhs_param_type)
+            {
+              Error::error(Error::ANIMATION_BLOCK_ASSIGNMENT_PARAMETER_TYPE_ERROR,
+                           gpl_type_to_string(lhs_base_object_type),
+                           gpl_type_to_string(rhs_param_type)
+                          );
+  
+            }
+            else statement_block_stack.top()->insert(new Assign_statement(ASSIGN, lhs, rhs));
+            }
+          }
+      else // the types are ok
+      {
+        statement_block_stack.top()->insert(new Assign_statement(ASSIGN, lhs, rhs));
+      }
+  }
+  | variable T_PLUS_ASSIGN expression
+  {
+      Gpl_type lhs_type = $1->get_type();
+      Gpl_type rhs_type = $3->get_type();
+
+      // game_object & statement_block are illegal on lhs of +=
+      if ((lhs_type & GAME_OBJECT) || (lhs_type == ANIMATION_BLOCK))
+      {
+        Error::error(Error::INVALID_LHS_OF_PLUS_ASSIGNMENT,
+                  $1->get_name(),
+                  gpl_type_to_string(lhs_type)
+              );
+      }
+
+      // if variable is an INT, expression must be INT
+      // if variable is a DOUBLE, expression must be INT or DOUBLE
+      // if variable is a STRING, expression must be STRING,INT, or DOUBLE
+      else if ((lhs_type == INT && rhs_type != INT)
+          ||(lhs_type==DOUBLE&&(rhs_type != INT && rhs_type!=DOUBLE))
+          ||(lhs_type == STRING && rhs_type == ANIMATION_BLOCK)
+          )
+      {
+        Error::error(Error::PLUS_ASSIGNMENT_TYPE_ERROR,
+              gpl_type_to_string(lhs_type),
+              gpl_type_to_string(rhs_type)
+              );
+      }
+      else // the types are ok
+      {
+        statement_block_stack.top()->insert(new Assign_statement(PLUS_ASSIGN, $1, $3));
+      }
+  }
+  | variable T_MINUS_ASSIGN expression
+  {
+      Gpl_type lhs_type = $1->get_type();
+      Gpl_type rhs_type = $3->get_type();
+
+      // game_object & statement_block & string are illegal on lhs of +=
+      if (lhs_type != INT && lhs_type != DOUBLE)
+      {
+        Error::error(Error::INVALID_LHS_OF_MINUS_ASSIGNMENT,
+                  $1->get_name(),
+                  gpl_type_to_string(lhs_type)
+                 );
+      }
+
+      // if variable is an INT, expression must be INT
+      // if variable is a DOUBLE, expression must be INT or DOUBLE
+      else if ((lhs_type == INT && rhs_type != INT)
+          ||(lhs_type==DOUBLE&&(rhs_type != INT && rhs_type!=DOUBLE))
+          )
+      {
+        Error::error(Error::MINUS_ASSIGNMENT_TYPE_ERROR,
+              gpl_type_to_string(lhs_type),
+              gpl_type_to_string(rhs_type)
+              );
+      }
+      else // the types are ok
+      {
+        statement_block_stack.top()->insert(new Assign_statement(MINUS_ASSIGN, $1, $3));
+      }
+  }
+  | variable T_PLUS_PLUS
+  {
+      Gpl_type lhs_type = $1->get_type();
+      if (lhs_type != INT)
+      {
+        Error::error(Error::INVALID_LHS_OF_PLUS_PLUS,
+                  $1->get_name(),
+                  gpl_type_to_string(lhs_type)
+                 );
+      }
+      else // the types are ok
+      {
+        statement_block_stack.top()->insert(new Assign_statement(PLUS_PLUS, $1));
+      }
+  }
+  | variable T_MINUS_MINUS
+  {
+      Gpl_type lhs_type = $1->get_type();
+      if (lhs_type != INT)
+      {
+        Error::error(Error::INVALID_LHS_OF_MINUS_MINUS,
+                  $1->get_name(),
+                  gpl_type_to_string(lhs_type)
+                 );
+      }
+      else // the types are ok
+      {
+        statement_block_stack.top()->insert(new Assign_statement(MINUS_MINUS, $1));
+      }
+  }
+  ;
+
+
+//---------------------------------------------------------------------
+BELOW IS FOR PHASE 7 PART B
+//---------------------------------------------------------------------
+program:
+  declaration_list block_list
+  {
+    {
+      // check that all animation blocks declared in a forward
+      // statement have been provided
+      for (unsigned int i = 0; i < animation_blocks.size(); i++)
+        if (animation_blocks[i]->complete() == false)
+          Error::error(Error::NO_BODY_PROVIDED_FOR_FORWARD, animation_blocks[i]->name());
+
+      /*
+      vector<Animation_block *>::const_iterator iter;
+      for (iter = animation_blocks.begin(); iter != animation_blocks.end(); iter++)
+         if ((*iter)->complete() == false)
+          Error::error(Error::NO_BODY_PROVIDED_FOR_FORWARD, (*iter)->name());
+      */
+    }
+  }
+  ;
+initialization_block:
+  T_INITIALIZATION statement_block
+  {
+    // COMPLETE ME
+  }
+  ;
+//---------------------------------------------------------------------
+animation_block:
+  T_ANIMATION T_ID T_LPAREN check_animation_parameter 
+  {
+      bool error_recovery = false;
+  
+      Symbol *symbol = symbol_table->lookup(*$2);
+      Animation_block *block = NULL;
+  
+      // If this block hasn't already be declared with a forward statement
+      if (!symbol || !symbol->is_animation_block())
+      {
+        Error::error(Error::NO_FORWARD_FOR_ANIMATION_BLOCK, *$2);
+        // for error recovery, create new block, put in symbol table
+        block = new Animation_block();
+        block->initialize(NULL, "error_recovery");
+        error_recovery = true;
+      }
+      else
+      {
+        // COMPLETE ME
+
+        // get the block from the symbol
+  
+        // make sure a body has not already been provided
+        // block->complete() == false if a body has not been provided
+      }
+      if (!error_recovery && $4 != block->get_parameter_symbol())
+      {
+        Error::error(Error::ANIMATION_PARAM_DOES_NOT_MATCH_FORWARD);
+      }
+      // this makes the Animation_block complete (it has a body)
+      block->mark_complete();
+      statement_block_stack.push(block);
+  }
+  T_RPAREN T_LBRACE statement_list T_RBRACE end_of_statement_block
+  {
+      assert(false && "animation block not implemented before p8");
+  }
+  ;
+//---------------------------------------------------------------------
+check_animation_parameter:
+  object_type T_ID
+  {
+      // checking for this situation
+      // forward animation bounce(rectangle cur_rectangle);
+      // ...
+      // animation bounce(triangle cur_rectangle)   << same ID (cur_rectangle) different types (rectangle vs triangle)
+      // ...
+
+      Gpl_type obj_type = $1;
+      string id = *$2;
+      Game_object *parameter = NULL;
+      Symbol *symbol = symbol_table->lookup(id);
+      if (symbol && symbol->is_game_object())
+        parameter = symbol->get_game_object_value();
+      if (!symbol || !parameter || parameter->get_type() != obj_type)
+        $$ = NULL;
+      else $$ = symbol;
+  }
+  ;

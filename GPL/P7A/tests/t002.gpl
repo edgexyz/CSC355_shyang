@@ -1,0 +1,54 @@
+forward animation move(circle cur_circle);
+string window_title = "p8 test t002 -- after it stops, compare to t002.jpg";
+
+circle my_circle(x = 0, y = 100, animation_block = move,
+                 red = 0.123, green = 0.345, blue = 0.678);
+
+int i = 0;
+
+animation move(circle cur_circle)
+{
+    if (i == 0)
+    {
+        print("First time animation is called");
+        print("my_circle.x = " + my_circle.x);
+        print("cur_circle.x = " + cur_circle.x);
+        print("my_circle.y = " + my_circle.y);
+        print("cur_circle.y = " + cur_circle.y);
+        print("my_circle.red = " + my_circle.red);
+        print("cur_circle.red = " + cur_circle.red);
+        print("my_circle.green = " + my_circle.green);
+        print("cur_circle.green = " + cur_circle.green);
+        print("my_circle.blue = " + my_circle.blue);
+        print("cur_circle.blue = " + cur_circle.blue);
+    }
+
+    if (i < 10)
+        cur_circle.y += 10;
+
+    if (i == 11)
+    {
+        print("After last call to animation");
+        print("my_circle.x = " + my_circle.x);
+        print("cur_circle.x = " + cur_circle.x);
+        print("my_circle.y = " + my_circle.y);
+        print("cur_circle.y = " + cur_circle.y);
+        print("my_circle.red = " + my_circle.red);
+        print("cur_circle.red = " + cur_circle.red);
+        print("my_circle.green = " + my_circle.green);
+        print("cur_circle.green = " + cur_circle.green);
+        print("my_circle.blue = " + my_circle.blue);
+        print("cur_circle.blue = " + cur_circle.blue);
+    }
+
+    i = i + 1;
+}
+
+termination
+{
+  print("my_circle.x = " + my_circle.x);
+  print("my_circle.y = " + my_circle.y);
+  print("my_circle.red = " + my_circle.red);
+  print("my_circle.green = " + my_circle.green);
+  print("my_circle.blue = " + my_circle.blue);
+}

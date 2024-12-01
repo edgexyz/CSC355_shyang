@@ -1,0 +1,42 @@
+string window_title = "p8 test t004 -- after it stops, compare to t004.jpg";
+forward animation move(circle cur_circle);
+
+int index;
+int size = 97;
+circle circles[size];
+
+int animation_steps = 0;
+
+initialization
+{
+    for (index = 0; index < size; index += 1)
+    {
+        circles[index].x = 5 * index;
+        circles[index].y = 0;
+        circles[index].animation_block = move;
+        circles[index].red = (1.0 * index)/size;
+        circles[index].blue = 1.0 - index/size;
+        circles[index].user_int = index;
+        print("circles[" + index + "].x = " + circles[index].x);
+        print("circles[" + index + "].y = " + circles[index].y);
+        print("circles[" + index + "].red = " + circles[index].red);
+        print("circles[" + index + "].blue = " + circles[index].blue);
+    }
+}
+
+
+animation move(circle cur_circle)
+{
+    if (animation_steps < 30 * size)
+        cur_circle.y += 10;
+
+    if (animation_steps >= 29 * size && animation_steps < 30 * size)
+    {
+        print("circles[" + cur_circle.user_int + "].x = " + cur_circle.x);
+        print("circles[" + cur_circle.user_int + "].y = " + cur_circle.y);
+        print("circles[" + cur_circle.user_int + "].red = " + cur_circle.red);
+        print("circles[" + cur_circle.user_int + "].blue = " + cur_circle.blue);
+    }
+
+    animation_steps += 1;
+}

@@ -1,0 +1,30 @@
+circle dot(x = 100, y = 100, radius = 20);
+
+int num_walls = 2;
+int i;
+rectangle walls[num_walls];
+
+
+initialization
+{
+  walls[0].x = 100;
+  walls[0].y = 100;
+  walls[0].h = 100;
+  walls[0].w = 20;
+
+  walls[1].x = 200;
+  walls[1].y = 100;
+  walls[1].h = 100;
+  walls[1].w = 20;
+}
+
+on akey
+{
+  for (i = 0; i < 2; i++)
+  {
+    if (dot touches walls[i])
+      print("touching walls[" + i + "]");
+    else
+      print("not touching walls[" + i + "]");
+  }
+}

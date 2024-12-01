@@ -1,0 +1,7 @@
+// bounds checking should be done in the variable
+// if you moved it from the variable to the assignment statment, you will fail this test
+int nums[3];
+
+int i = nums[4];
+
+int j = nums[1.234];

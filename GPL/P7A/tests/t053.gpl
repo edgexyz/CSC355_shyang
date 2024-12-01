@@ -1,0 +1,50 @@
+// this tests uses random to create colors
+// so your output will HAVE DIFFERENT COLORS THAN MY OUTPUT 
+// as long as all the squares are filled, your output is correct
+int i;
+int inc = 5;
+int num_rects = 100;
+rectangle rects[num_rects];
+string window_title = "p8 test t053 -- expect random colors, compare to t053.jpg";
+
+on space
+{
+    for (i = 0; i < num_rects; i += 1)
+    {
+        rects[i].w = 50;
+        rects[i].h = 50;
+
+        rects[i].x = random(18) * 25;
+        rects[i].y = random(18) * 25;
+
+        rects[i].red = random(100)/100.0;
+        rects[i].blue = random(100)/100.0;
+        rects[i].green = random(100)/100.0;
+    }
+}
+
+on akey
+{
+    for (i = 0; i < num_rects; i += 1)
+    {
+	if (rects[i].x > i%10 * 50)
+	    rects[i].x -= inc;
+	else if (rects[i].x < i%10 * 50)
+	    rects[i].x += inc;
+
+
+	if (rects[i].y > i/10 * 50)
+	    rects[i].y -= inc;
+	else if (rects[i].y < i/10 * 50)
+	    rects[i].y += inc;
+
+    }
+}
+on skey
+{
+    for (i = 0; i < num_rects; i += 1)
+    {
+      print("rects[" + i + "].x = " + rects[i].x);
+      print("rects[" + i + "].y = " + rects[i].y);
+    }
+}

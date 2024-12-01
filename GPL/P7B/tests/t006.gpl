@@ -1,0 +1,53 @@
+// Set up system variables
+int window_width = 400;
+int window_height = 500;
+string window_title = "p8::t006, compare to t006.jpg";
+int circle_x_increment = 10;
+int circle_y_increment = 10;
+int red = 12;
+int green = 33;
+int blue = 50;
+int have_printed = 0;
+
+// declare the animation handler functions
+forward animation circle_animate(circle cur_circle);
+
+circle my_circle(animation_block = circle_animate, x = window_width/2, y = window_height/2, radius = 30);
+
+textbox txt1(text = "let this run until the ball stops", y = 30);
+textbox txt2(text = "then compare window to t06.jpg", y = 10);
+
+// animation handler for the circle
+animation circle_animate(circle cur_circle)
+{
+    if (cur_circle.x != 70 || cur_circle.y != 420)
+    {
+        red = (red + 1) % 100;
+        cur_circle.red = red/100.0;
+        green = (green + 1) % 100;
+        cur_circle.green = green/100.0;
+        blue = (blue + 1) % 100;
+        cur_circle.blue = blue/100.0;
+
+	    // if circle has reached either the left or right, reverse its direction
+	    if (cur_circle.x < 0 || cur_circle.x + 2 * cur_circle.radius > window_width)
+		    circle_x_increment = -circle_x_increment;
+
+	    // if circle has reached either the top or bottom, reverse its direction
+	    if (cur_circle.y < 0 || cur_circle.y  + 2 * cur_circle.radius> window_height)
+		    circle_y_increment = -circle_y_increment;
+
+	    // on each step of the animation, move the circle
+	    cur_circle.x += circle_x_increment;
+	    cur_circle.y += circle_y_increment;
+    }
+    else if (have_printed == 0)
+    {
+      print("cur_circle.red = " + cur_circle.red);
+      print("cur_circle.green = " + cur_circle.green);
+      print("cur_circle.blue = " + cur_circle.blue);
+      print("cur_circle.x = " + cur_circle.x);
+      print("cur_circle.y = " + cur_circle.y);
+      have_printed = 1;
+    }
+}

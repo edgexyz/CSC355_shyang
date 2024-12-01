@@ -1,0 +1,70 @@
+// Set up system variables
+int window_width = 800;
+int window_height = 500;
+string window_title = "p8 test t007 -- after it stops, compare to t007.jpg";
+int size = 30;
+int red = 66;
+int green = 33;
+int blue = 20;
+int index;
+
+
+// declare the animation handler functions
+forward animation text_animate(textbox cur_text);
+
+textbox txt1(text = "let this run until all the numbers stop", y = 30);
+textbox txt2(text = "then compare window to t07.jpg", y = 10);
+textbox my_text[100];
+
+initialization
+{
+    for (index = 0; index < size; index += 1)
+    {
+        my_text[index].x = (10 * (index + 1)) % window_width;
+        my_text[index].y = (5 * (index + 1)) % window_height;
+        my_text[index].animation_block = text_animate;
+        my_text[index].user_int = index;
+        my_text[index].user_int2 = 5;
+        my_text[index].user_int3 = 5;
+        my_text[index].text = index;
+    }
+}
+
+
+// animation handler for the text
+animation text_animate(textbox cur_text)
+{
+    if (cur_text.x != 5 * cur_text.user_int)
+    {
+        red = (red + 1) % 100;
+        cur_text.red = red/100.0;
+        green = (green + 1) % 100;
+        cur_text.green = green/100.0;
+        blue = (blue + 1) % 100;
+        cur_text.blue = blue/100.0;
+
+	    // if text has reached either the left or right, reverse its direction
+	    if (cur_text.x < 0 || cur_text.x > window_width - 20)
+            cur_text.user_int2 = - cur_text.user_int2;
+
+	    // if text has reached either the top or bottom, reverse its direction
+	    if (cur_text.y < 0 || cur_text.y > window_height - 20)
+            cur_text.user_int3 = - cur_text.user_int3;
+
+	    // on each step of the animation, move the text
+	    cur_text.x += cur_text.user_int2;
+	    cur_text.y += cur_text.user_int3;
+    }
+}
+
+termination
+{
+    for (index = 0; index < size; index++)
+    {
+      print("my_text[" + index + "].x = " + my_text[index].x);
+      print("my_text[" + index + "].y = " + my_text[index].y);
+      print("my_text[" + index + "].red = " + my_text[index].red);
+      print("my_text[" + index + "].green = " + my_text[index].green);
+      print("my_text[" + index + "].blue = " + my_text[index].blue);
+    }
+}

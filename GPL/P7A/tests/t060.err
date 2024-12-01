@@ -1,0 +1,1 @@
+Semantic error on line 17: Cannot assign to animation block 'bounce' because it is not a member variable.  Can only assign to animation blocks that are member variables.

@@ -1,0 +1,7 @@
+// animation block parameter is not unique
+// error::ANIMATION_PARAMETER_NAME_NOT_UNIQUE:
+//    "The animation parameter '...' is not a unique name"
+
+rectangle cur_rectangle();
+
+forward animation bounce(rectangle cur_rectangle);

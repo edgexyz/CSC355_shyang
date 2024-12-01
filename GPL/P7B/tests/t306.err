@@ -1,0 +1,2 @@
+Semantic error on line 6: Left operand to geometric operators must be a Game_object (circle, rectangle, triangle, etc.)
+Semantic error on line 6: Right operand to geometric operators must be a Game_object (circle, rectangle, triangle, etc.)

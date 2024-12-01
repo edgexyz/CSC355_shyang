@@ -1,0 +1,5 @@
+// forward w/o the body of the animation
+// Error::NO_BODY_PROVIDED_FOR_FORWARD
+//   "No body was provided for animation block..."
+forward animation bounce(rectangle cur_rectangle);
+

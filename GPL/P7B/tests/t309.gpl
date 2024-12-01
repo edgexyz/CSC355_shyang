@@ -1,0 +1,12 @@
+// Notice that the type of cur_rectangle in the forward is rectangle
+// BUT in the animation's body cur_rectangle is declared as a triangle
+// This check has to be done in the action for check_animation_paramter
+// because that rule matches the "triangle cur_rectangle")
+forward animation bounce(rectangle cur_rectangle);
+
+rectangle rect(animation_block = bounce);
+
+animation bounce(triangle cur_rectangle)
+{
+  print("animation bounce was called");
+}

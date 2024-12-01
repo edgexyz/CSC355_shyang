@@ -1,0 +1,2 @@
+Semantic error on line 5: Index value '4' is out of bounds for array 'nums'.
+Semantic error on line 7: A double expression is not a legal array index. The array is 'nums'.

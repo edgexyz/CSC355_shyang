@@ -1,0 +1,552 @@
+gpl.cpp::main()
+  input file(tests/t026.gpl)
+  random seed(42)
+  read_keypresses_from_standard_input(true)
+  dump_pixels(false)
+  symbol_table(true)
+  graphics(true)
+
+gpl.cpp::main() Calling yyparse()
+
+
+gpl.cpp::main() after call to yyparse().
+
+
+Printing the symbol table from main()
+circle dot
+{
+    animation_block = NULL,
+    blue = double(1),
+    drawing_order = int(0),
+    green = double(0),
+    h = int(16),
+    proximity = int(4),
+    radius = int(8),
+    red = double(0),
+    user_double = double(0),
+    user_double2 = double(0),
+    user_double3 = double(0),
+    user_double4 = double(0),
+    user_double5 = double(0),
+    user_int = int(0),
+    user_int2 = int(0),
+    user_int3 = int(0),
+    user_int4 = int(0),
+    user_int5 = int(0),
+    user_string = string(""),
+    user_string2 = string(""),
+    user_string3 = string(""),
+    user_string4 = string(""),
+    user_string5 = string(""),
+    visible = int(1),
+    w = int(16),
+    x = int(20),
+    y = int(130)
+}
+int i = 0
+int num_walls = 8
+rectangle walls[0]
+{
+    animation_block = NULL,
+    blue = double(0),
+    drawing_order = int(0),
+    green = double(0),
+    h = int(10),
+    proximity = int(4),
+    red = double(1),
+    rotation = double(0),
+    user_double = double(0),
+    user_double2 = double(0),
+    user_double3 = double(0),
+    user_double4 = double(0),
+    user_double5 = double(0),
+    user_int = int(0),
+    user_int2 = int(0),
+    user_int3 = int(0),
+    user_int4 = int(0),
+    user_int5 = int(0),
+    user_string = string(""),
+    user_string2 = string(""),
+    user_string3 = string(""),
+    user_string4 = string(""),
+    user_string5 = string(""),
+    visible = int(1),
+    w = int(10),
+    x = int(0),
+    y = int(0)
+}
+rectangle walls[1]
+{
+    animation_block = NULL,
+    blue = double(0),
+    drawing_order = int(0),
+    green = double(0),
+    h = int(10),
+    proximity = int(4),
+    red = double(1),
+    rotation = double(0),
+    user_double = double(0),
+    user_double2 = double(0),
+    user_double3 = double(0),
+    user_double4 = double(0),
+    user_double5 = double(0),
+    user_int = int(0),
+    user_int2 = int(0),
+    user_int3 = int(0),
+    user_int4 = int(0),
+    user_int5 = int(0),
+    user_string = string(""),
+    user_string2 = string(""),
+    user_string3 = string(""),
+    user_string4 = string(""),
+    user_string5 = string(""),
+    visible = int(1),
+    w = int(10),
+    x = int(0),
+    y = int(0)
+}
+rectangle walls[2]
+{
+    animation_block = NULL,
+    blue = double(0),
+    drawing_order = int(0),
+    green = double(0),
+    h = int(10),
+    proximity = int(4),
+    red = double(1),
+    rotation = double(0),
+    user_double = double(0),
+    user_double2 = double(0),
+    user_double3 = double(0),
+    user_double4 = double(0),
+    user_double5 = double(0),
+    user_int = int(0),
+    user_int2 = int(0),
+    user_int3 = int(0),
+    user_int4 = int(0),
+    user_int5 = int(0),
+    user_string = string(""),
+    user_string2 = string(""),
+    user_string3 = string(""),
+    user_string4 = string(""),
+    user_string5 = string(""),
+    visible = int(1),
+    w = int(10),
+    x = int(0),
+    y = int(0)
+}
+rectangle walls[3]
+{
+    animation_block = NULL,
+    blue = double(0),
+    drawing_order = int(0),
+    green = double(0),
+    h = int(10),
+    proximity = int(4),
+    red = double(1),
+    rotation = double(0),
+    user_double = double(0),
+    user_double2 = double(0),
+    user_double3 = double(0),
+    user_double4 = double(0),
+    user_double5 = double(0),
+    user_int = int(0),
+    user_int2 = int(0),
+    user_int3 = int(0),
+    user_int4 = int(0),
+    user_int5 = int(0),
+    user_string = string(""),
+    user_string2 = string(""),
+    user_string3 = string(""),
+    user_string4 = string(""),
+    user_string5 = string(""),
+    visible = int(1),
+    w = int(10),
+    x = int(0),
+    y = int(0)
+}
+rectangle walls[4]
+{
+    animation_block = NULL,
+    blue = double(0),
+    drawing_order = int(0),
+    green = double(0),
+    h = int(10),
+    proximity = int(4),
+    red = double(1),
+    rotation = double(0),
+    user_double = double(0),
+    user_double2 = double(0),
+    user_double3 = double(0),
+    user_double4 = double(0),
+    user_double5 = double(0),
+    user_int = int(0),
+    user_int2 = int(0),
+    user_int3 = int(0),
+    user_int4 = int(0),
+    user_int5 = int(0),
+    user_string = string(""),
+    user_string2 = string(""),
+    user_string3 = string(""),
+    user_string4 = string(""),
+    user_string5 = string(""),
+    visible = int(1),
+    w = int(10),
+    x = int(0),
+    y = int(0)
+}
+rectangle walls[5]
+{
+    animation_block = NULL,
+    blue = double(0),
+    drawing_order = int(0),
+    green = double(0),
+    h = int(10),
+    proximity = int(4),
+    red = double(1),
+    rotation = double(0),
+    user_double = double(0),
+    user_double2 = double(0),
+    user_double3 = double(0),
+    user_double4 = double(0),
+    user_double5 = double(0),
+    user_int = int(0),
+    user_int2 = int(0),
+    user_int3 = int(0),
+    user_int4 = int(0),
+    user_int5 = int(0),
+    user_string = string(""),
+    user_string2 = string(""),
+    user_string3 = string(""),
+    user_string4 = string(""),
+    user_string5 = string(""),
+    visible = int(1),
+    w = int(10),
+    x = int(0),
+    y = int(0)
+}
+rectangle walls[6]
+{
+    animation_block = NULL,
+    blue = double(0),
+    drawing_order = int(0),
+    green = double(0),
+    h = int(10),
+    proximity = int(4),
+    red = double(1),
+    rotation = double(0),
+    user_double = double(0),
+    user_double2 = double(0),
+    user_double3 = double(0),
+    user_double4 = double(0),
+    user_double5 = double(0),
+    user_int = int(0),
+    user_int2 = int(0),
+    user_int3 = int(0),
+    user_int4 = int(0),
+    user_int5 = int(0),
+    user_string = string(""),
+    user_string2 = string(""),
+    user_string3 = string(""),
+    user_string4 = string(""),
+    user_string5 = string(""),
+    visible = int(1),
+    w = int(10),
+    x = int(0),
+    y = int(0)
+}
+rectangle walls[7]
+{
+    animation_block = NULL,
+    blue = double(0),
+    drawing_order = int(0),
+    green = double(0),
+    h = int(10),
+    proximity = int(4),
+    red = double(1),
+    rotation = double(0),
+    user_double = double(0),
+    user_double2 = double(0),
+    user_double3 = double(0),
+    user_double4 = double(0),
+    user_double5 = double(0),
+    user_int = int(0),
+    user_int2 = int(0),
+    user_int3 = int(0),
+    user_int4 = int(0),
+    user_int5 = int(0),
+    user_string = string(""),
+    user_string2 = string(""),
+    user_string3 = string(""),
+    user_string4 = string(""),
+    user_string5 = string(""),
+    visible = int(1),
+    w = int(10),
+    x = int(0),
+    y = int(0)
+}
+int window_height = 700
+int window_width = 700
+int window_x = 10
+int window_y = 10
+gpl.cpp::main() Calling window->initialize().
+
+
+gpl.cpp::main() Passing control to window->main_loop().
+print[87]: dot near wall 4
+print[87]: dot near wall 4
+print[87]: dot near wall 4
+print[87]: dot near wall 4
+print[87]: dot near wall 4
+print[87]: dot near wall 4
+print[87]: dot near wall 4
+print[87]: dot near wall 4
+print[87]: dot near wall 4
+print[87]: dot near wall 4
+print[87]: dot near wall 4
+print[87]: dot near wall 4
+print[87]: dot near wall 4
+print[87]: dot near wall 4
+print[87]: dot near wall 4
+print[87]: dot near wall 4
+print[87]: dot near wall 4
+print[87]: dot near wall 4
+print[87]: dot near wall 4
+print[87]: dot near wall 4
+print[87]: dot near wall 4
+print[87]: dot near wall 4
+print[87]: dot near wall 4
+print[87]: dot near wall 4
+print[87]: dot near wall 4
+print[87]: dot near wall 4
+print[87]: dot near wall 4
+print[87]: dot near wall 4
+print[87]: dot near wall 4
+print[87]: dot near wall 4
+print[87]: dot near wall 4
+print[87]: dot near wall 4
+print[87]: dot near wall 4
+print[87]: dot near wall 4
+print[87]: dot near wall 4
+print[87]: dot near wall 4
+print[87]: dot near wall 4
+print[87]: dot near wall 4
+print[87]: dot near wall 4
+print[87]: dot near wall 4
+print[87]: dot near wall 4
+print[87]: dot near wall 4
+print[87]: dot near wall 4
+print[87]: dot near wall 4
+print[87]: dot near wall 2
+print[87]: dot near wall 2
+print[87]: dot near wall 2
+print[87]: dot near wall 2
+print[87]: dot near wall 2
+print[87]: dot near wall 2
+print[87]: dot near wall 2
+print[87]: dot near wall 2
+print[87]: dot near wall 2
+print[87]: dot near wall 2
+print[87]: dot near wall 2
+print[87]: dot near wall 6
+print[87]: dot near wall 6
+print[87]: dot near wall 6
+print[87]: dot near wall 6
+print[87]: dot near wall 6
+print[87]: dot near wall 6
+print[87]: dot near wall 6
+print[87]: dot near wall 6
+print[87]: dot near wall 6
+print[87]: dot near wall 6
+print[87]: dot near wall 6
+print[87]: dot near wall 6
+print[87]: dot near wall 6
+print[87]: dot near wall 6
+print[87]: dot near wall 6
+print[87]: dot near wall 6
+print[87]: dot near wall 6
+print[87]: dot near wall 6
+print[87]: dot near wall 6
+print[87]: dot near wall 6
+print[87]: dot near wall 6
+print[87]: dot near wall 6
+print[87]: dot near wall 6
+print[87]: dot near wall 6
+print[87]: dot near wall 6
+print[87]: dot near wall 6
+print[87]: dot near wall 6
+print[87]: dot near wall 6
+print[87]: dot near wall 6
+print[87]: dot near wall 6
+print[87]: dot near wall 6
+print[87]: dot near wall 6
+print[87]: dot near wall 6
+print[87]: dot near wall 6
+print[87]: dot near wall 6
+print[87]: dot near wall 6
+print[87]: dot near wall 6
+print[87]: dot near wall 6
+print[87]: dot near wall 6
+print[87]: dot near wall 6
+print[87]: dot near wall 6
+print[87]: dot near wall 6
+print[87]: dot near wall 6
+print[87]: dot near wall 6
+print[87]: dot near wall 6
+print[87]: dot near wall 6
+print[87]: dot near wall 6
+print[87]: dot near wall 6
+print[87]: dot near wall 6
+print[87]: dot near wall 5
+print[87]: dot near wall 5
+print[87]: dot near wall 5
+print[87]: dot near wall 5
+print[87]: dot near wall 5
+print[87]: dot near wall 5
+print[87]: dot near wall 5
+print[87]: dot near wall 5
+print[87]: dot near wall 5
+print[87]: dot near wall 5
+print[87]: dot near wall 5
+print[87]: dot near wall 5
+print[87]: dot near wall 5
+print[87]: dot near wall 5
+print[87]: dot near wall 5
+print[87]: dot near wall 5
+print[87]: dot near wall 5
+print[87]: dot near wall 5
+print[87]: dot near wall 5
+print[87]: dot near wall 5
+print[87]: dot near wall 5
+print[87]: dot near wall 5
+print[87]: dot near wall 5
+print[87]: dot near wall 5
+print[87]: dot near wall 5
+print[87]: dot near wall 5
+print[87]: dot near wall 5
+print[87]: dot near wall 5
+print[87]: dot near wall 5
+print[87]: dot near wall 5
+print[87]: dot near wall 5
+print[87]: dot near wall 5
+print[87]: dot near wall 5
+print[87]: dot near wall 5
+print[87]: dot near wall 5
+print[87]: dot near wall 5
+print[87]: dot near wall 5
+print[87]: dot near wall 5
+print[87]: dot near wall 5
+print[87]: dot near wall 5
+print[87]: dot near wall 5
+print[87]: dot near wall 5
+print[87]: dot near wall 5
+print[87]: dot near wall 2
+print[87]: dot near wall 2
+print[87]: dot near wall 2
+print[87]: dot near wall 2
+print[87]: dot near wall 2
+print[87]: dot near wall 2
+print[87]: dot near wall 2
+print[87]: dot near wall 2
+print[87]: dot near wall 2
+print[87]: dot near wall 2
+print[87]: dot near wall 2
+print[87]: dot near wall 7
+print[87]: dot near wall 7
+print[87]: dot near wall 7
+print[87]: dot near wall 7
+print[87]: dot near wall 7
+print[87]: dot near wall 7
+print[87]: dot near wall 7
+print[87]: dot near wall 7
+print[87]: dot near wall 7
+print[87]: dot near wall 7
+print[87]: dot near wall 7
+print[87]: dot near wall 7
+print[87]: dot near wall 7
+print[87]: dot near wall 7
+print[87]: dot near wall 7
+print[87]: dot near wall 7
+print[87]: dot near wall 7
+print[87]: dot near wall 7
+print[87]: dot near wall 7
+print[87]: dot near wall 7
+print[87]: dot near wall 7
+print[87]: dot near wall 7
+print[87]: dot near wall 7
+print[87]: dot near wall 7
+print[87]: dot near wall 7
+print[87]: dot near wall 7
+print[87]: dot near wall 7
+print[87]: dot near wall 7
+print[87]: dot near wall 7
+print[87]: dot near wall 7
+print[87]: dot near wall 7
+print[87]: dot near wall 7
+print[87]: dot near wall 7
+print[87]: dot near wall 7
+print[87]: dot near wall 7
+print[87]: dot near wall 7
+print[87]: dot near wall 7
+print[87]: dot near wall 7
+print[87]: dot near wall 7
+print[87]: dot near wall 7
+print[87]: dot near wall 7
+print[87]: dot near wall 7
+print[87]: dot near wall 7
+print[87]: dot near wall 7
+print[87]: dot near wall 7
+print[87]: dot near wall 7
+print[87]: dot near wall 7
+print[87]: dot near wall 7
+print[87]: dot near wall 7
+print[87]: dot near wall 1
+print[87]: dot near wall 1
+print[87]: dot near wall 1
+print[87]: dot near wall 1
+print[87]: dot near wall 1
+print[87]: dot near wall 1
+print[87]: dot near wall 1
+print[87]: dot near wall 1
+print[87]: dot near wall 1
+print[87]: dot near wall 1
+print[87]: dot near wall 1
+print[87]: dot near wall 1
+print[87]: dot near wall 1
+print[87]: dot near wall 1
+print[87]: dot near wall 1
+print[87]: dot near wall 1
+print[87]: dot near wall 1
+print[87]: dot near wall 1
+print[87]: dot near wall 1
+print[87]: dot near wall 1
+print[87]: dot near wall 1
+print[87]: dot near wall 1
+print[87]: dot near wall 1
+print[87]: dot near wall 1
+print[87]: dot near wall 1
+print[87]: dot near wall 1
+print[87]: dot near wall 1
+print[87]: dot near wall 1
+print[87]: dot near wall 1
+print[87]: dot near wall 1
+print[87]: dot near wall 1
+print[87]: dot near wall 1
+print[87]: dot near wall 1
+print[87]: dot near wall 1
+print[87]: dot near wall 1
+print[87]: dot near wall 1
+print[87]: dot near wall 1
+print[87]: dot near wall 1
+print[87]: dot near wall 1
+print[87]: dot near wall 1
+print[87]: dot near wall 1
+print[87]: dot near wall 1
+print[87]: dot near wall 1
+print[87]: dot near wall 2
+print[87]: dot near wall 2
+print[87]: dot near wall 2
+print[87]: dot near wall 2
+print[87]: dot near wall 2
+
+User quit program.  Executing termination blocks

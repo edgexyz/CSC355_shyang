@@ -1,0 +1,65 @@
+gpl.cpp::main()
+  input file(tests/t802.gpl)
+  random seed(42)
+  read_keypresses_from_standard_input(true)
+  dump_pixels(false)
+  symbol_table(true)
+  graphics(true)
+
+gpl.cpp::main() Calling yyparse()
+
+
+gpl.cpp::main() after call to yyparse().
+
+
+Printing the symbol table from main()
+double a = 1
+double b = 2
+double c = 3
+double d = 4
+double e = 5
+double f = 6
+double g = 7
+double h = 8
+double i = 9
+double j = 10
+double k = 11
+double l = 12
+double m = 13
+double n = 14
+double o = 15
+double p = 16
+double q = 17
+double r = 18
+double s = 19
+double t = 20
+double u = 21
+double v = 22
+double var1 = 1
+double var2 = 0
+double var3 = 0
+double var4 = 0
+double var5 = 0
+double var6 = 0
+double var7 = 0
+double var8 = 0
+double var9 = 1
+double w = 23
+double x = 24
+double y = 25
+double z = 26
+gpl.cpp::main() Calling window->initialize().
+
+
+gpl.cpp::main() Passing control to window->main_loop().
+print[39]: var1 = 1.000000
+print[40]: var2 = 0.000000
+print[41]: var3 = 0.000000
+print[42]: var4 = 0.000000
+print[43]: var5 = 0.000000
+print[44]: var6 = 0.000000
+print[45]: var7 = 0.000000
+print[46]: var8 = 0.000000
+print[47]: var9 = 1.000000
+
+User quit program.  Executing termination blocks

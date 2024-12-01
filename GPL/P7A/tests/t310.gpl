@@ -1,0 +1,61 @@
+int window_width = 200;
+int window_height = 200;
+int first_stop = 1;
+int animation_steps = 0;
+
+forward animation bounce(circle cur_circle);
+forward animation stop(circle cur_circle2);
+
+circle ball(x = 100, y = 100, animation_block = bounce);
+int ball_x_increment = 5;
+int ball_y_increment = 2;
+int ball_size = 10;
+
+initialization
+{
+  print("This program should quit on its own.  Your program has a bug if this does not quit on its own.");
+}
+
+
+animation bounce(circle cur_circle)
+{
+	// if ball has reached either the left or right, reverse its direction
+	if (cur_circle.x < 0 || cur_circle.x > window_width - ball_size)
+		ball_x_increment = -ball_x_increment;
+
+	// if ball has reached either the top or bottom, reverse its direction
+	if (cur_circle.y < 0 || cur_circle.y > window_height - ball_size)
+		ball_y_increment = -ball_y_increment;
+
+	// on each step of the animation, move the ball
+	cur_circle.x += ball_x_increment;
+	cur_circle.y += ball_y_increment;
+
+  animation_steps += 1;
+  if (animation_steps == 100)
+  {
+    print("this line should only be printed ONCE *********************");
+    // this entire test is just to make sure the following works.
+    cur_circle.animation_block = stop;
+  }
+}
+
+animation stop(circle cur_circle2)
+{
+  cur_circle2.x = 100;
+  cur_circle2.y = 100;
+  cur_circle2.red = 1;
+  cur_circle2.green = 0;
+  cur_circle2.blue = 0;
+  print("animation stop(circle cur_circle2) called for first and last time");
+  exit(42);
+}
+
+termination
+{
+  if (ball.x == 100 && ball.y == 100 && ball.red == 1 && ball.green == 0 && ball.blue == 0)
+    print("ball values are correct");
+  else
+    print("ball values are NOT correct");
+    
+}

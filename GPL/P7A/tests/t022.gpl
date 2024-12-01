@@ -1,0 +1,12 @@
+rectangle rect1(x = 10, y = 10, h = 20, w = 20, red = 0.0, green = 1.0);
+rectangle rect2(x = 29, y = 29, h = 20, w = 20, red = 0.0, green = 1.0);
+
+on space
+{
+    if (rect1 touches rect2)
+        print("(rect 1 touches rect2) == true");
+    else print("(rect 1 touches rect2) == false");
+    if (rect1 near rect2)
+        print("(rect 1 near rect2) == true");
+    else print("(rect 1 near rect2) == false");
+}

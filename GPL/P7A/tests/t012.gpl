@@ -1,0 +1,121 @@
+int window_width = 700;
+int window_height = 700;
+string window_title = "p8 test t012 -- after it stops compare to t012.jpg";
+
+int num_rows = 10;
+int num_cols = 10;
+int row;
+int col;
+int index;
+int spin_steps = 0;
+int shrink_steps = 0;
+int have_printed_shrink_steps = 0;
+int have_printed_spin_steps = 0;
+int all_rotations_eq_220 = 1;
+int all_circles_correct_size = 1;
+
+textbox textboxes[num_rows * num_cols];
+triangle triangles[num_rows * num_cols];
+circle circles[num_rows * num_cols];
+rectangle rectangles[num_rows * num_cols];
+
+forward animation spin(triangle cur_triangle);
+forward animation shrink(circle cur_circle);
+
+initialization
+{
+    for (row = 0; row < num_rows; row += 1)
+    {
+        for (col = 0; col < num_cols; col += 1)
+        {
+            index = row * num_rows + col;
+
+            rectangles[index].x = col * window_width/num_rows;
+            rectangles[index].w = window_width/num_rows -1;
+            rectangles[index].y = row * window_height/num_cols;
+            rectangles[index].h = window_height/num_cols -1;
+            circles[index].x = col * window_width/num_rows;
+            circles[index].user_int2 = circles[index].x;
+            circles[index].y = row * window_height/num_cols;
+            circles[index].user_int3 = circles[index].y;
+            circles[index].radius = window_width/num_rows/2 -1;
+            circles[index].animation_block = shrink;
+            triangles[index].x = col * window_width/num_rows + window_width/num_rows/4;
+            triangles[index].y = row * window_height/num_cols + window_height/num_cols/4;
+            triangles[index].size = window_height/num_cols/2;
+            triangles[index].animation_block = spin;
+            triangles[index].user_int = 0;
+            textboxes[index].x = col * window_width/num_rows + window_width/num_rows/3;
+            textboxes[index].y = row * window_height/num_cols + window_height/num_cols/3;
+            textboxes[index].text = "gpl";
+
+        }
+    }
+}
+
+animation spin(triangle cur_triangle)
+{
+    if (spin_steps < 11000)
+    {
+        cur_triangle.user_int += 2;
+        cur_triangle.rotation = cur_triangle.user_int;
+        spin_steps += 1;
+    }
+    else if (!have_printed_spin_steps)
+    {
+        print("Done spinning.  spin_steps = " + spin_steps);
+        have_printed_spin_steps = 1;
+
+    }
+}
+
+animation shrink(circle cur_circle)
+{
+    if (shrink_steps < 11000)
+    {
+        if (cur_circle.radius <= 0)
+        {
+            cur_circle.radius = window_width/num_rows/2 -1;
+            cur_circle.x = cur_circle.user_int2;
+            cur_circle.y = cur_circle.user_int3;
+        }
+        else 
+        {
+            cur_circle.radius -= 1;
+            cur_circle.x += 1;
+            cur_circle.y += 1;
+        }
+        shrink_steps += 1;
+    }
+    else if (!have_printed_shrink_steps)
+    {
+        print("Done shrinking.  shrink_steps = " + shrink_steps);
+        have_printed_shrink_steps = 1;
+    }
+}
+
+termination
+{
+    for (index = 0; index < num_rows * num_cols; index++)
+    {
+      if (circles[index].radius != 29)
+        all_circles_correct_size = 0;
+    }
+
+    if (all_circles_correct_size)
+      print("Circles appear to have cycled size correctly.");
+    else
+      print("Circles did not cycled size correctly.");
+
+
+    for (index = 0; index < num_rows * num_cols; index++)
+    {
+      if (triangles[index].rotation != 220)
+        all_rotations_eq_220 = 0;
+    }
+
+    if (all_rotations_eq_220)
+      print("Triangles appear to have rotated correctly.");
+    else
+      print("Triangles did not rotate correctly.");
+}

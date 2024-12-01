@@ -1,0 +1,111 @@
+gpl.cpp::main()
+  input file(tests/t002.gpl)
+  random seed(42)
+  read_keypresses_from_standard_input(false)
+  dump_pixels(true, file = results/t002.mypixels)
+  symbol_table(true)
+  graphics(true)
+
+gpl.cpp::main() Calling yyparse()
+
+
+gpl.cpp::main() after call to yyparse().
+
+
+Printing the symbol table from main()
+circle cur_circle
+{
+    animation_block = NULL,
+    blue = double(1),
+    drawing_order = int(0),
+    green = double(0),
+    h = int(20),
+    proximity = int(4),
+    radius = int(10),
+    red = double(0),
+    user_double = double(0),
+    user_double2 = double(0),
+    user_double3 = double(0),
+    user_double4 = double(0),
+    user_double5 = double(0),
+    user_int = int(0),
+    user_int2 = int(0),
+    user_int3 = int(0),
+    user_int4 = int(0),
+    user_int5 = int(0),
+    user_string = string(""),
+    user_string2 = string(""),
+    user_string3 = string(""),
+    user_string4 = string(""),
+    user_string5 = string(""),
+    visible = int(1),
+    w = int(20),
+    x = int(0),
+    y = int(0)
+}
+int i = 0
+animation_block move
+circle my_circle
+{
+    animation_block = move,
+    blue = double(0.678),
+    drawing_order = int(0),
+    green = double(0.345),
+    h = int(20),
+    proximity = int(4),
+    radius = int(10),
+    red = double(0.123),
+    user_double = double(0),
+    user_double2 = double(0),
+    user_double3 = double(0),
+    user_double4 = double(0),
+    user_double5 = double(0),
+    user_int = int(0),
+    user_int2 = int(0),
+    user_int3 = int(0),
+    user_int4 = int(0),
+    user_int5 = int(0),
+    user_string = string(""),
+    user_string2 = string(""),
+    user_string3 = string(""),
+    user_string4 = string(""),
+    user_string5 = string(""),
+    visible = int(1),
+    w = int(20),
+    x = int(0),
+    y = int(100)
+}
+string window_title = "p8 test t002 -- after it stops, compare to t002.jpg"
+gpl.cpp::main() Calling window->initialize().
+
+
+gpl.cpp::main() Passing control to window->main_loop().
+print[13]: First time animation is called
+print[14]: my_circle.x = 0
+print[15]: cur_circle.x = 0
+print[16]: my_circle.y = 100
+print[17]: cur_circle.y = 100
+print[18]: my_circle.red = 0.123000
+print[19]: cur_circle.red = 0.123000
+print[20]: my_circle.green = 0.345000
+print[21]: cur_circle.green = 0.345000
+print[22]: my_circle.blue = 0.678000
+print[23]: cur_circle.blue = 0.678000
+print[31]: After last call to animation
+print[32]: my_circle.x = 0
+print[33]: cur_circle.x = 0
+print[34]: my_circle.y = 200
+print[35]: cur_circle.y = 200
+print[36]: my_circle.red = 0.123000
+print[37]: cur_circle.red = 0.123000
+print[38]: my_circle.green = 0.345000
+print[39]: cur_circle.green = 0.345000
+print[40]: my_circle.blue = 0.678000
+print[41]: cur_circle.blue = 0.678000
+
+User quit program.  Executing termination blocks
+print[49]: my_circle.x = 0
+print[50]: my_circle.y = 200
+print[51]: my_circle.red = 0.123000
+print[52]: my_circle.green = 0.345000
+print[53]: my_circle.blue = 0.678000

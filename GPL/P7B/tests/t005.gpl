@@ -1,0 +1,10 @@
+string window_title = "p8 test t005 -- after it stops, compare to t005.jpg";
+int window_x = 10;
+int window_y = 10;
+int window_width = 800;
+int window_height = 100;
+int animation_speed = 80;
+
+textbox txt(x = 30, y = 30, 
+            text = "Make sure the size and title of window are correct"
+           );

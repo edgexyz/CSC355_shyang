@@ -1,0 +1,31 @@
+// this program tests assigning a different animation block to a game object
+int window_width = 500;
+int window_height = 110;
+
+forward animation right(rectangle cur_rect1);
+forward animation left(rectangle cur_rect2);
+
+rectangle my_rectangle(y = 50, animation_block = right);
+
+
+animation right(rectangle cur_rect1)
+{
+    if (cur_rect1.x < window_width - cur_rect1.w)
+        cur_rect1.x += 10;
+    else 
+    {
+      print("Bouncing off right wall. x = " + cur_rect1.x + ", y = " + cur_rect1.y);
+      cur_rect1.animation_block = left;
+    }
+}
+
+animation left(rectangle cur_rect2)
+{
+    if (cur_rect2.x > 0)
+        cur_rect2.x -= 10;
+    else 
+    {
+      print("Hit left wall, calling exit. x = " + cur_rect2.x + ", y = " + cur_rect2.y);
+      exit(42);
+    }
+}

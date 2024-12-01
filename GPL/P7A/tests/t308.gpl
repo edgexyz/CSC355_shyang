@@ -1,0 +1,11 @@
+// variable in forward must match the variable in block declaration
+// Error::ANIMATION_PARAM_DOES_NOT_MATCH_FORWARD
+//    "The animation block's parameter does not match..."
+
+forward animation bounce(rectangle cur_rectangle);
+
+rectangle another_rectangle();
+
+animation bounce(rectangle another_rectangle)
+{
+}

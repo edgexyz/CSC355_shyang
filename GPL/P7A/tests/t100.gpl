@@ -1,0 +1,10 @@
+// this is a generated tests
+// it may or may not be an error
+int i = 42;
+string s = "hello";
+double x = 3.14159;
+string z_string = i || i;
+on akey
+{
+    print("z = " + z);
+}

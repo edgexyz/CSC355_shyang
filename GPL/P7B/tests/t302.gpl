@@ -1,0 +1,12 @@
+// forward with two matching animation blocks
+// Error::PREVIOUSLY_DEFINED_ANIMATION_BLOCK
+//      "A statement block for the animation block..."
+
+forward animation bounce(rectangle cur_rectangle);
+
+animation bounce(rectangle cur_rectangle)
+{
+}
+animation bounce(rectangle cur_rectangle)
+{
+}

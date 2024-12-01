@@ -1,0 +1,4 @@
+string window_title = "p8 test t055 -- compare to t055.jpg";
+textbox text1(x = 50, y = 300, text = 42, size = 0.1);
+textbox text2(x = 100, y = 200, text = 42.345678, size = 0.2);
+textbox text3(x = 300, y = 100, text = "forty-two", size = 0.3);

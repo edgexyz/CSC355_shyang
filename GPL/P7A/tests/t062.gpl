@@ -1,0 +1,5 @@
+// should already handle this cases from p6
+
+int cur_circle;
+forward animation move(circle cur_circle);
+

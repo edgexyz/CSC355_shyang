@@ -1,0 +1,29 @@
+string window_title = "p8 test t003 -- after it stops, compare to t003.jpg";
+forward animation move(circle cur_circle);
+
+circle my_circle1(x = 0, y = 100, animation_block = move);
+circle my_circle2(x = 100, y = 100, red = 1);
+
+int i = 0;
+
+// if only one of the balls moves, you are not handling animation block 
+// assignment correctly in Assignment_statement::execute().
+// t004.gpl initializes the animation_blocks of an array of circles
+initialization
+{
+  my_circle2.animation_block = move;
+}
+
+animation move(circle cur_circle)
+{
+    if (i < 10)
+        cur_circle.y += 10;
+
+    i = i + 1;
+}
+
+termination
+{
+  print("my_circle1.y = " + my_circle1.y);
+  print("my_circle2.y = " + my_circle2.y);
+}
