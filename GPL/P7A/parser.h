@@ -32,6 +32,7 @@
 
 #include "event_manager.h"
 #include "game_object.h"
+#include "window.h"
 
 class Symbol;
 class Expression;
