@@ -1,0 +1,6 @@
+// must handle member variables of type Animation_block
+
+forward animation bounce(rectangle cur_rectangle);
+
+rectangle r1(animation_block = bounce);
+rectangle r2(animation_block = r1.animation_block);

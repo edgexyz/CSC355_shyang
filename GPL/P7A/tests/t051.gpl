@@ -1,7 +1,7 @@
-string window_title = "p8::t051 -- compare to t051.jpg";
 int i;
 circle circles[10];
 int down = 0;
+string window_title = "p7 t051.gpl -- compare to t051.jpg";
 
 on akey
 {
@@ -36,15 +36,5 @@ on downarrow
             circles[i].y = circles[i+1].y - 20;
         }
         down += 1;
-    }
-}
-
-on skey
-{
-    print("Printing circles");
-    for (i = 0; i < 10; i += 1)
-    {
-      print("circles[i].x = " + circles[i].x);
-      print("circles[i].y = " + circles[i].y);
     }
 }

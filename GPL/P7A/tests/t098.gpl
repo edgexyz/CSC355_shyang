@@ -1,0 +1,12 @@
+// swap the x and y for a triangle on each akey
+int tmp;
+triangle t(x = 300, y = 200);
+
+on akey
+{
+  print("swaping triangle's x and y");
+  tmp = t.x;
+  t.x = t.y;
+  t.y = tmp;
+}
+

@@ -59,6 +59,7 @@ class Symbol
     void set(int value, int index = UNDEFINED_INDEX);
     void set(double value, int index = UNDEFINED_INDEX);
     void set(std::string value, int index = UNDEFINED_INDEX);
+    void set(Animation_block* value);
 
     void print(std::ostream &os) const;
 

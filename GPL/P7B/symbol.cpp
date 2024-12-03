@@ -274,6 +274,12 @@ void Symbol::set(string value, int index /* = UNDEFINED_INDEX */)
     *(string *)m_data_void_ptr = value;
 }
 
+void Symbol::set(Animation_block* value)
+{
+  validate_type_and_index(ANIMATION_BLOCK, UNDEFINED_INDEX);
+  m_data_void_ptr = (void *)value;
+}
+
 void Symbol::print(ostream &os) const
 {
   if (is_array())

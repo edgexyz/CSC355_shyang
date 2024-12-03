@@ -13,71 +13,115 @@ gpl.cpp::main() after call to yyparse().
 
 
 Printing the symbol table from main()
-rectangle rect1
-{
-    animation_block = NULL,
-    blue = double(0),
-    drawing_order = int(0),
-    green = double(1),
-    h = int(20),
-    proximity = int(4),
-    red = double(0),
-    rotation = double(0),
-    user_double = double(0),
-    user_double2 = double(0),
-    user_double3 = double(0),
-    user_double4 = double(0),
-    user_double5 = double(0),
-    user_int = int(0),
-    user_int2 = int(0),
-    user_int3 = int(0),
-    user_int4 = int(0),
-    user_int5 = int(0),
-    user_string = string(""),
-    user_string2 = string(""),
-    user_string3 = string(""),
-    user_string4 = string(""),
-    user_string5 = string(""),
-    visible = int(1),
-    w = int(20),
-    x = int(10),
-    y = int(10)
-}
-rectangle rect2
-{
-    animation_block = NULL,
-    blue = double(0),
-    drawing_order = int(0),
-    green = double(1),
-    h = int(20),
-    proximity = int(4),
-    red = double(0),
-    rotation = double(0),
-    user_double = double(0),
-    user_double2 = double(0),
-    user_double3 = double(0),
-    user_double4 = double(0),
-    user_double5 = double(0),
-    user_int = int(0),
-    user_int2 = int(0),
-    user_int3 = int(0),
-    user_int4 = int(0),
-    user_int5 = int(0),
-    user_string = string(""),
-    user_string2 = string(""),
-    user_string3 = string(""),
-    user_string4 = string(""),
-    user_string5 = string(""),
-    visible = int(1),
-    w = int(20),
-    x = int(31),
-    y = int(31)
-}
+int col = 0
+int row = 0
+string str = ""
 gpl.cpp::main() Calling window->initialize().
 
 
 gpl.cpp::main() Passing control to window->main_loop().
-print[9]: (rect 1 touches rect2) == false
-print[11]: (rect 1 near rect2) == true
+print[12]: row = 0, col = 0
+print[12]: row = 0, col = 1
+print[12]: row = 0, col = 2
+print[12]: row = 0, col = 3
+print[12]: row = 0, col = 4
+print[12]: row = 0, col = 5
+print[12]: row = 0, col = 6
+print[12]: row = 0, col = 7
+print[12]: row = 0, col = 8
+print[12]: row = 0, col = 9
+print[12]: row = 1, col = 0
+print[12]: row = 1, col = 1
+print[12]: row = 1, col = 2
+print[12]: row = 1, col = 3
+print[12]: row = 1, col = 4
+print[12]: row = 1, col = 5
+print[12]: row = 1, col = 6
+print[12]: row = 1, col = 7
+print[12]: row = 1, col = 8
+print[12]: row = 1, col = 9
+print[12]: row = 2, col = 0
+print[12]: row = 2, col = 1
+print[12]: row = 2, col = 2
+print[12]: row = 2, col = 3
+print[12]: row = 2, col = 4
+print[12]: row = 2, col = 5
+print[12]: row = 2, col = 6
+print[12]: row = 2, col = 7
+print[12]: row = 2, col = 8
+print[12]: row = 2, col = 9
+print[12]: row = 3, col = 0
+print[12]: row = 3, col = 1
+print[12]: row = 3, col = 2
+print[12]: row = 3, col = 3
+print[12]: row = 3, col = 4
+print[12]: row = 3, col = 5
+print[12]: row = 3, col = 6
+print[12]: row = 3, col = 7
+print[12]: row = 3, col = 8
+print[12]: row = 3, col = 9
+print[12]: row = 4, col = 0
+print[12]: row = 4, col = 1
+print[12]: row = 4, col = 2
+print[12]: row = 4, col = 3
+print[12]: row = 4, col = 4
+print[12]: row = 4, col = 5
+print[12]: row = 4, col = 6
+print[12]: row = 4, col = 7
+print[12]: row = 4, col = 8
+print[12]: row = 4, col = 9
+print[12]: row = 5, col = 0
+print[12]: row = 5, col = 1
+print[12]: row = 5, col = 2
+print[12]: row = 5, col = 3
+print[12]: row = 5, col = 4
+print[12]: row = 5, col = 5
+print[12]: row = 5, col = 6
+print[12]: row = 5, col = 7
+print[12]: row = 5, col = 8
+print[12]: row = 5, col = 9
+print[12]: row = 6, col = 0
+print[12]: row = 6, col = 1
+print[12]: row = 6, col = 2
+print[12]: row = 6, col = 3
+print[12]: row = 6, col = 4
+print[12]: row = 6, col = 5
+print[12]: row = 6, col = 6
+print[12]: row = 6, col = 7
+print[12]: row = 6, col = 8
+print[12]: row = 6, col = 9
+print[12]: row = 7, col = 0
+print[12]: row = 7, col = 1
+print[12]: row = 7, col = 2
+print[12]: row = 7, col = 3
+print[12]: row = 7, col = 4
+print[12]: row = 7, col = 5
+print[12]: row = 7, col = 6
+print[12]: row = 7, col = 7
+print[12]: row = 7, col = 8
+print[12]: row = 7, col = 9
+print[12]: row = 8, col = 0
+print[12]: row = 8, col = 1
+print[12]: row = 8, col = 2
+print[12]: row = 8, col = 3
+print[12]: row = 8, col = 4
+print[12]: row = 8, col = 5
+print[12]: row = 8, col = 6
+print[12]: row = 8, col = 7
+print[12]: row = 8, col = 8
+print[12]: row = 8, col = 9
+print[12]: row = 9, col = 0
+print[12]: row = 9, col = 1
+print[12]: row = 9, col = 2
+print[12]: row = 9, col = 3
+print[12]: row = 9, col = 4
+print[12]: row = 9, col = 5
+print[12]: row = 9, col = 6
+print[12]: row = 9, col = 7
+print[12]: row = 9, col = 8
+print[12]: row = 9, col = 9
 
-User quit program.  Executing termination blocks
+User quit program. Printing the symbol table.
+int col = 10
+int row = 10
+string str = "row = 9, col = 9"

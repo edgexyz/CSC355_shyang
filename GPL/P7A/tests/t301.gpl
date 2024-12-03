@@ -1,8 +1,0 @@
-// animation block body w/o forward
-// Error::NO_FORWARD_FOR_ANIMATION_BLOCK
-//      "There is not a forward statement for animation block..."
-
-animation bounce(rectangle cur_rectangle)
-{
-
-}

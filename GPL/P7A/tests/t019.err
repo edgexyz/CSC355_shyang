@@ -1,0 +1,6 @@
+Runtime error: Illegal argument to random()<-42>.  Must be >= 1.  Using 2 as the range.
+Runtime error: Illegal argument to random()<-12.345000>.  Must be >= 1.  Using 2 as the range.
+Runtime error: Illegal argument to random()<0.345000>.  Must be >= 1.  Using 2 as the range.
+Runtime error: Illegal argument to random()<-42>.  Must be >= 1.  Using 2 as the range.
+Runtime error: Illegal argument to random()<-12.345000>.  Must be >= 1.  Using 2 as the range.
+Runtime error: Illegal argument to random()<0.345000>.  Must be >= 1.  Using 2 as the range.

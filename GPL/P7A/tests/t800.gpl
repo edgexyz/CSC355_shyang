@@ -1,22 +1,63 @@
-int a = 1;
-int b = 2;
-int c = 3;
-int d = 4;
-int e = 5;
-int f = 6;
-int g = a + b - c * d / e % f;
-int h = a % b / c * d - e + f;
-int i = (a + b) / (c + d);
-int j = a + b / c + d;
-int k = (a * b) / (c * d);
-int l = a * b / c * d;
+int i = 42;
+double x = 3.14159;
+string s = "hello world";
+triangle t(x = 10, y = 10);
+circle c(x = 50, y = 10);
+rectangle r(x = 50, y = 100);
+textbox txt(x = 100, y = 10, text = "hello");
+double values[100];
 
 on akey
 {
-    print("g = " + g);
-    print("h = " + h);
     print("i = " + i);
-    print("j = " + j);
-    print("k = " + k);
-    print("l = " + l);
+    print("x = " + x);
+    print("s = " + s);
+    print("t.x = " + t.x);
+    print("c.x = " + c.x);
+    print("r.x = " + r.x);
+    print("txt.x = " + txt.x);
+}
+on akey
+{
+    values[0] = sin(42);
+    values[1] = cos(42);
+    values[2] = tan(42);
+    values[3] = asin(.777);
+    values[4] = acos(.777);
+    values[5] = atan(.777);
+    values[6] = sqrt(42);
+    values[7] = abs(-42);
+    values[8] = floor(42.1234);
+    for (i = 0; i < 9; i += 1)
+    {
+        print("values[" + i + "] = " + values[i]);
+    }
+}
+on akey
+{
+    values[0] = sin(42);
+    values[1] = cos(42);
+    values[2] = tan(42);
+    values[3] = asin(.777);
+    values[4] = acos(.777);
+    values[5] = atan(.777);
+    values[6] = sqrt(42);
+    values[7] = abs(-42);
+    values[8] = floor(42.1234);
+    for (i = 0; i < 9; i += 1)
+    {
+        print("values[" + i + "] = " + values[i]);
+    }
+}
+on akey
+{
+    print(i * x / i + x - (2 * i));
+    print(i < (2 * i) < i);
+    print(i != x);
+    print(i == x);
+    print(i < x);
+    print(x < i);
+    print(x && i);
+    print(x || i);
+    print((0 || 1) && (1 || 0));
 }

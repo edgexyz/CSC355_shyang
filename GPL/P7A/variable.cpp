@@ -47,6 +47,12 @@ string Variable::get_name() const
   {
     name += "[]";
   }
+
+  if (m_field)
+  {
+    name += "." + *m_field;
+  }
+
   return name;
 }
 
@@ -151,41 +157,94 @@ Gpl_type Variable::get_base_game_object_type() const
 
 void Variable::set(int value)
 {
-  if (m_expression)
+  if (m_field)
   {
-    int index = eval_index_with_error_checking();
-    m_symbol->set(value, index);
+    Game_object *cur_game_object;
+
+    if (m_expression)
+      cur_game_object = m_symbol->get_game_object_value(eval_index_with_error_checking());
+    else
+      cur_game_object = m_symbol->get_game_object_value();
+
+    Status status = cur_game_object->set_member_variable(*m_field, value);
+
+    assert(status == OK);
   }
   else
   {
-    m_symbol->set(value);
+    if (m_expression)
+    {
+      int index = eval_index_with_error_checking();
+      m_symbol->set(value, index);
+    }
+    else
+    {
+      m_symbol->set(value);
+    }
   }
 }
 
 void Variable::set(double value)
 {
-  if (m_expression)
+  if (m_field)
   {
-    int index = eval_index_with_error_checking();
-    m_symbol->set(value, index);
+    Game_object *cur_game_object;
+
+    if (m_expression)
+      cur_game_object = m_symbol->get_game_object_value(eval_index_with_error_checking());
+    else
+      cur_game_object = m_symbol->get_game_object_value();
+
+    Status status = cur_game_object->set_member_variable(*m_field, value);
+
+    assert(status == OK);
   }
-  else
-  {
-    m_symbol->set(value);
+  else {
+    if (m_expression)
+    {
+      int index = eval_index_with_error_checking();
+      m_symbol->set(value, index);
+    }
+    else
+    {
+      m_symbol->set(value);
+    }
   }
 }
 
 void Variable::set(string value)
 {
-  if (m_expression)
+  if (m_field)
   {
-    int index = eval_index_with_error_checking();
-    m_symbol->set(value, index);
+    Game_object *cur_game_object;
+
+    if (m_expression)
+      cur_game_object = m_symbol->get_game_object_value(eval_index_with_error_checking());
+    else
+      cur_game_object = m_symbol->get_game_object_value();
+
+    Status status = cur_game_object->set_member_variable(*m_field, value);
+
+    assert(status == OK);
   }
   else
   {
-    m_symbol->set(value);
+    if (m_expression)
+    {
+      int index = eval_index_with_error_checking();
+      m_symbol->set(value, index);
+    }
+    else
+    {
+      m_symbol->set(value);
+    }
   }
+}
+
+void Variable::set(Animation_block* value)
+{
+  assert(!m_expression); // should only be called if not an array
+  m_symbol->set(value);
 }
 
 // Evaluate expression if there is one, return index if index is out of bounds, 

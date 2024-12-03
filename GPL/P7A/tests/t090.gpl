@@ -1,0 +1,6 @@
+rectangle rects[3];
+
+on akey
+{
+    rects[4.2].x = 4.2;
+}

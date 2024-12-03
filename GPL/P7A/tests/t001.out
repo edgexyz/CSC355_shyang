@@ -15,11 +15,8 @@ gpl.cpp::main() after call to yyparse().
 Printing the symbol table from main()
 gpl.cpp::main() Calling window->initialize().
 
-print[3]: initialization block 1 was executed
-print[7]: initialization block 2 was executed
 
 gpl.cpp::main() Passing control to window->main_loop().
+print[3]: hello -- space key was pressed
 
-User quit program.  Executing termination blocks
-print[11]: termination block 1 was executed
-print[15]: termination block 2 was executed
+User quit program. Printing the symbol table.

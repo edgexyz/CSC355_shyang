@@ -8,6 +8,7 @@
 #include "animation_block.h"
 
 #include <string>
+#include <iostream>
 
 using namespace std;
 
@@ -175,6 +176,7 @@ Gpl_type Symbol::get_base_type() const
 
 void Symbol::validate_type_and_index(Gpl_type type, int index) const
 {
+  // cerr << "Symbol " << m_name << " of type " << gpl_type_to_string(m_type) << " to be validated with type " << gpl_type_to_string(type) << endl;
   assert(m_type & type);
 
   assert((index == UNDEFINED_INDEX && m_size == UNDEFINED_SIZE) 
@@ -272,6 +274,12 @@ void Symbol::set(string value, int index /* = UNDEFINED_INDEX */)
     ((string *)m_data_void_ptr)[index] = value;
   else
     *(string *)m_data_void_ptr = value;
+}
+
+void Symbol::set(Animation_block* value)
+{
+  validate_type_and_index(ANIMATION_BLOCK, UNDEFINED_INDEX);
+  m_data_void_ptr = (void *)value;
 }
 
 void Symbol::print(ostream &os) const

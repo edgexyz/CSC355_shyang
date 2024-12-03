@@ -1024,8 +1024,35 @@ double var996 = z <= y >= r <= d + c != a >= w || y != y != i <= f;
 double var997 = e == r - q == n - o < d == i <= t + h != g + z;
 double var998 = x > q * c * l <= b || q != j < u && v > p > a;
 double var999 = r + g / s >= m > q || a - g * t + j >= x < x;
+
 on akey
 {
+    print("a = " + a);
+    print("b = " + b);
+    print("c = " + c);
+    print("d = " + d);
+    print("e = " + e);
+    print("f = " + f);
+    print("g = " + g);
+    print("h = " + h);
+    print("i = " + i);
+    print("j = " + j);
+    print("k = " + k);
+    print("l = " + l);
+    print("m = " + m);
+    print("n = " + n);
+    print("o = " + o);
+    print("p = " + p);
+    print("q = " + q);
+    print("r = " + r);
+    print("s = " + s);
+    print("t = " + t);
+    print("u = " + u);
+    print("v = " + v);
+    print("w = " + w);
+    print("x = " + x);
+    print("y = " + y);
+    print("z = " + z);
     print("var0 = " + var0);
     print("var1 = " + var1);
     print("var2 = " + var2);

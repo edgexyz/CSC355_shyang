@@ -20,6 +20,11 @@
 #include "circle.h"
 #include "rectangle.h"
 #include "textbox.h"
+#include "if_statement.h"
+#include "for_statement.h"
+#include "print_statement.h"
+#include "exit_statement.h"
+#include "assign_statement.h"
 #include "window.h"
 #include <iostream>
 #include <sstream>
@@ -40,6 +45,9 @@ Variable* empty_variable = new Variable(empty_symbol);
 // Only one object can ever be under construction at one time
 Game_object *cur_object_under_construction = NULL;
 string cur_object_under_construction_name;
+
+// Global stack of statement blocks
+stack<Statement_block *> statement_block_stack;
 
 Expression* semantic_check(Operator_type op, Expression *lhs, Expression *rhs, int valid)
 {
@@ -68,14 +76,16 @@ Expression* semantic_check(Operator_type op, Expression *lhs, Expression *rhs, i
 %}
 
 %union {
-  int              union_int;
-  double           union_double;
-  std::string      *union_string;  // MUST be a pointer to a string ARG!
-  Gpl_type         union_gpl_type;
-  Operator_type    union_operator;
-  Expression       *union_expression;
-  Variable         *union_variable;
-  Symbol           *union_symbol;
+  int                   union_int;
+  double                union_double;
+  std::string           *union_string;  // MUST be a pointer to a string ARG!
+  Gpl_type              union_gpl_type;
+  Operator_type         union_operator;
+  Expression            *union_expression;
+  Variable              *union_variable;
+  Symbol                *union_symbol;
+  Statement_block       *union_statement_block;
+  Window::Keystroke     union_keystroke;
 }
 
 %error-verbose
@@ -190,6 +200,10 @@ Expression* semantic_check(Operator_type op, Expression *lhs, Expression *rhs, i
 %type <union_expression> expression
 %type <union_expression> primary_expression
 %type <union_variable> variable
+%type <union_statement_block> statement_block_creator
+%type <union_statement_block> statement_block
+%type <union_statement_block> if_block
+%type <union_keystroke> keystroke
 
 
 %nonassoc IF_NO_ELSE
@@ -570,11 +584,21 @@ block:
 //---------------------------------------------------------------------
 initialization_block:
     T_INITIALIZATION statement_block
+    {
+        Event_manager *event_manager = Event_manager::instance();
+
+        event_manager->register_handler(Window::INITIALIZE, $2);
+    }
     ;
 
 //---------------------------------------------------------------------
 termination_block:
     T_TERMINATION statement_block
+    {
+        Event_manager *event_manager = Event_manager::instance();
+
+        event_manager->register_handler(Window::TERMINATE, $2);
+    }
     ;
 
 //---------------------------------------------------------------------
@@ -613,55 +637,148 @@ check_animation_parameter:
 //---------------------------------------------------------------------
 on_block:
     T_ON keystroke statement_block
+    {
+        Event_manager *event_manager = Event_manager::instance();
+
+        event_manager->register_handler($2, $3);
+    }
     ;
 
 //---------------------------------------------------------------------
 keystroke:
     T_SPACE
+    {
+        $$ = Window::SPACE;
+    }
     | T_LEFTARROW
+    {
+        $$ = Window::LEFTARROW;
+    }
     | T_RIGHTARROW
+    {
+        $$ = Window::RIGHTARROW;
+    }
     | T_UPARROW
+    {
+        $$ = Window::UPARROW;
+    }
     | T_DOWNARROW
+    {
+        $$ = Window::DOWNARROW;
+    }
     | T_LEFTMOUSE_DOWN
+    {
+        $$ = Window::LEFTMOUSE_DOWN;
+    }
     | T_MIDDLEMOUSE_DOWN
+    {
+        $$ = Window::MIDDLEMOUSE_DOWN;
+    }
     | T_RIGHTMOUSE_DOWN
+    {
+        $$ = Window::RIGHTMOUSE_DOWN;
+    }
     | T_LEFTMOUSE_UP
+    {
+        $$ = Window::LEFTMOUSE_UP;
+    }
     | T_MIDDLEMOUSE_UP
+    {
+        $$ = Window::MIDDLEMOUSE_UP;
+    }
     | T_RIGHTMOUSE_UP
+    {
+        $$ = Window::RIGHTMOUSE_UP;
+    }
     | T_MOUSE_MOVE
+    {
+        $$ = Window::MOUSE_MOVE;
+    }
     | T_MOUSE_DRAG
+    {
+        $$ = Window::MOUSE_DRAG;
+    }
     | T_F1
+    {
+        $$ = Window::F1;
+    }
     | T_AKEY
+    {
+        $$ = Window::AKEY;
+    }
     | T_SKEY
+    {
+        $$ = Window::SKEY;
+    }
     | T_DKEY
+    {
+        $$ = Window::DKEY;
+    }
     | T_FKEY
+    {
+        $$ = Window::FKEY;
+    }
     | T_HKEY
+    {
+        $$ = Window::HKEY;
+    }
     | T_JKEY
+    {
+        $$ = Window::JKEY;
+    }
     | T_KKEY
+    {
+        $$ = Window::KKEY;
+    }
     | T_LKEY
+    {
+        $$ = Window::LKEY;
+    }
     | T_WKEY
+    {
+        $$ = Window::WKEY;
+    }
     | T_ZKEY
+    {
+        $$ = Window::ZKEY;
+    }
     ;
 
 //---------------------------------------------------------------------
 if_block:
     statement_block_creator statement end_of_statement_block
+    {
+        $$ = $1;
+    }
     | statement_block
+    {
+        $$ = $1;
+    }
     ;
 
 //---------------------------------------------------------------------
 statement_block:
     T_LBRACE statement_block_creator statement_list T_RBRACE end_of_statement_block
+    {
+        $$ = $2;
+    }
     ;
 
 //---------------------------------------------------------------------
 statement_block_creator:
-    // this goes to nothing so that you can put an action here in p7
+    {
+        Statement_block *new_block = new Statement_block();
+        statement_block_stack.push(new_block);
+        $$ = new_block;
+    }
     ;
 
 //---------------------------------------------------------------------
 end_of_statement_block:
-    // this goes to nothing so that you can put an action here in p7
+    {
+        assert(!statement_block_stack.empty());
+        statement_block_stack.pop();
+    }
     ;
 
 //---------------------------------------------------------------------
@@ -682,22 +799,73 @@ statement:
 //---------------------------------------------------------------------
 if_statement:
     T_IF T_LPAREN expression T_RPAREN if_block %prec IF_NO_ELSE
+    {
+        Expression *expr = $3;
+        if (expr->get_type() != INT)
+        {
+            Error::error(Error::INVALID_TYPE_FOR_IF_STMT_EXPRESSION);
+            expr = new Expression(0);
+        }
+        statement_block_stack.top()->insert(new If_statement(expr,$5));
+    }
     | T_IF T_LPAREN expression T_RPAREN if_block T_ELSE if_block
+    {
+        Expression *expr = $3;
+        if (expr->get_type() != INT)
+        {
+            Error::error(Error::INVALID_TYPE_FOR_IF_STMT_EXPRESSION);
+            expr = new Expression(0);
+        }
+        statement_block_stack.top()->insert(new If_statement(expr,$5, $7));
+    }
     ;
 
 //---------------------------------------------------------------------
 for_statement:
     T_FOR T_LPAREN statement_block_creator assign_statement_or_empty end_of_statement_block T_SEMIC expression T_SEMIC statement_block_creator assign_statement_or_empty end_of_statement_block T_RPAREN statement_block
+    {
+        Expression *expr = $7;
+        if (expr->get_type() != INT)
+        {
+            Error::error(Error::INVALID_TYPE_FOR_FOR_STMT_EXPRESSION);
+            expr = new Expression(0);
+        }
+        statement_block_stack.top()->insert(new For_statement($3, expr, $9, $13));
+    }
     ;
 
 //---------------------------------------------------------------------
 print_statement:
     T_PRINT T_LPAREN expression T_RPAREN
+    {
+        Expression *expr = $3;
+        if (expr->get_type() != INT
+            && expr->get_type() != DOUBLE
+            && expr->get_type() != STRING
+        )
+        {
+            Error::error(Error::INVALID_TYPE_FOR_PRINT_STMT_EXPRESSION);
+            // for error handling
+            expr = new Expression(0);
+        }
+        statement_block_stack.top()->insert(new Print_statement(expr, $1)); // $1 has line_number
+    }
     ;
 
 //---------------------------------------------------------------------
 exit_statement:
     T_EXIT T_LPAREN expression T_RPAREN
+    {
+        Expression *expr = $3;
+        if(expr->get_type() != INT)
+        {
+            Error::error(Error::EXIT_STATUS_MUST_BE_AN_INTEGER, gpl_type_to_string(expr->get_type()));
+            // for error handling
+            expr = new Expression(0);
+        }
+
+        statement_block_stack.top()->insert(new Exit_statement(expr, $1)); // $1 has line_number
+    }
     ;
 
 //---------------------------------------------------------------------
@@ -709,10 +877,172 @@ assign_statement_or_empty:
 //---------------------------------------------------------------------
 assign_statement:
     variable T_ASSIGN expression
+    {
+        Variable *lhs = $1;
+        Expression *rhs = $3;
+        Gpl_type lhs_type = lhs->get_type();
+        Gpl_type rhs_type = rhs->get_type();
+
+        // game_object is illegal on lhs of assignment
+        if (lhs_type & GAME_OBJECT)
+        {
+            Error::error(Error::INVALID_LHS_OF_ASSIGNMENT,
+                lhs->get_name(),
+                gpl_type_to_string(lhs_type)
+                );
+        }
+
+        // if variable is an INT, expression must be INT
+        // if variable is a DOUBLE, expression must be INT or DOUBLE
+        // if variable is a STRING, expression must be STRING,INT, or DOUBLE
+        // if variable is a ANIMATION_BLOCK, expression ANIMATION_BLOCK
+        else if ((lhs_type == INT && rhs_type != INT)
+            ||(lhs_type==DOUBLE&&(rhs_type != INT && rhs_type!=DOUBLE))
+            ||(lhs_type == STRING && rhs_type == ANIMATION_BLOCK)
+            ||(lhs_type==ANIMATION_BLOCK&& rhs_type != ANIMATION_BLOCK)
+            )
+        {
+            Error::error(Error::ASSIGNMENT_TYPE_ERROR,
+                        gpl_type_to_string(lhs_type),
+                        gpl_type_to_string(rhs_type)
+                        );
+        }
+            else if (lhs_type==ANIMATION_BLOCK)
+            {
+            // since lhs is an ANIMATION_BLOCK, it SHOULD take one of these forms
+            // circle.animation_block =
+            // circles[index].animation_block =
+
+            // this is ok
+            //   my_rect.animation_block = bounce;
+            // this is NOT ok
+            //   bounce = move;
+            // check to make sure it is not this illegal form
+            if (lhs->is_non_member_animation_block())
+            {
+                Error::error(Error::CANNOT_ASSIGN_TO_NON_MEMBER_ANIMATION_BLOCK,
+                            lhs->get_name()
+                            );
+            }
+            else
+            {
+    
+                // get the type of the Game_object on the LHS
+                Gpl_type lhs_base_object_type = lhs->get_base_game_object_type();
+    
+                Gpl_type rhs_param_type = rhs->eval_animation_block()->get_parameter_symbol()->get_type();
+    
+                // Animation_block *block = rhs->eval_animation_block();
+                // Symbol *sym = block->get_parameter_symbol();
+    
+                if (lhs_base_object_type != rhs_param_type)
+                {
+                Error::error(Error::ANIMATION_BLOCK_ASSIGNMENT_PARAMETER_TYPE_ERROR,
+                            gpl_type_to_string(lhs_base_object_type),
+                            gpl_type_to_string(rhs_param_type)
+                            );
+    
+                }
+                else statement_block_stack.top()->insert(new Assign_statement(ASSIGN, lhs, rhs));
+                }
+            }
+        else // the types are ok
+        {
+            statement_block_stack.top()->insert(new Assign_statement(ASSIGN, lhs, rhs));
+        }
+    }
     | variable T_PLUS_ASSIGN expression
+    {
+        Gpl_type lhs_type = $1->get_type();
+        Gpl_type rhs_type = $3->get_type();
+
+        // game_object & statement_block are illegal on lhs of +=
+        if ((lhs_type & GAME_OBJECT) || (lhs_type == ANIMATION_BLOCK))
+        {
+            Error::error(Error::INVALID_LHS_OF_PLUS_ASSIGNMENT,
+                    $1->get_name(),
+                    gpl_type_to_string(lhs_type)
+                );
+        }
+
+        // if variable is an INT, expression must be INT
+        // if variable is a DOUBLE, expression must be INT or DOUBLE
+        // if variable is a STRING, expression must be STRING,INT, or DOUBLE
+        else if ((lhs_type == INT && rhs_type != INT)
+            ||(lhs_type==DOUBLE&&(rhs_type != INT && rhs_type!=DOUBLE))
+            ||(lhs_type == STRING && rhs_type == ANIMATION_BLOCK)
+            )
+        {
+            Error::error(Error::PLUS_ASSIGNMENT_TYPE_ERROR,
+                gpl_type_to_string(lhs_type),
+                gpl_type_to_string(rhs_type)
+                );
+        }
+        else // the types are ok
+        {
+            statement_block_stack.top()->insert(new Assign_statement(PLUS_ASSIGN, $1, $3));
+        }
+    }
     | variable T_MINUS_ASSIGN expression
+    {
+        Gpl_type lhs_type = $1->get_type();
+        Gpl_type rhs_type = $3->get_type();
+
+        // game_object & statement_block & string are illegal on lhs of +=
+        if (lhs_type != INT && lhs_type != DOUBLE)
+        {
+            Error::error(Error::INVALID_LHS_OF_MINUS_ASSIGNMENT,
+                    $1->get_name(),
+                    gpl_type_to_string(lhs_type)
+                    );
+        }
+
+        // if variable is an INT, expression must be INT
+        // if variable is a DOUBLE, expression must be INT or DOUBLE
+        else if ((lhs_type == INT && rhs_type != INT)
+            ||(lhs_type==DOUBLE&&(rhs_type != INT && rhs_type!=DOUBLE))
+            )
+        {
+            Error::error(Error::MINUS_ASSIGNMENT_TYPE_ERROR,
+                gpl_type_to_string(lhs_type),
+                gpl_type_to_string(rhs_type)
+                );
+        }
+        else // the types are ok
+        {
+            statement_block_stack.top()->insert(new Assign_statement(MINUS_ASSIGN, $1, $3));
+        }
+    }
     | variable T_PLUS_PLUS
+    {
+        Gpl_type lhs_type = $1->get_type();
+        if (lhs_type != INT)
+        {
+            Error::error(Error::INVALID_LHS_OF_PLUS_PLUS,
+                    $1->get_name(),
+                    gpl_type_to_string(lhs_type)
+                    );
+        }
+        else // the types are ok
+        {
+            statement_block_stack.top()->insert(new Assign_statement(PLUS_PLUS, $1));
+        }
+    }
     | variable T_MINUS_MINUS
+    {
+        Gpl_type lhs_type = $1->get_type();
+        if (lhs_type != INT)
+        {
+            Error::error(Error::INVALID_LHS_OF_MINUS_MINUS,
+                    $1->get_name(),
+                    gpl_type_to_string(lhs_type)
+                    );
+        }
+        else // the types are ok
+        {
+            statement_block_stack.top()->insert(new Assign_statement(MINUS_MINUS, $1));
+        }
+    }
     ;
 
 //---------------------------------------------------------------------

@@ -1,0 +1,9 @@
+// must handle member variables of type Animation_block
+// must check the type during assignment of Animation_blocks
+
+forward animation bounce(rectangle cur_rectangle);
+
+rectangle r1(animation_block = bounce);
+
+// this is an error because r1 is a rectangle
+circle my_circle(animation_block = r1.animation_block);

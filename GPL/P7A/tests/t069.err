@@ -1,0 +1,4 @@
+Semantic error on line 8: LHS of ++ must be INT.  Variable 'd' is of type 'double'.
+Semantic error on line 9: LHS of ++ must be INT.  Variable 's' is of type 'string'.
+Semantic error on line 12: LHS of -- must be INT.  Variable 'd' is of type 'double'.
+Semantic error on line 13: LHS of -- must be INT.  Variable 's' is of type 'string'.

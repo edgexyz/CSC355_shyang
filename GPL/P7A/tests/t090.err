@@ -1,0 +1,2 @@
+Semantic error on line 5: A double expression is not a legal array index. The array is 'rects'.
+Semantic error on line 5: Cannot assign an expression of type 'double' to a variable of type 'int'.

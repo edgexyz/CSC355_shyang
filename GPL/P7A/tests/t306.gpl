@@ -1,8 +1,0 @@
-int i;
-double y;
-
-initialization
-{
-    if (i touches y)
-        print("this should be a comilation error");
-}

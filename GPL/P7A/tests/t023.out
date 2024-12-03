@@ -13,39 +13,8 @@ gpl.cpp::main() after call to yyparse().
 
 
 Printing the symbol table from main()
-circle dot
-{
-    animation_block = NULL,
-    blue = double(1),
-    drawing_order = int(0),
-    green = double(0),
-    h = int(40),
-    proximity = int(4),
-    radius = int(20),
-    red = double(0),
-    user_double = double(0),
-    user_double2 = double(0),
-    user_double3 = double(0),
-    user_double4 = double(0),
-    user_double5 = double(0),
-    user_int = int(0),
-    user_int2 = int(0),
-    user_int3 = int(0),
-    user_int4 = int(0),
-    user_int5 = int(0),
-    user_string = string(""),
-    user_string2 = string(""),
-    user_string3 = string(""),
-    user_string4 = string(""),
-    user_string5 = string(""),
-    visible = int(1),
-    w = int(40),
-    x = int(100),
-    y = int(100)
-}
-int i = 0
-int num_walls = 2
-rectangle walls[0]
+int i = 7000
+rectangle rect[0]
 {
     animation_block = NULL,
     blue = double(0),
@@ -75,7 +44,97 @@ rectangle walls[0]
     x = int(0),
     y = int(0)
 }
-rectangle walls[1]
+rectangle rect[1]
+{
+    animation_block = NULL,
+    blue = double(0),
+    drawing_order = int(0),
+    green = double(0),
+    h = int(10),
+    proximity = int(4),
+    red = double(1),
+    rotation = double(0),
+    user_double = double(0),
+    user_double2 = double(0),
+    user_double3 = double(0),
+    user_double4 = double(0),
+    user_double5 = double(0),
+    user_int = int(0),
+    user_int2 = int(0),
+    user_int3 = int(0),
+    user_int4 = int(0),
+    user_int5 = int(0),
+    user_string = string(""),
+    user_string2 = string(""),
+    user_string3 = string(""),
+    user_string4 = string(""),
+    user_string5 = string(""),
+    visible = int(1),
+    w = int(10),
+    x = int(0),
+    y = int(0)
+}
+rectangle rect[2]
+{
+    animation_block = NULL,
+    blue = double(0),
+    drawing_order = int(0),
+    green = double(0),
+    h = int(10),
+    proximity = int(4),
+    red = double(1),
+    rotation = double(0),
+    user_double = double(0),
+    user_double2 = double(0),
+    user_double3 = double(0),
+    user_double4 = double(0),
+    user_double5 = double(0),
+    user_int = int(0),
+    user_int2 = int(0),
+    user_int3 = int(0),
+    user_int4 = int(0),
+    user_int5 = int(0),
+    user_string = string(""),
+    user_string2 = string(""),
+    user_string3 = string(""),
+    user_string4 = string(""),
+    user_string5 = string(""),
+    visible = int(1),
+    w = int(10),
+    x = int(0),
+    y = int(0)
+}
+rectangle rect[3]
+{
+    animation_block = NULL,
+    blue = double(0),
+    drawing_order = int(0),
+    green = double(0),
+    h = int(10),
+    proximity = int(4),
+    red = double(1),
+    rotation = double(0),
+    user_double = double(0),
+    user_double2 = double(0),
+    user_double3 = double(0),
+    user_double4 = double(0),
+    user_double5 = double(0),
+    user_int = int(0),
+    user_int2 = int(0),
+    user_int3 = int(0),
+    user_int4 = int(0),
+    user_int5 = int(0),
+    user_string = string(""),
+    user_string2 = string(""),
+    user_string3 = string(""),
+    user_string4 = string(""),
+    user_string5 = string(""),
+    visible = int(1),
+    w = int(10),
+    x = int(0),
+    y = int(0)
+}
+rectangle rect[4]
 {
     animation_block = NULL,
     blue = double(0),
@@ -109,7 +168,156 @@ gpl.cpp::main() Calling window->initialize().
 
 
 gpl.cpp::main() Passing control to window->main_loop().
-print[26]: touching walls[0]
-print[28]: not touching walls[1]
 
-User quit program.  Executing termination blocks
+User quit program. Printing the symbol table.
+int i = 2
+rectangle rect[0]
+{
+    animation_block = NULL,
+    blue = double(0),
+    drawing_order = int(0),
+    green = double(0),
+    h = int(10),
+    proximity = int(4),
+    red = double(1),
+    rotation = double(0),
+    user_double = double(0),
+    user_double2 = double(0),
+    user_double3 = double(0),
+    user_double4 = double(0),
+    user_double5 = double(0),
+    user_int = int(0),
+    user_int2 = int(0),
+    user_int3 = int(0),
+    user_int4 = int(0),
+    user_int5 = int(0),
+    user_string = string(""),
+    user_string2 = string(""),
+    user_string3 = string(""),
+    user_string4 = string(""),
+    user_string5 = string(""),
+    visible = int(1),
+    w = int(10),
+    x = int(0),
+    y = int(0)
+}
+rectangle rect[1]
+{
+    animation_block = NULL,
+    blue = double(0),
+    drawing_order = int(0),
+    green = double(0),
+    h = int(10),
+    proximity = int(4),
+    red = double(1),
+    rotation = double(0),
+    user_double = double(0),
+    user_double2 = double(0),
+    user_double3 = double(0),
+    user_double4 = double(0),
+    user_double5 = double(0),
+    user_int = int(0),
+    user_int2 = int(0),
+    user_int3 = int(0),
+    user_int4 = int(0),
+    user_int5 = int(0),
+    user_string = string(""),
+    user_string2 = string(""),
+    user_string3 = string(""),
+    user_string4 = string(""),
+    user_string5 = string(""),
+    visible = int(1),
+    w = int(10),
+    x = int(0),
+    y = int(0)
+}
+rectangle rect[2]
+{
+    animation_block = NULL,
+    blue = double(0),
+    drawing_order = int(0),
+    green = double(0),
+    h = int(10),
+    proximity = int(4),
+    red = double(1),
+    rotation = double(0),
+    user_double = double(0),
+    user_double2 = double(0),
+    user_double3 = double(0),
+    user_double4 = double(0),
+    user_double5 = double(0),
+    user_int = int(0),
+    user_int2 = int(0),
+    user_int3 = int(0),
+    user_int4 = int(0),
+    user_int5 = int(0),
+    user_string = string(""),
+    user_string2 = string(""),
+    user_string3 = string(""),
+    user_string4 = string(""),
+    user_string5 = string(""),
+    visible = int(1),
+    w = int(10),
+    x = int(21),
+    y = int(0)
+}
+rectangle rect[3]
+{
+    animation_block = NULL,
+    blue = double(0),
+    drawing_order = int(0),
+    green = double(0),
+    h = int(10),
+    proximity = int(4),
+    red = double(1),
+    rotation = double(0),
+    user_double = double(0),
+    user_double2 = double(0),
+    user_double3 = double(0),
+    user_double4 = double(0),
+    user_double5 = double(0),
+    user_int = int(0),
+    user_int2 = int(0),
+    user_int3 = int(0),
+    user_int4 = int(0),
+    user_int5 = int(0),
+    user_string = string(""),
+    user_string2 = string(""),
+    user_string3 = string(""),
+    user_string4 = string(""),
+    user_string5 = string(""),
+    visible = int(1),
+    w = int(10),
+    x = int(0),
+    y = int(0)
+}
+rectangle rect[4]
+{
+    animation_block = NULL,
+    blue = double(0),
+    drawing_order = int(0),
+    green = double(0),
+    h = int(10),
+    proximity = int(4),
+    red = double(1),
+    rotation = double(0),
+    user_double = double(0),
+    user_double2 = double(0),
+    user_double3 = double(0),
+    user_double4 = double(0),
+    user_double5 = double(0),
+    user_int = int(0),
+    user_int2 = int(0),
+    user_int3 = int(0),
+    user_int4 = int(0),
+    user_int5 = int(0),
+    user_string = string(""),
+    user_string2 = string(""),
+    user_string3 = string(""),
+    user_string4 = string(""),
+    user_string5 = string(""),
+    visible = int(1),
+    w = int(10),
+    x = int(0),
+    y = int(0)
+}

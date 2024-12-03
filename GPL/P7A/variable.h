@@ -75,7 +75,7 @@ class Variable
     bool is_string() const {return m_type & STRING;}
     bool is_game_object() const {return m_type & GAME_OBJECT;}
     bool is_animation_block() const {return m_type == ANIMATION_BLOCK;}
-    bool is_non_member_animation_block() const;
+    bool is_non_member_animation_block() const {return is_animation_block();}
     
     // Setter functions. The functions set the value, i.e., m_data_void_ptr,
     // of symbols. Note that m_data_void_ptr is a private member variable meaning that
@@ -85,6 +85,7 @@ class Variable
     void set(int value);
     void set(double value);
     void set(std::string value);
+    void set(Animation_block* value);
 
   private:
     Variable(const Variable&);  // disable default copy constructor

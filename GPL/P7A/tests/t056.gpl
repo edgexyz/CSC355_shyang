@@ -1,0 +1,10 @@
+rectangle r(x = 100, y = 100);
+
+on akey
+{
+  r.blue = .777;
+  r.green = .333;
+
+  print("r.blue = " + r.blue);
+  print("r.green = " + r.green);
+}

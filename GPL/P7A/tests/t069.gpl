@@ -1,0 +1,14 @@
+int i = 42;
+double d = 3.145;
+string s = "hello";
+
+on akey
+{
+  i++;
+  d++;
+  s++;
+
+  i--;
+  d--;
+  s--;
+}

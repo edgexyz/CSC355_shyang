@@ -1,10 +1,15 @@
-string window_title = "p8 test t005 -- after it stops, compare to t005.jpg";
-int window_x = 10;
-int window_y = 10;
-int window_width = 800;
-int window_height = 100;
-int animation_speed = 80;
-
-textbox txt(x = 30, y = 30, 
-            text = "Make sure the size and title of window are correct"
-           );
+on space {print("space");}
+on leftarrow {print("leftarrow");}
+on rightarrow {print("rightarrow");}
+on uparrow {print("uparrow");}
+on downarrow {print("downarrow");}
+on f1 {print("f1");}
+on akey {print("akey");}
+on skey {print("skey");}
+on dkey {print("dkey");}
+on fkey {print("fkey");}
+on hkey {print("hkey");}
+on jkey {print("jkey");}
+on kkey {print("kkey");}
+on lkey {print("lkey");}
+on wkey {print("wkey");}

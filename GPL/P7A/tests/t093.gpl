@@ -1,0 +1,12 @@
+forward animation just_do_it(rectangle cur_rect);
+
+rectangle paddle(animation_block = just_do_it);
+
+on akey
+{
+  print("string" + 42 + paddle);
+  print(40 + 2 + just_do_it);
+  print(paddle + 42);
+  print(just_do_it + 42);
+  print(just_do_it + paddle);
+}

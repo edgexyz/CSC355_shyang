@@ -1,0 +1,7 @@
+
+rectangle rect(user_string = "rect_user_string");
+
+on akey
+{
+  rect.user_string += "_akey_pressed";
+}

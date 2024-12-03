@@ -1,18 +1,7 @@
-forward animation bounce(rectangle bounce_param);
-forward animation move(rectangle move_param);
+int i;
+double x;
 
-animation bounce(rectangle bounce_param)
+on akey
 {
-  bounce_param.x++;
-}
-
-animation move(rectangle move_param)
-{
-  move_param.x++;
-}
-
-on space
-{
-    // cannot use an animation block as a l-value
-    bounce = move;
+    i = x;
 }

@@ -188,6 +188,12 @@ void Variable::set(string value)
   }
 }
 
+void Variable::set(Animation_block* value)
+{
+  assert(!m_expression); // should only be called if not an array
+  m_symbol->set(value);
+}
+
 // Evaluate expression if there is one, return index if index is out of bounds, 
 // issue error, return 0 (0 is always in bounds)
 int Variable::eval_index_with_error_checking() const

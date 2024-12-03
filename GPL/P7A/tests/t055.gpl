@@ -1,4 +1,35 @@
-string window_title = "p8 test t055 -- compare to t055.jpg";
-textbox text1(x = 50, y = 300, text = 42, size = 0.1);
-textbox text2(x = 100, y = 200, text = 42.345678, size = 0.2);
-textbox text3(x = 300, y = 100, text = "forty-two", size = 0.3);
+
+int i;
+int num = 8;
+circle c[num];
+int angle = 0;
+int spacing = 0;
+string window_title = "p7 t055.gpl -- compare to t055.jpg";
+
+
+// initialize the circles (normally done in initialization block
+// but there is no initializaiton block in p7
+on space
+{
+    for (i = 0; i < num; i += 1)
+    {
+        c[i].x = 250;
+        c[i].y = 250;
+    } 
+}
+
+on akey
+{
+    if (spacing <= 20)
+    {
+        spacing += 1;
+    }
+
+    angle += 1;
+    for (i = 0; i < num; i += 1)
+    {
+        c[i].x = floor(cos(angle) * spacing * i) + 250;
+        c[i].y = floor(sin(angle) * spacing * i) + 250;
+        print("sin(angle) = " + sin(angle));
+    } 
+}

@@ -13,71 +13,25 @@ gpl.cpp::main() after call to yyparse().
 
 
 Printing the symbol table from main()
-rectangle rect1
-{
-    animation_block = NULL,
-    blue = double(0),
-    drawing_order = int(0),
-    green = double(1),
-    h = int(20),
-    proximity = int(4),
-    red = double(0),
-    rotation = double(0),
-    user_double = double(0),
-    user_double2 = double(0),
-    user_double3 = double(0),
-    user_double4 = double(0),
-    user_double5 = double(0),
-    user_int = int(0),
-    user_int2 = int(0),
-    user_int3 = int(0),
-    user_int4 = int(0),
-    user_int5 = int(0),
-    user_string = string(""),
-    user_string2 = string(""),
-    user_string3 = string(""),
-    user_string4 = string(""),
-    user_string5 = string(""),
-    visible = int(1),
-    w = int(20),
-    x = int(10),
-    y = int(10)
-}
-rectangle rect2
-{
-    animation_block = NULL,
-    blue = double(0),
-    drawing_order = int(0),
-    green = double(1),
-    h = int(20),
-    proximity = int(4),
-    red = double(0),
-    rotation = double(0),
-    user_double = double(0),
-    user_double2 = double(0),
-    user_double3 = double(0),
-    user_double4 = double(0),
-    user_double5 = double(0),
-    user_int = int(0),
-    user_int2 = int(0),
-    user_int3 = int(0),
-    user_int4 = int(0),
-    user_int5 = int(0),
-    user_string = string(""),
-    user_string2 = string(""),
-    user_string3 = string(""),
-    user_string4 = string(""),
-    user_string5 = string(""),
-    visible = int(1),
-    w = int(20),
-    x = int(29),
-    y = int(29)
-}
+int count = 0
+int index[0] = 0
+int index[1] = 0
+int index[2] = 0
+int index[3] = 0
+int index[4] = 0
+int index[5] = 0
+int index[6] = 0
 gpl.cpp::main() Calling window->initialize().
 
 
 gpl.cpp::main() Passing control to window->main_loop().
-print[7]: (rect 1 touches rect2) == true
-print[10]: (rect 1 near rect2) == true
 
-User quit program.  Executing termination blocks
+User quit program. Printing the symbol table.
+int count = 2187
+int index[0] = 3
+int index[1] = 3
+int index[2] = 3
+int index[3] = 3
+int index[4] = 3
+int index[5] = 3
+int index[6] = 3

@@ -1,16 +1,4 @@
-initialization
+on space
 {
-    print("initialization block 1 was executed");
-}
-initialization
-{
-    print("initialization block 2 was executed");
-}
-termination
-{
-    print("termination block 1 was executed");
-}
-termination
-{
-    print("termination block 2 was executed");
+    print("hello -- space key was pressed");
 }

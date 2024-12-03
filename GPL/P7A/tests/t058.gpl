@@ -1,0 +1,6 @@
+textbox t(x = 200, y = 200, text = "hello -- press space to change");
+
+on space
+{
+  t.text = "goodbye -- it worked";
+}

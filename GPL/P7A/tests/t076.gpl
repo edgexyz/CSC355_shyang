@@ -1,0 +1,7 @@
+double x = 3.14159;
+int nums[4];
+
+on akey
+{
+    nums[x] = 42;
+}

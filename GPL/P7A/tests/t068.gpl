@@ -1,0 +1,14 @@
+int index;
+
+on akey
+{
+  for (index = 0; index < 10; index++)
+  {
+    print(index);
+  }
+
+  for (index = 9; index >= 0; index--)
+  {
+    print(index);
+  }
+}

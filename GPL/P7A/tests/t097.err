@@ -1,0 +1,1 @@
+Semantic error on line 6: LHS of assignment must be (INT || DOUBLE || STRING || ANIMATION_BLOCK).  Variable 'c[]' is of type 'circle'.

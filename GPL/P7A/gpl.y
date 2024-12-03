@@ -76,14 +76,16 @@ Expression* semantic_check(Operator_type op, Expression *lhs, Expression *rhs, i
 %}
 
 %union {
-  int              union_int;
-  double           union_double;
-  std::string      *union_string;  // MUST be a pointer to a string ARG!
-  Gpl_type         union_gpl_type;
-  Operator_type    union_operator;
-  Expression       *union_expression;
-  Variable         *union_variable;
-  Symbol           *union_symbol;
+  int                   union_int;
+  double                union_double;
+  std::string           *union_string;  // MUST be a pointer to a string ARG!
+  Gpl_type              union_gpl_type;
+  Operator_type         union_operator;
+  Expression            *union_expression;
+  Variable              *union_variable;
+  Symbol                *union_symbol;
+  Statement_block       *union_statement_block;
+  Window::Keystroke     union_keystroke;
 }
 
 %error-verbose
@@ -198,6 +200,10 @@ Expression* semantic_check(Operator_type op, Expression *lhs, Expression *rhs, i
 %type <union_expression> expression
 %type <union_expression> primary_expression
 %type <union_variable> variable
+%type <union_statement_block> statement_block_creator
+%type <union_statement_block> statement_block
+%type <union_statement_block> if_block
+%type <union_keystroke> keystroke
 
 
 %nonassoc IF_NO_ELSE
@@ -578,13 +584,20 @@ block:
 //---------------------------------------------------------------------
 initialization_block:
     T_INITIALIZATION statement_block
+    {
+        Event_manager *event_manager = Event_manager::instance();
+
+        event_manager->register_handler(Window::INITIALIZE, $2);
+    }
     ;
 
 //---------------------------------------------------------------------
 termination_block:
     T_TERMINATION statement_block
     {
+        Event_manager *event_manager = Event_manager::instance();
 
+        event_manager->register_handler(Window::TERMINATE, $2);
     }
     ;
 
@@ -625,13 +638,14 @@ check_animation_parameter:
 on_block:
     T_ON keystroke statement_block
     {
-        
+        Event_manager *event_manager = Event_manager::instance();
+
+        event_manager->register_handler($2, $3);
     }
     ;
 
 //---------------------------------------------------------------------
 keystroke:
-    keystroke:
     T_SPACE
     {
         $$ = Window::SPACE;
@@ -796,7 +810,13 @@ if_statement:
     }
     | T_IF T_LPAREN expression T_RPAREN if_block T_ELSE if_block
     {
-
+        Expression *expr = $3;
+        if (expr->get_type() != INT)
+        {
+            Error::error(Error::INVALID_TYPE_FOR_IF_STMT_EXPRESSION);
+            expr = new Expression(0);
+        }
+        statement_block_stack.top()->insert(new If_statement(expr,$5, $7));
     }
     ;
 
@@ -804,7 +824,13 @@ if_statement:
 for_statement:
     T_FOR T_LPAREN statement_block_creator assign_statement_or_empty end_of_statement_block T_SEMIC expression T_SEMIC statement_block_creator assign_statement_or_empty end_of_statement_block T_RPAREN statement_block
     {
-
+        Expression *expr = $7;
+        if (expr->get_type() != INT)
+        {
+            Error::error(Error::INVALID_TYPE_FOR_FOR_STMT_EXPRESSION);
+            expr = new Expression(0);
+        }
+        statement_block_stack.top()->insert(new For_statement($3, expr, $9, $13));
     }
     ;
 
@@ -829,6 +855,17 @@ print_statement:
 //---------------------------------------------------------------------
 exit_statement:
     T_EXIT T_LPAREN expression T_RPAREN
+    {
+        Expression *expr = $3;
+        if(expr->get_type() != INT)
+        {
+            Error::error(Error::EXIT_STATUS_MUST_BE_AN_INTEGER, gpl_type_to_string(expr->get_type()));
+            // for error handling
+            expr = new Expression(0);
+        }
+
+        statement_block_stack.top()->insert(new Exit_statement(expr, $1)); // $1 has line_number
+    }
     ;
 
 //---------------------------------------------------------------------

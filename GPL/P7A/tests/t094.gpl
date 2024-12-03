@@ -1,0 +1,21 @@
+// if you fail this test because the line number in the call to exit is incorrect
+// you are probably not putting the line number in the union when you parse the exit token.
+int i = 1;
+int k = 2;
+int l = 3;
+
+on wkey
+{
+  exit(i
+       +
+       i
+       +
+       5
+       *
+       k
+       +
+       10
+       *
+       l
+       );
+}

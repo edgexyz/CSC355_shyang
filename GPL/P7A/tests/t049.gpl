@@ -1,0 +1,9 @@
+
+rectangle rect(user_string = "rect_user_string");
+
+on akey
+{
+  // there is not -= for strings
+  // this should be an error
+  rect.user_string -= "_akey_pressed";
+}
