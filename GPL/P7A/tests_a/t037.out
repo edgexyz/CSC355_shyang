@@ -1,0 +1,40 @@
+gpl.cpp::main()
+  input file(tests_a/t037.gpl)
+  random seed(42)
+  read_keypresses_from_standard_input(true)
+  dump_pixels(false)
+  symbol_table(true)
+  graphics(true)
+
+gpl.cpp::main() Calling yyparse()
+
+
+gpl.cpp::main() after call to yyparse().
+
+
+Printing the symbol table from main()
+int i = 1
+string s1 = "one"
+string s2 = "two"
+string s3 = "three"
+string s4 = "four"
+string s5 = "five"
+double x = 1.1
+gpl.cpp::main() Calling window->initialize().
+
+
+gpl.cpp::main() Passing control to window->main_loop().
+print[20]: s1 = two
+print[21]: s2 = 1
+print[22]: s3 = 1.100000
+print[23]: s4 = two1
+print[24]: s5 = 2.100000
+
+User quit program. Printing the symbol table.
+int i = 1
+string s1 = "two"
+string s2 = "1"
+string s3 = "1.100000"
+string s4 = "two1"
+string s5 = "2.100000"
+double x = 1.1

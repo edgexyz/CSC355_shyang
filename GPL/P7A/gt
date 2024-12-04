@@ -9,7 +9,7 @@
 #
 # test_dir indicates the directory where the tests (e.g. t001.gpl, 
 # t001.out, t002.err, etc) live.
-test_dir=tests
+test_dir=tests_a
 
 
 # result_dir is the name of the directory where the results will be put

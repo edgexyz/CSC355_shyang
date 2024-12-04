@@ -1,0 +1,36 @@
+gpl.cpp::main()
+  input file(tests_a/t005.gpl)
+  random seed(42)
+  read_keypresses_from_standard_input(true)
+  dump_pixels(false)
+  symbol_table(true)
+  graphics(true)
+
+gpl.cpp::main() Calling yyparse()
+
+
+gpl.cpp::main() after call to yyparse().
+
+
+Printing the symbol table from main()
+gpl.cpp::main() Calling window->initialize().
+
+
+gpl.cpp::main() Passing control to window->main_loop().
+print[1]: space
+print[2]: leftarrow
+print[3]: rightarrow
+print[4]: uparrow
+print[5]: downarrow
+print[6]: f1
+print[7]: akey
+print[8]: skey
+print[9]: dkey
+print[10]: fkey
+print[11]: hkey
+print[12]: jkey
+print[13]: kkey
+print[14]: lkey
+print[15]: wkey
+
+User quit program. Printing the symbol table.

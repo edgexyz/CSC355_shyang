@@ -147,7 +147,22 @@ Game_object* Variable::get_game_object_value() const
 Animation_block* Variable::get_animation_block_value() const
 {
   assert(m_type == ANIMATION_BLOCK);
-  return m_symbol->get_animation_block_value();
+  if (m_field)
+  {
+    Game_object *cur_game_object;
+
+    cur_game_object = m_symbol->get_game_object_value();
+
+    Animation_block *value;
+    Status status = cur_game_object->get_member_variable(*m_field, value);
+
+    assert(status == OK);
+    return value;
+  }
+  else
+  {
+    return m_symbol->get_animation_block_value();
+  }
 }
 
 Gpl_type Variable::get_base_game_object_type() const
