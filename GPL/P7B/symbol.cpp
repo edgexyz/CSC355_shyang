@@ -8,6 +8,7 @@
 #include "animation_block.h"
 
 #include <string>
+#include <iostream>
 
 using namespace std;
 
@@ -175,6 +176,7 @@ Gpl_type Symbol::get_base_type() const
 
 void Symbol::validate_type_and_index(Gpl_type type, int index) const
 {
+  // cerr << "Symbol " << m_name << " of type " << gpl_type_to_string(m_type) << " and size " << m_size << " to be validated with type " << gpl_type_to_string(type) << " and index " << index << endl;
   assert(m_type & type);
 
   assert((index == UNDEFINED_INDEX && m_size == UNDEFINED_SIZE) 
@@ -289,7 +291,7 @@ void Symbol::print(ostream &os) const
 
       if (m_type & GAME_OBJECT)
       {
-        ((Game_object *)m_data_void_ptr)->print(current_name, os);
+        get_game_object_value(i)->print(current_name, os);
       }
       else
       {
@@ -311,7 +313,7 @@ void Symbol::print(ostream &os) const
   {
     if (m_type & GAME_OBJECT)
     {
-      ((Game_object *)m_data_void_ptr)->print(m_name, os);
+      get_game_object_value()->print(m_name, os);
     }
     else if (m_type == ANIMATION_BLOCK)
     {

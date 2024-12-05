@@ -38,6 +38,8 @@ extern int line_count;  // from gpl.l, used for statement blocks
 
 int undeclared = 0;
 
+Symbol_table *symbol_table = Symbol_table::instance();
+
 Symbol* empty_symbol = new Symbol("__empty", 0);
 Variable* empty_variable = new Variable(empty_symbol);
 
@@ -48,6 +50,8 @@ string cur_object_under_construction_name;
 
 // Global stack of statement blocks
 stack<Statement_block *> statement_block_stack;
+
+Event_manager *event_manager = Event_manager::instance();
 
 Expression* semantic_check(Operator_type op, Expression *lhs, Expression *rhs, int valid)
 {
@@ -242,8 +246,6 @@ declaration:
 variable_declaration:
     simple_type  T_ID  optional_initializer
     {
-        Symbol_table *symbol_table = Symbol_table::instance();
-
         Symbol* s;
 
         switch ($1)
@@ -302,7 +304,6 @@ variable_declaration:
     }
     | simple_type  T_ID  T_LBRACKET expression T_RBRACKET
     {
-        Symbol_table *symbol_table = Symbol_table::instance();
         int size = 1;
 
         if ($4->get_type() != INT)
@@ -365,7 +366,6 @@ object_declaration:
     {
         // create a new object and it's symbol
         // (Symbol() creates the new object);
-        Symbol_table *symbol_table = Symbol_table::instance();
         Symbol *s = new Symbol(*$2, $1);
     
         if (!symbol_table->insert(s))
@@ -385,7 +385,6 @@ object_declaration:
     }
     | object_type T_ID T_LBRACKET expression T_RBRACKET
     {
-        Symbol_table *symbol_table = Symbol_table::instance();
         int size = 1;
 
         if ($4->get_type() != INT)
@@ -554,7 +553,6 @@ parameter:
 forward_declaration:
     T_FORWARD T_ANIMATION T_ID T_LPAREN animation_parameter T_RPAREN
     {
-        Symbol_table *symbol_table = Symbol_table::instance();
         Symbol *s = new Symbol(*$3, ANIMATION_BLOCK);
 
         Animation_block *animation = s->get_animation_block_value();
@@ -585,8 +583,6 @@ block:
 initialization_block:
     T_INITIALIZATION statement_block
     {
-        Event_manager *event_manager = Event_manager::instance();
-
         event_manager->register_handler(Window::INITIALIZE, $2);
     }
     ;
@@ -595,8 +591,6 @@ initialization_block:
 termination_block:
     T_TERMINATION statement_block
     {
-        Event_manager *event_manager = Event_manager::instance();
-
         event_manager->register_handler(Window::TERMINATE, $2);
     }
     ;
@@ -610,7 +604,6 @@ animation_block:
 animation_parameter:
     object_type T_ID
     {
-        Symbol_table *symbol_table = Symbol_table::instance();
         Symbol *s = new Symbol(*$2, $1);
 
         Game_object *game_object = s->get_game_object_value();
@@ -638,8 +631,6 @@ check_animation_parameter:
 on_block:
     T_ON keystroke statement_block
     {
-        Event_manager *event_manager = Event_manager::instance();
-
         event_manager->register_handler($2, $3);
     }
     ;
@@ -1049,7 +1040,6 @@ assign_statement:
 variable:
     T_ID
     {
-        Symbol_table *symbol_table = Symbol_table::instance();
         Symbol* s = symbol_table->lookup(*$1);
 
         if (s != NULL)
@@ -1072,7 +1062,6 @@ variable:
     }
     | T_ID T_LBRACKET expression T_RBRACKET
     {
-        Symbol_table *symbol_table = Symbol_table::instance();
         Symbol* s = symbol_table->lookup(*$1);
 
         if (s != NULL)
@@ -1112,7 +1101,6 @@ variable:
     }
     | T_ID T_PERIOD T_ID
     {
-        Symbol_table *symbol_table = Symbol_table::instance();
         Symbol* s = symbol_table->lookup(*$1);
 
         if (s != NULL)
@@ -1151,7 +1139,6 @@ variable:
     }
     | T_ID T_LBRACKET expression T_RBRACKET T_PERIOD T_ID
     {
-        Symbol_table *symbol_table = Symbol_table::instance();
         Symbol* s = symbol_table->lookup(*$1);
 
         if (s != NULL)
@@ -1184,7 +1171,8 @@ variable:
                 }
                 else
                 {
-                    Game_object* game_object = s->get_game_object_value($3->eval_int());
+                    // Game_object* game_object = s->get_game_object_value($3->eval_int());
+                    Game_object* game_object = s->get_game_object_value(0);
                     Gpl_type type;
 
                     Status status = game_object->get_member_variable_type(*$6, type);

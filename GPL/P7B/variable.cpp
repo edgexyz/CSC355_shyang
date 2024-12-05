@@ -47,6 +47,12 @@ string Variable::get_name() const
   {
     name += "[]";
   }
+
+  if (m_field)
+  {
+    name += "." + *m_field;
+  }
+
   return name;
 }
 
@@ -141,7 +147,22 @@ Game_object* Variable::get_game_object_value() const
 Animation_block* Variable::get_animation_block_value() const
 {
   assert(m_type == ANIMATION_BLOCK);
-  return m_symbol->get_animation_block_value();
+  if (m_field)
+  {
+    Game_object *cur_game_object;
+
+    cur_game_object = m_symbol->get_game_object_value();
+
+    Animation_block *value;
+    Status status = cur_game_object->get_member_variable(*m_field, value);
+
+    assert(status == OK);
+    return value;
+  }
+  else
+  {
+    return m_symbol->get_animation_block_value();
+  }
 }
 
 Gpl_type Variable::get_base_game_object_type() const
@@ -151,40 +172,87 @@ Gpl_type Variable::get_base_game_object_type() const
 
 void Variable::set(int value)
 {
-  if (m_expression)
+  if (m_field)
   {
-    int index = eval_index_with_error_checking();
-    m_symbol->set(value, index);
+    Game_object *cur_game_object;
+
+    if (m_expression)
+      cur_game_object = m_symbol->get_game_object_value(eval_index_with_error_checking());
+    else
+      cur_game_object = m_symbol->get_game_object_value();
+
+    Status status = cur_game_object->set_member_variable(*m_field, value);
+
+    assert(status == OK);
   }
   else
   {
-    m_symbol->set(value);
+    if (m_expression)
+    {
+      int index = eval_index_with_error_checking();
+      m_symbol->set(value, index);
+    }
+    else
+    {
+      m_symbol->set(value);
+    }
   }
 }
 
 void Variable::set(double value)
 {
-  if (m_expression)
+  if (m_field)
   {
-    int index = eval_index_with_error_checking();
-    m_symbol->set(value, index);
+    Game_object *cur_game_object;
+
+    if (m_expression)
+      cur_game_object = m_symbol->get_game_object_value(eval_index_with_error_checking());
+    else
+      cur_game_object = m_symbol->get_game_object_value();
+
+    Status status = cur_game_object->set_member_variable(*m_field, value);
+
+    assert(status == OK);
   }
-  else
-  {
-    m_symbol->set(value);
+  else {
+    if (m_expression)
+    {
+      int index = eval_index_with_error_checking();
+      m_symbol->set(value, index);
+    }
+    else
+    {
+      m_symbol->set(value);
+    }
   }
 }
 
 void Variable::set(string value)
 {
-  if (m_expression)
+  if (m_field)
   {
-    int index = eval_index_with_error_checking();
-    m_symbol->set(value, index);
+    Game_object *cur_game_object;
+
+    if (m_expression)
+      cur_game_object = m_symbol->get_game_object_value(eval_index_with_error_checking());
+    else
+      cur_game_object = m_symbol->get_game_object_value();
+
+    Status status = cur_game_object->set_member_variable(*m_field, value);
+
+    assert(status == OK);
   }
   else
   {
-    m_symbol->set(value);
+    if (m_expression)
+    {
+      int index = eval_index_with_error_checking();
+      m_symbol->set(value, index);
+    }
+    else
+    {
+      m_symbol->set(value);
+    }
   }
 }
 
