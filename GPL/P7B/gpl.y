@@ -30,6 +30,7 @@
 #include <sstream>
 #include <cmath> // for floor()
 #include <stack>
+#include <map>
 using namespace std;
 
 extern int yylex();
@@ -42,6 +43,7 @@ Symbol_table *symbol_table = Symbol_table::instance();
 
 Symbol* empty_symbol = new Symbol("__empty", 0);
 Variable* empty_variable = new Variable(empty_symbol);
+Statement_block* empty_statement_block = new Statement_block();
 
 // Global variable to make the construction of object much less complex
 // Only one object can ever be under construction at one time
@@ -50,6 +52,9 @@ string cur_object_under_construction_name;
 
 // Global stack of statement blocks
 stack<Statement_block *> statement_block_stack;
+
+// Map for animation declaration and definition check
+map<Animation_block*, int> defined_animation_block;
 
 Event_manager *event_manager = Event_manager::instance();
 
@@ -76,6 +81,27 @@ Expression* semantic_check(Operator_type op, Expression *lhs, Expression *rhs, i
     if (invalid) return new Expression(0);
 
     return rhs != NULL ? new Expression(op, lhs, rhs) : new Expression(op, lhs);
+}
+
+Expression* geometric_semantic_check(Operator_type op, Expression *lhs, Expression *rhs)
+{
+    bool invalid = false;
+
+    if (!(lhs->get_type() & GAME_OBJECT))
+    {
+        Error::error(Error::OPERAND_MUST_BE_A_GAME_OBJECT, "Left");
+        invalid = true;
+    }
+
+    if (!(rhs->get_type() & GAME_OBJECT))
+    {
+        Error::error(Error::OPERAND_MUST_BE_A_GAME_OBJECT, "Right");
+        invalid = true;
+    }
+
+    if (invalid) return new Expression(0);
+
+    return new Expression(op, lhs, rhs);
 }
 %}
 
@@ -200,6 +226,7 @@ Expression* semantic_check(Operator_type op, Expression *lhs, Expression *rhs, i
 %type <union_gpl_type> object_type
 %type <union_operator> math_operator
 %type <union_symbol> animation_parameter
+%type <union_symbol> check_animation_parameter
 %type <union_expression> optional_initializer
 %type <union_expression> expression
 %type <union_expression> primary_expression
@@ -208,6 +235,7 @@ Expression* semantic_check(Operator_type op, Expression *lhs, Expression *rhs, i
 %type <union_statement_block> statement_block
 %type <union_statement_block> if_block
 %type <union_keystroke> keystroke
+
 
 
 %nonassoc IF_NO_ELSE
@@ -227,6 +255,15 @@ Expression* semantic_check(Operator_type op, Expression *lhs, Expression *rhs, i
 //---------------------------------------------------------------------
 program:
     declaration_list block_list
+    {
+        for (auto i=defined_animation_block.begin(); i!=defined_animation_block.end(); i++)
+        {
+            if (i->second == 0)
+            {
+                Error::error(Error::NO_BODY_PROVIDED_FOR_FORWARD, i->first->name());
+            }
+        }
+    }
     ;
 
 //---------------------------------------------------------------------
@@ -555,12 +592,17 @@ forward_declaration:
     {
         Symbol *s = new Symbol(*$3, ANIMATION_BLOCK);
 
-        Animation_block *animation = s->get_animation_block_value();
-        animation->initialize($5, *$3);
+        Animation_block *animation_block = s->get_animation_block_value();
+        animation_block->initialize($5, *$3);
 
         if (!symbol_table->insert(s))
         {
             Error::error(Error::PREVIOUSLY_DECLARED_VARIABLE, *$3);
+        }
+        else if ($5 == NULL) {}
+        else
+        {
+            defined_animation_block.insert({animation_block, 0});
         }
     }
     ;
@@ -597,7 +639,66 @@ termination_block:
 
 //---------------------------------------------------------------------
 animation_block:
-    T_ANIMATION T_ID T_LPAREN check_animation_parameter T_RPAREN T_LBRACE statement_list T_RBRACE end_of_statement_block
+    T_ANIMATION T_ID T_LPAREN check_animation_parameter 
+    {
+        Symbol *s = symbol_table->lookup(*$2);
+
+        if (s != NULL)
+        {
+            if (s->is_animation_block())
+            {
+                Animation_block *animation_block = s->get_animation_block_value();
+                Symbol *block_animation_parameter = $4;
+                auto map_pair = defined_animation_block.find(animation_block);
+
+                if (map_pair->second == 0)
+                {
+                    if (block_animation_parameter)
+                    {
+                        Symbol *animation_parameter = animation_block->get_parameter_symbol();
+
+                        if (block_animation_parameter->get_type() == animation_parameter->get_type() && block_animation_parameter->get_name() == animation_parameter->get_name())
+                        {
+                            statement_block_stack.push(animation_block);
+                        }
+                        else
+                        {
+                            Error::error(Error::ANIMATION_PARAM_DOES_NOT_MATCH_FORWARD);
+                            // For error handling
+                            statement_block_stack.push(empty_statement_block);
+                        }
+                    }
+                    else
+                    {
+                        Error::error(Error::ANIMATION_PARAM_DOES_NOT_MATCH_FORWARD);
+                        // For error handling
+                        statement_block_stack.push(empty_statement_block);
+                    }
+                }
+                else
+                {
+                    Error::error(Error::PREVIOUSLY_DEFINED_ANIMATION_BLOCK, *$2);
+                    // For error handling
+                    statement_block_stack.push(empty_statement_block);
+                }
+
+                defined_animation_block[animation_block] = 1;
+            }
+            else
+            {
+                Error::error(Error::NO_FORWARD_FOR_ANIMATION_BLOCK, *$2);
+                // For error handling
+                statement_block_stack.push(empty_statement_block);
+            }
+        }
+        else
+        {
+            Error::error(Error::NO_FORWARD_FOR_ANIMATION_BLOCK, *$2);
+            // For error handling
+            statement_block_stack.push(empty_statement_block);
+        }
+    }
+    T_RPAREN T_LBRACE statement_list T_RBRACE end_of_statement_block
     ;
 
 //---------------------------------------------------------------------
@@ -625,6 +726,19 @@ animation_parameter:
 //---------------------------------------------------------------------
 check_animation_parameter:
     object_type T_ID
+    {
+        Symbol* s = symbol_table->lookup(*$2);
+        if (s)
+        {
+            if(s->get_type() != $1)
+                $$ = NULL;
+            else $$ = s;
+        }
+        else
+        {
+            $$ = NULL;
+        }
+    }
     ;
 
 //---------------------------------------------------------------------
@@ -1266,7 +1380,13 @@ expression:
         $$ = semantic_check($1, $3, NULL, INT|DOUBLE);
     }
     | expression T_NEAR expression
+    {
+        $$ = geometric_semantic_check(NEAR, $1, $3);
+    }
     | expression T_TOUCHES expression
+    {
+        $$ = geometric_semantic_check(TOUCHES, $1, $3);
+    }
     ;
 
 //---------------------------------------------------------------------

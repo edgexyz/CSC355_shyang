@@ -18,6 +18,9 @@ void Animation_block::initialize(Symbol *parameter_symbol, string name)
 
 void Animation_block::execute(Game_object *argument)
 {
-  // you have to implement this as part of p8
+  Game_object *parameter_animation_block = m_parameter_symbol->get_game_object_value();
+  m_parameter_symbol->set(argument);
+  Statement_block::execute();
+  m_parameter_symbol->set(parameter_animation_block);
 }
 

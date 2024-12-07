@@ -2,7 +2,7 @@
 using namespace std;
 
 #include "expression.h"
-
+#include "game_object.h"
 #include "constant.h"
 #include "variable.h"
 #include "gpl_assert.h"
@@ -161,6 +161,10 @@ int Expression::eval_int()
         }
         return rand() % range;
     }
+    case NEAR:
+      return m_lhs->eval_game_object()->near(m_rhs->eval_game_object());
+    case TOUCHES:
+      return m_lhs->eval_game_object()->touches(m_rhs->eval_game_object());
     case AND:
         return m_lhs->eval_double() && m_rhs->eval_double();
     case OR:
@@ -334,7 +338,7 @@ string Expression::eval_string()
 }
 
 Game_object* Expression::eval_game_object() {
-  assert(m_type == GAME_OBJECT);
+  assert(m_type & GAME_OBJECT);
   return m_variable->get_game_object_value();
 }
 

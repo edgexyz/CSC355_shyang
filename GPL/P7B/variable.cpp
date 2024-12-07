@@ -136,7 +136,7 @@ string Variable::get_string_value() const
 
 Game_object* Variable::get_game_object_value() const
 {
-  assert(m_type == GAME_OBJECT);
+  assert(m_type & GAME_OBJECT);
 
   if (m_expression)
     return m_symbol->get_game_object_value(eval_index_with_error_checking());
@@ -258,8 +258,25 @@ void Variable::set(string value)
 
 void Variable::set(Animation_block* value)
 {
-  assert(!m_expression); // should only be called if not an array
-  m_symbol->set(value);
+  if (m_field)
+  {
+    Game_object *cur_game_object;
+
+    if (m_expression)
+      cur_game_object = m_symbol->get_game_object_value(eval_index_with_error_checking());
+    else
+      cur_game_object = m_symbol->get_game_object_value();
+
+    Status status = cur_game_object->set_member_variable(*m_field, value);
+
+    assert(status == OK);
+  }
+  else
+  {
+    assert(!m_expression); // should only be called if not an array
+    m_symbol->set(value);
+  }
+  
 }
 
 // Evaluate expression if there is one, return index if index is out of bounds, 
